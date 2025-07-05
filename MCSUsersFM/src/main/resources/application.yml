@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: MCS-USER-FM
+  config:
+    import: optional:configserver:http://localhost:8888

@@ -1,0 +1,21 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: MCS-USER-FM
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3310/DBPruebasFM
+    username: devuser
+    password: devpass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
