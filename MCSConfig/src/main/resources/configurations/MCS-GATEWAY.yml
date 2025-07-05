@@ -1,0 +1,23 @@
+eureka:
+  client:
+    register-with-eureka: false
+server:
+  port: 8080
+spring:
+  application:
+    name: MCS-GATEWAY
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: user-fm
+              uri: lb://MCS-USER-FM
+              predicate:
+                - Path=/api/funnyMind/**
+              filters:
+                - StripPrefix=1
