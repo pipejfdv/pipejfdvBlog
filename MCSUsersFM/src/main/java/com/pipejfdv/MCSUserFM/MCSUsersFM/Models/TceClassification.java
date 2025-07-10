@@ -8,19 +8,18 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "account_type")
-public class AccountType {
+@Table(name = "tce_clssification")
+public class TceClassification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column (name = "name_account")
-    private String name;
+    private String classification;
 
-    // relation 1:N with Account-Type
-    @OneToMany(targetEntity = User.class,fetch = FetchType.LAZY, mappedBy = "accountType")
-    private List<User> users;
+    //relation 1:N with Children
+    @OneToMany(targetEntity = Children.class, fetch = FetchType.LAZY, mappedBy = "tceClassification")
+    private List<Children> children;
 }

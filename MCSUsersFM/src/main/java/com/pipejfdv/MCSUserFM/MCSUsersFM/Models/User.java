@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(length = 36)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @NotBlank
     @Column (name = "email", unique = true, nullable = false)
@@ -23,6 +23,7 @@ public class User {
     @NotBlank
     @Column (name = "password", nullable = false)
     private String password;
+
     // relation N:1 with Account-Type
     @ManyToOne(targetEntity = AccountType.class, fetch = FetchType.LAZY)
     private AccountType accountType;
