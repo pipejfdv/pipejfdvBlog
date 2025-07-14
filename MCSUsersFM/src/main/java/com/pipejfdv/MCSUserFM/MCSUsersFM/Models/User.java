@@ -24,6 +24,10 @@ public class User {
     @Column (name = "password", nullable = false)
     private String password;
 
+    // relation 1:1 with User
+    @OneToOne(targetEntity = Guardian.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Guardian guardian;
+
     // relation N:1 with Account-Type
     @ManyToOne(targetEntity = AccountType.class, fetch = FetchType.LAZY)
     private AccountType accountType;

@@ -29,7 +29,7 @@ public class Guardian {
     private String document;
 
     // relation 1:1 with User
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "guardian")
     private User user;
 
     // relation 1:N with GuardianChildren
