@@ -1,4 +1,4 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.Models;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,10 +1,9 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.Repositories;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories;
 
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Models.AccountType;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

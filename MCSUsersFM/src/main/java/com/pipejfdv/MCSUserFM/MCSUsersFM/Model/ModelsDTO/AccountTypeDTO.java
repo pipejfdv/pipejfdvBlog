@@ -1,4 +1,4 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.ModelsDTO;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
 
 public class AccountTypeDTO {
     final private String nameDTO;
