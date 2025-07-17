@@ -1,11 +1,10 @@
-eureka:
-  client:
-    register-with-eureka: false
 server:
   port: 8080
+
 spring:
   application:
     name: MCS-GATEWAY
+
   cloud:
     gateway:
       server:
@@ -14,10 +13,21 @@ spring:
             locator:
               enabled: true
               lower-case-service-id: true
+          httpserver:
+            wiretap: true
+          httpclient:
+            wiretap: true
           routes:
             - id: user-fm
               uri: lb://MCS-USER-FM
-              predicate:
+              predicates:
                 - Path=/api/funnyMind/**
               filters:
                 - StripPrefix=1
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: true
+
+

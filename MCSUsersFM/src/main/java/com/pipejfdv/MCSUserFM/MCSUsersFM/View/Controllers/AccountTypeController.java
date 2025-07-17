@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/AcTypes")
+@RequestMapping("/funnyMind")
 public class AccountTypeController implements AccountTypeContract.view{
     private final AccountTypePresenter presenter;
 
@@ -18,25 +18,25 @@ public class AccountTypeController implements AccountTypeContract.view{
         this.presenter = presenter;
     }
 
-    @GetMapping
+    @GetMapping("/AcTypes/List")
     @Override
     public List<AccountType> showAccountTypes() {
         return presenter.getListAccountTypes();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/AcTypes/{id}")
     @Override
     public void showDeleteAccountType(@PathVariable UUID id) {
         presenter.deleteAccountType(id);
     }
 
-    @PostMapping
+    @PostMapping("/AcTypes/create")
     @Override
     public AccountTypeDTO showCreateAccountType(@RequestBody AccountType accountType) {
         return presenter.createAccountType(accountType);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/AcTypes/update/{id}")
     @Override
     public AccountTypeDTO showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {
         return presenter.updateAccountType(id, accountType);
