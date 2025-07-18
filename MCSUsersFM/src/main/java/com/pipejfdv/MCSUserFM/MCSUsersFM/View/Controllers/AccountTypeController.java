@@ -32,13 +32,13 @@ public class AccountTypeController implements AccountTypeContract.view{
 
     @PostMapping("/AcTypes/create")
     @Override
-    public AccountTypeDTO showCreateAccountType(@RequestBody AccountType accountType) {
+    public AccountType showCreateAccountType(@RequestBody AccountType accountType) {
         return presenter.createAccountType(accountType);
     }
 
     @PutMapping("/AcTypes/update/{id}")
     @Override
-    public AccountTypeDTO showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {
+    public AccountType showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {
         return presenter.updateAccountType(id, accountType);
     }
 }

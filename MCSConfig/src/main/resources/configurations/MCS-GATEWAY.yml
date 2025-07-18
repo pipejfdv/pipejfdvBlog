@@ -21,9 +21,9 @@ spring:
             - id: user-fm
               uri: lb://MCS-USER-FM
               predicates:
-                - Path=/api/funnyMind/**
+                - Path=/pipejfdv/api/v1/funnyMind/**
               filters:
-                - StripPrefix=1
+                - StripPrefix=3
 
 eureka:
   client:

@@ -3,7 +3,6 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.AccountTypeContract;
 import org.springframework.stereotype.Service;
@@ -29,19 +28,20 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         accountTypeRepository.delete(accountType);
     }
 
-    public AccountTypeDTO created(AccountType accountType) {
+    public AccountType created(AccountType accountType) {
         if (accountTypeRepository.existsByName(accountType.getName())) {
             throw new DuplicateElementException(accountType.getName());
         }
         accountTypeRepository.save(accountType);
-        return new AccountTypeDTO(accountType.getName());
+        AccountType account = accountTypeRepository.findAccountTypeByName(accountType.getName());
+        return account;
     }
 
-    public AccountTypeDTO updated(UUID idAccount, AccountType accountType) {
+    public AccountType updated(UUID idAccount, AccountType accountType) {
         AccountType existingAccountType = accountTypeRepository.findById(idAccount)
                 .orElseThrow(()-> new IdNotFoundException(idAccount));
         existingAccountType.setName(accountType.getName());
         accountTypeRepository.save(existingAccountType);
-        return new AccountTypeDTO(existingAccountType.getName());
+        return existingAccountType;
     }
 }

@@ -2,7 +2,6 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services.AccountTypeService;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.AccountTypeContract;
 import org.springframework.stereotype.Component;
@@ -29,12 +28,12 @@ public class AccountTypePresenter implements AccountTypeContract.Presenter {
     }
 
     @Override
-    public AccountTypeDTO createAccountType(AccountType accountType) {
+    public AccountType createAccountType(AccountType accountType) {
         return service.created(accountType);
     }
 
     @Override
-    public AccountTypeDTO updateAccountType(UUID idAccount, AccountType accountType) {
+    public AccountType updateAccountType(UUID idAccount, AccountType accountType) {
         return service.updated(idAccount, accountType);
     }
 }
