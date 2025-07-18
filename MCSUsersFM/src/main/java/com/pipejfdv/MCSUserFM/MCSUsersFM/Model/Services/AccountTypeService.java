@@ -18,6 +18,12 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         this.accountTypeRepository = accountTypeRepository;
     }
     /*CRUD*/
+    public AccountType readyAccountType(UUID id) {
+        AccountType accountType = accountTypeRepository.findById(id)
+                .orElseThrow(()-> new IdNotFoundException(id));
+        return accountType;
+    }
+
     public List<AccountType> listAccountTypes() {
         return accountTypeRepository.findAll();
     }
