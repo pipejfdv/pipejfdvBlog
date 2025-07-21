@@ -27,4 +27,9 @@ public class AccountType {
     // relation 1:N with Account-Type
     @OneToMany(targetEntity = User.class,fetch = FetchType.LAZY, mappedBy = "accountType")
     private List<User> users;
+
+    /*CONSTRUCTOR*/
+    public AccountType(String name) {
+        this.name = name;
+    }
 }

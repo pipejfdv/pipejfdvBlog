@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    /*
+    *   this class it used for handle error in the controller,
+    *   it is depended on type error created, this wraps the error in a "ResponseEntity"
+    */
     @ExceptionHandler(IdNotFoundException.class)
     public ResponseEntity<ErrorResponseHTTP> handleIdNotFoundException(IdNotFoundException ex){
         ErrorResponseHTTP error = new ErrorResponseHTTP(

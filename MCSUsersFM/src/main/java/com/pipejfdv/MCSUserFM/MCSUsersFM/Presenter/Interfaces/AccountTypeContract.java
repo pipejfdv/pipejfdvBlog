@@ -1,5 +1,6 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces;
 
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public interface AccountTypeContract {
     interface view{
         ResponseEntity<ApiResponse<AccountTypeDTO>> showAccountType(UUID id);
-        ResponseEntity<ApiResponse<List<AccountType>>> showAccountTypes();
+        ResponseEntity<ApiResponse<List<AccountTypeDTO>>> showAccountTypes();
         ResponseEntity<ApiResponse<AccountTypeDTO>> showDeleteAccountType(UUID idAccount);
         ResponseEntity<ApiResponse<AccountTypeDTO>> showCreateAccountType(AccountType accountType);
         ResponseEntity<ApiResponse<AccountTypeDTO>> showUpdateAccountType(UUID idAccount, AccountType accountType);
@@ -29,7 +30,7 @@ public interface AccountTypeContract {
         AccountType readyAccountType(UUID id);
         List<AccountType> listAccountTypes();
         void deleted (UUID idAccount) throws IdNotFoundException;
-        AccountType created(AccountType accountType);
+        AccountType created(AccountType accountType) throws DuplicateElementException;
         AccountType updated(UUID idAccount, AccountType accountType);
     }
 

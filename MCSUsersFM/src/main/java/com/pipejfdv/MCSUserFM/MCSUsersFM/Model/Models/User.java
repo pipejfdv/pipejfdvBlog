@@ -18,6 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, updatable = false, nullable = false)
     private UUID id;
+    @NotBlank(message = "the user is void")
+    @Column(length = 25)
+    private String username;
     @NotBlank(message = "the email is void")
     @Column (name = "email", unique = true, nullable = false)
     private String email;
