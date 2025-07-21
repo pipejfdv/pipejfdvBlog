@@ -16,11 +16,12 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36, updatable = false, nullable = false)
     private UUID id;
-    @NotBlank
+    @NotBlank(message = "the email is void")
     @Column (name = "email", unique = true, nullable = false)
     private String email;
-    @NotBlank
+    @NotBlank(message = "error with the password")
     @Column (name = "password", nullable = false)
     private String password;
 

@@ -1,6 +1,7 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +19,15 @@ import java.util.UUID;
 public class Children {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
+    @Column(nullable = false)
+    @NotBlank(message = "name of child is void")
     private String names;
+    @Column(nullable = false)
+    @NotBlank(message = "lastname of child is void")
     private String lastName;
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
@@ -28,6 +35,7 @@ public class Children {
     @ManyToOne(targetEntity = DocumentType.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "document_type")
     private DocumentType documentType;
+    @NotBlank(message = "document void")
     private String document;
 
     // relation N:1 with TceClassification

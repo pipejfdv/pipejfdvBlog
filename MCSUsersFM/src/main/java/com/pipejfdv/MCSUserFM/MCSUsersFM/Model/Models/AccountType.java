@@ -1,9 +1,11 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,8 +18,10 @@ import java.util.UUID;
 public class AccountType {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36, nullable = false, updatable = false)
     private UUID id;
-    @Column (name = "name_account")
+    @Column (name = "name_account", nullable = false)
+    @NotBlank(message = "name void")
     private String name;
 
     // relation 1:N with Account-Type

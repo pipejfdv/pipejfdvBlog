@@ -1,6 +1,7 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,10 @@ import java.util.UUID;
 public class Profiles {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36)
     private UUID id;
-    @Column(name = "name_profile")
+    @Column(name = "name_profile", nullable = false, length = 25)
+    @NotBlank(message = "profile name is void")
     private String nameProfile;
     private String avatar;
     private Timestamp lastAccess;

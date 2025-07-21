@@ -16,7 +16,9 @@ import java.util.UUID;
 public class DocumentType {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36, nullable = false, unique = true)
     private UUID id;
+    @Column(nullable = false)
     private String type;
 
     //relation 1:N with Guardian

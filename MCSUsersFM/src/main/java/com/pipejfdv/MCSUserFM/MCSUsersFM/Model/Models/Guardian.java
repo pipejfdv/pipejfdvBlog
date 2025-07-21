@@ -1,6 +1,7 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,16 @@ import java.util.UUID;
 public class Guardian {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true, nullable = false, updatable = false, length = 36)
     private UUID id;
+    @Column(nullable = false)
+    @NotBlank(message = "name void")
     private String name;
+    @Column(nullable = false)
+    @NotBlank(message = "lastname void")
     private String lastname;
     private String phone;
+    @Column(columnDefinition = "TEXT")
     private String biography;
 
     // relation N:1 with Document type

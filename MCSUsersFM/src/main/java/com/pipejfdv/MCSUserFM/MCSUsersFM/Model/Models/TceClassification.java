@@ -16,6 +16,7 @@ import java.util.UUID;
 public class TceClassification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(length = 36, updatable = false, nullable = false)
     private UUID id;
     private String classification;
 
