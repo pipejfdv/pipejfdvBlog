@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -16,8 +18,8 @@ import java.util.UUID;
 @Table(name = "profiles")
 public class Profiles {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(length = 36)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
     @Column(name = "name_profile", nullable = false, length = 25)
     @NotBlank(message = "profile name is void")

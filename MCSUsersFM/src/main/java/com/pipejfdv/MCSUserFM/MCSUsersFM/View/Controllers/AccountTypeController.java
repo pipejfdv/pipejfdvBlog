@@ -38,7 +38,7 @@ public class AccountTypeController implements AccountTypeContract.view{
     @Override
     public ResponseEntity<ApiResponse<List<AccountTypeDTO>>> showAccountTypes() {
         List<AccountTypeDTO> listDTO = presenter.getListAccountTypes().stream()
-                .map(accountType -> new AccountTypeDTO(accountType.getName()))
+                .map(accountType -> new AccountTypeDTO(accountType.getName(), accountType.getId()))
                 .collect(Collectors.toList());
         ApiResponse<List<AccountTypeDTO>> response = new ApiResponse<>(
                 "List ready of account types",
@@ -52,7 +52,7 @@ public class AccountTypeController implements AccountTypeContract.view{
     @Override
     public ResponseEntity<ApiResponse<AccountTypeDTO>> showDeleteAccountType(@PathVariable UUID id) {
         AccountType accountType = presenter.getAccountType(id);
-        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName());
+        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName(), accountType.getId());
         ApiResponse<AccountTypeDTO> response = new ApiResponse<>(
                 "Account type deleted",
                 accountTypeDTO,
