@@ -34,8 +34,8 @@ public class UserPresenter implements UserContract.Presenter {
     }
 
     @Override
-    public User readyToCreateUser(User user) throws DuplicateElementException {
-        return service.createUser(user);
+    public User readyToCreateUser(User user, String typeOfAccount) throws DuplicateElementException {
+        return service.createUser(user, typeOfAccount);
     }
 
     @Override

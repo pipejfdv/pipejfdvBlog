@@ -31,7 +31,7 @@ public class User {
     private String password;
 
     // relation 1:1 with User
-    @OneToOne(targetEntity = Guardian.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Guardian guardian;
 
     // relation N:1 with Account-Type

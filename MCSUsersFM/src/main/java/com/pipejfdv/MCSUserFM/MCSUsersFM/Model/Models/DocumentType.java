@@ -30,4 +30,9 @@ public class DocumentType {
     //relation 1:N with Children
     @OneToMany(targetEntity = Children.class, fetch = FetchType.LAZY, mappedBy = "documentType")
     private List<Children> children;
+
+    public DocumentType(String type) {
+        this.id = UUID.randomUUID();
+        this.type = type;
+    }
 }

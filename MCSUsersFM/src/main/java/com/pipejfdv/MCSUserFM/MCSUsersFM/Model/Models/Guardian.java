@@ -38,10 +38,11 @@ public class Guardian {
     private String document;
 
     // relation 1:1 with User
-    @OneToOne(mappedBy = "guardian")
+    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     // relation 1:N with GuardianChildren
-    @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "guardian")
+    @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "guardian", cascade = CascadeType.ALL)
     private List<GuardianChildren> guardianChildren;
 }

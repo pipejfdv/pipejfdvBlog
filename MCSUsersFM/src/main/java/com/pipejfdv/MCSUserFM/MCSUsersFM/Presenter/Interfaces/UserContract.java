@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface UserContract {
     interface View{
         ResponseEntity<ApiResponse<UserDTO>> showUser(UUID id);
-        ResponseEntity<ApiResponse<UserDTO>> showCreateUser(User user);
+        ResponseEntity<ApiResponse<UserDTO>> showCreateUser(User user, String typeOfAccount);
         ResponseEntity<ApiResponse<UserDTO>> showDeleteUser(UUID id);
         ResponseEntity<ApiResponse<List<UserDTO>>> showAllUsers();
         ResponseEntity<ApiResponse<UserDTO>> showEditUser(UUID id, User user);
@@ -24,7 +24,7 @@ public interface UserContract {
         User readyUser(UUID idAccount) throws IdNotFoundException;
         List<User> UsersList();
         void readyToDeleteUser(UUID idAccount) throws IdNotFoundException;
-        User readyToCreateUser(User user) throws DuplicateElementException;
+        User readyToCreateUser(User user, String typeOfAccount) throws DuplicateElementException;
         User readyUpdateUser(UUID idAccount, User user) throws IdNotFoundException;
     }
 
@@ -32,7 +32,7 @@ public interface UserContract {
         User getUser(UUID id)throws IdNotFoundException;
         List<User> getUsers();
         void deleteUser(UUID id) throws IdNotFoundException;
-        User createUser(User user) throws DuplicateElementException;
+        User createUser(User user, String typeOfAccount) throws DuplicateElementException;
         User updateUser(UUID id, User user)throws IdNotFoundException;
     }
 }

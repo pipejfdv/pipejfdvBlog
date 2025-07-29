@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@RestController("/funnyMind")
+@RestController
+@RequestMapping("/funnyMind")
 public class UserController implements UserContract.View {
     private final UserPresenter presenter;
 
@@ -25,7 +26,8 @@ public class UserController implements UserContract.View {
     @Override
     public ResponseEntity<ApiResponse<UserDTO>> showUser(@PathVariable UUID id) {
         User user = presenter.readyUser(id);
-        /*------ADMIN-------*/
+        /*------ADMIN------- this function is necessary move to presenter */
+        /*
         if(user.getAccountType().getName().equals("Admin")) {
             UserDTO userAdminDTO = new UserDTO(user.getUsername(), user.getEmail(), user.getAccountType());
             return ResponseEntity.ok(new ApiResponse<>(
@@ -33,7 +35,7 @@ public class UserController implements UserContract.View {
                     userAdminDTO,
                     HttpStatus.OK.value()
             ));
-        }
+        }*/
         UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
         return ResponseEntity.ok(new ApiResponse<>(
                 "user data",
@@ -42,17 +44,16 @@ public class UserController implements UserContract.View {
         ));
     }
 
-    @PostMapping("/User/create")
+    @PostMapping("/User/create/{typeOfAccount}")
     @Override
-    public ResponseEntity<ApiResponse<UserDTO>> showCreateUser(@RequestBody User user) {
-        User newUser = presenter.readyToCreateUser(user);
+    public ResponseEntity<ApiResponse<UserDTO>> showCreateUser(@RequestBody User user, @PathVariable String typeOfAccount) {
+        User newUser = presenter.readyToCreateUser(user, typeOfAccount);
         UserDTO userDTO = new UserDTO(newUser.getUsername(), newUser.getEmail());
-        ApiResponse response = new ApiResponse<>(
+        return ResponseEntity.ok(new ApiResponse<>(
                 "user created",
                 userDTO,
                 HttpStatus.OK.value()
-        );
-        return ResponseEntity.ok(response);
+        ));
     }
 
     @DeleteMapping("/User/delete/{id}")
@@ -75,17 +76,16 @@ public class UserController implements UserContract.View {
         List<UserDTO> listDTO = presenter.UsersList().stream()
                 .map(user -> new UserDTO(user.getUsername(), user.getEmail()))
                 .collect(Collectors.toList());
-        ApiResponse response = new ApiResponse<>(
+        return ResponseEntity.ok(new ApiResponse<>(
                 "user list",
                 listDTO,
                 HttpStatus.OK.value()
-        );
-        return ResponseEntity.ok(response);
+        ));
     }
 
     @PutMapping("/User/update/{id}")
     @Override
-    public ResponseEntity<ApiResponse<UserDTO>> showEditUser(UUID id, User user) {
+    public ResponseEntity<ApiResponse<UserDTO>> showEditUser(@PathVariable UUID id, @RequestBody User user) {
         User userUpdate = presenter.readyUpdateUser(id, user);
         UserDTO userDTO = new UserDTO(userUpdate.getUsername(), userUpdate.getEmail());
         ApiResponse response = new ApiResponse<>(
@@ -95,5 +95,4 @@ public class UserController implements UserContract.View {
         );
         return ResponseEntity.ok(response);
     }
-
 }
