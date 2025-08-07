@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -17,8 +19,8 @@ import java.util.UUID;
 @Table(name = "account_type")
 public class AccountType {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(length = 36, nullable = false, updatable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(columnDefinition = "CHAR(36)", nullable = false, updatable = false)
     private UUID id;
     @Column (name = "name_account", nullable = false)
     @NotBlank(message = "name void")
@@ -27,4 +29,10 @@ public class AccountType {
     // relation 1:N with Account-Type
     @OneToMany(targetEntity = User.class,fetch = FetchType.LAZY, mappedBy = "accountType")
     private List<User> users;
+
+    /*CONSTRUCTOR*/
+    public AccountType(String name) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+    }
 }

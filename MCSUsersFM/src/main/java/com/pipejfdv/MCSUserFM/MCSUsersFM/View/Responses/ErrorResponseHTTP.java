@@ -6,7 +6,7 @@ public class ErrorResponseHTTP {
     private int status;
     private LocalDateTime timestamp;
     /*
-     * Structure of responses HTTP
+     * Structure of responses HTTP with error
      * */
     public ErrorResponseHTTP(String errorMessage, int status) {
         this.errorMessage = errorMessage;

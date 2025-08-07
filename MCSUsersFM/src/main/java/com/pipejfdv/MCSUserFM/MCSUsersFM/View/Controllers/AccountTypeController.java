@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/funnyMind")
@@ -35,11 +36,13 @@ public class AccountTypeController implements AccountTypeContract.view{
 
     @GetMapping("/AcTypes/List")
     @Override
-    public ResponseEntity<ApiResponse<List<AccountType>>> showAccountTypes() {
-        List<AccountType> list = presenter.getListAccountTypes();
-        ApiResponse<List<AccountType>> response = new ApiResponse<>(
+    public ResponseEntity<ApiResponse<List<AccountTypeDTO>>> showAccountTypes() {
+        List<AccountTypeDTO> listDTO = presenter.getListAccountTypes().stream()
+                .map(accountType -> new AccountTypeDTO(accountType.getName(), accountType.getId()))
+                .collect(Collectors.toList());
+        ApiResponse<List<AccountTypeDTO>> response = new ApiResponse<>(
                 "List ready of account types",
-                list,
+                listDTO,
                 HttpStatus.OK.value()
         );
         return ResponseEntity.ok(response);
@@ -49,7 +52,7 @@ public class AccountTypeController implements AccountTypeContract.view{
     @Override
     public ResponseEntity<ApiResponse<AccountTypeDTO>> showDeleteAccountType(@PathVariable UUID id) {
         AccountType accountType = presenter.getAccountType(id);
-        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName());
+        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName(), accountType.getId());
         ApiResponse<AccountTypeDTO> response = new ApiResponse<>(
                 "Account type deleted",
                 accountTypeDTO,
@@ -76,8 +79,8 @@ public class AccountTypeController implements AccountTypeContract.view{
     @PutMapping("/AcTypes/update/{id}")
     @Override
     public ResponseEntity<ApiResponse<AccountTypeDTO>> showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {
-        presenter.updateAccountType(id, accountType);
-        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName());
+        AccountType accountType1 = presenter.updateAccountType(id, accountType);
+        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType1.getName());
         ApiResponse<AccountTypeDTO> response = new ApiResponse<>(
                 "update account type",
                 accountTypeDTO,

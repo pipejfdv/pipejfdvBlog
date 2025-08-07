@@ -8,7 +8,7 @@ public class ApiResponse<T> {
     private int status;
     private LocalDateTime timestamp;
     /*
-    * Structure of responses HTTP
+    * Structure of responses HTTP without error
     * */
     public ApiResponse(String message, T data, int status) {
         this.message = message;

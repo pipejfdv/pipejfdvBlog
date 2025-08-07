@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,8 +18,8 @@ import java.util.UUID;
 @Table(name = "guardians")
 public class Guardian {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(unique = true, nullable = false, updatable = false, length = 36)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(unique = true, nullable = false, updatable = false, columnDefinition = "CHAR(36)")
     private UUID id;
     @Column(nullable = false)
     @NotBlank(message = "name void")
@@ -36,10 +38,11 @@ public class Guardian {
     private String document;
 
     // relation 1:1 with User
-    @OneToOne(mappedBy = "guardian")
+    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     // relation 1:N with GuardianChildren
-    @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "guardian")
+    @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "guardian", cascade = CascadeType.ALL)
     private List<GuardianChildren> guardianChildren;
 }
