@@ -1,0 +1,15 @@
+server:
+  port: 9000
+
+jwt:
+  secret: secretaPass
+  expiration: 86400000 # a day
+  refresh-token:
+    expiration: 604800000 # 7 day
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
