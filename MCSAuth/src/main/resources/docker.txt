@@ -1,4 +1,4 @@
-docker pull postgres:latest //descargar images
+docker pull postgres:15 //descargar images
 docker images // verificar descarga
 
 docker run -d \
@@ -7,4 +7,4 @@ docker run -d \
   -e POSTGRES_USER=devpostgres \
   -e POSTGRES_PASSWORD=devpass \
   -p 5433:5432 \
-  postgres:latest
+  postgres:15
