@@ -1,0 +1,10 @@
+docker pull postgres:latest //descargar images
+docker images // verificar descarga
+
+docker run -d \
+  --name auth-db \
+  -e POSTGRES_DB=auth_token_db \
+  -e POSTGRES_USER=devpostgres \
+  -e POSTGRES_PASSWORD=devpass \
+  -p 5433:5432 \
+  postgres:latest

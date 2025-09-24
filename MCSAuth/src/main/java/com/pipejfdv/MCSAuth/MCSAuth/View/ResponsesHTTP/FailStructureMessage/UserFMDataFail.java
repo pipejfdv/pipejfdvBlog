@@ -1,25 +1,26 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Responses;
+package com.pipejfdv.MCSAuth.MCSAuth.View.ResponsesHTTP.FailStructureMessage;
 
 import java.time.LocalDateTime;
-public class ErrorResponseHTTP {
-    private String errorMessage;
+
+public class UserFMDataFail {
+    private String message;
     private int status;
     private LocalDateTime timestamp;
     /*
-     * Structure of responses HTTP with error
+     * Structure of responses HTTP with error MCSAuth
      * */
-    public ErrorResponseHTTP(String errorMessage, int status) {
-        this.errorMessage = errorMessage;
+    public UserFMDataFail(String message, int status) {
+        this.message = message;
         this.status = status;
         this.timestamp = LocalDateTime.now();
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getStatus() {

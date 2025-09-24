@@ -1,16 +1,15 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Responses;
+package com.pipejfdv.MCSAuth.MCSAuth.View.ResponsesHTTP.OK;
 
 import java.time.LocalDateTime;
-
-public class ApiResponse<T> {
+public class UserFMDataOK<T> {
     private String message;
     private T data;
     private int status;
     private LocalDateTime timestamp;
     /*
-    * Structure of responses HTTP without error
-    * */
-    public ApiResponse(String message, T data, int status) {
+     * Structure of responses HTTP without error in MCSAuth
+     * */
+    public UserFMDataOK(String message, T data, int status) {
         this.message = message;
         this.data = data;
         this.status = status;
