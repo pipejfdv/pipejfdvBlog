@@ -16,6 +16,6 @@ public interface FunnyMindDB {
     /*
     *   Method take data of user
     */
-    @GetMapping("/User/userData/{id}")
-    UserPassDTO getUser(@PathVariable UUID id);
+    @GetMapping("/User/Auth/info/{username}")
+    UserPassDTO getCredentialsUser(@PathVariable String username);
 }

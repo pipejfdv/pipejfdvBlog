@@ -15,4 +15,12 @@ import org.springframework.stereotype.Component;
 public class JwtProperties {
     private String secret;
     private long expiration;
+    private RefreshToken refreshExpiration;
+
+    // nested class, to take ownership of jwt
+    @Getter
+    @Setter
+    public static class RefreshToken {
+        private long expiration;
+    }
 }

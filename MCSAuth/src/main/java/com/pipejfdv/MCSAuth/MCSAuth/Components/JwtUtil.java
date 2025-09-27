@@ -21,16 +21,28 @@ public class JwtUtil {
         this.jwt = jwtProperties;
     }
     /*
-    * Creation token with data user and secret pass is Algorit HS256
+    * Creation token with data user and secret pass is Algorithm HS256
     */
-    public String generateToken(UserPassDTO user) {
+    public String buildToken(UserPassDTO user, long expiration) {
         return Jwts.builder()
+                .id(user.getIdUser().toString())
                 .subject(user.getUsername())
-                .claim("email", user.getEmail())
                 .claim("accountType", user.getTypeOfAccount())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwt.getExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(Keys.hmacShaKeyFor(jwt.getSecret().getBytes()), Jwts.SIG.HS256)
                 .compact();
+    }
+    /*
+    generate token for user
+     */
+    public String generateToken(UserPassDTO user) {
+        return buildToken(user, jwt.getExpiration());
+    }
+    /*
+    generate refresh toke for user
+     */
+    public String generateRefreshToken(UserPassDTO user) {
+        return buildToken(user, jwt.getRefreshExpiration().getExpiration());
     }
 }

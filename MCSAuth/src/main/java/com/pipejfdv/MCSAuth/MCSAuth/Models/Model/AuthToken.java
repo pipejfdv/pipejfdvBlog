@@ -19,10 +19,21 @@ public class AuthToken {
     @JdbcTypeCode(SqlTypes.CHAR) //specify type data in database
     @Column(columnDefinition = "CHAR(36)", updatable = false, nullable = false)
     private UUID id;
+    @Column(name = "token")
     private String token;
+    @Column(name = "type_token")
+    @Enumerated(EnumType.STRING)
+    private TokenType tokenType = TokenType.BEARER;
     private boolean revoked;
     private boolean expired;
     // relation 1:1 with User in MCSUsersFM
     @Column(name = "userId", nullable = false)
-    private UUID userId;
+    private UUID userIdFM;
+
+    /*
+    type of tokend
+     */
+    public enum TokenType{
+        BEARER
+    }
 }
