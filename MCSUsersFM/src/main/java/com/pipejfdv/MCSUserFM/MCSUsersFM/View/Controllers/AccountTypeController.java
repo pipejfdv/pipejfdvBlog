@@ -4,7 +4,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.AccountTypePresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.AccountTypeContract;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.View.Responses.ApiResponse;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +23,10 @@ public class AccountTypeController implements AccountTypeContract.view{
     }
 
     @GetMapping("/AcTypes/account/{id}")
-    public ResponseEntity<ApiResponse<AccountTypeDTO>> showAccountType(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showAccountType(@PathVariable UUID id) {
         AccountType accountType = presenter.getAccountType(id);
         AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName());
-        ApiResponse response = new ApiResponse<>(
+        ApiResponseOK response = new ApiResponseOK<>(
                 "account ready",
                 accountTypeDTO,
                 HttpStatus.OK.value()
@@ -36,11 +36,11 @@ public class AccountTypeController implements AccountTypeContract.view{
 
     @GetMapping("/AcTypes/List")
     @Override
-    public ResponseEntity<ApiResponse<List<AccountTypeDTO>>> showAccountTypes() {
+    public ResponseEntity<ApiResponseOK<List<AccountTypeDTO>>> showAccountTypes() {
         List<AccountTypeDTO> listDTO = presenter.getListAccountTypes().stream()
                 .map(accountType -> new AccountTypeDTO(accountType.getName(), accountType.getId()))
                 .collect(Collectors.toList());
-        ApiResponse<List<AccountTypeDTO>> response = new ApiResponse<>(
+        ApiResponseOK<List<AccountTypeDTO>> response = new ApiResponseOK<>(
                 "List ready of account types",
                 listDTO,
                 HttpStatus.OK.value()
@@ -50,10 +50,10 @@ public class AccountTypeController implements AccountTypeContract.view{
 
     @DeleteMapping("/AcTypes/{id}")
     @Override
-    public ResponseEntity<ApiResponse<AccountTypeDTO>> showDeleteAccountType(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showDeleteAccountType(@PathVariable UUID id) {
         AccountType accountType = presenter.getAccountType(id);
         AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName(), accountType.getId());
-        ApiResponse<AccountTypeDTO> response = new ApiResponse<>(
+        ApiResponseOK<AccountTypeDTO> response = new ApiResponseOK<>(
                 "Account type deleted",
                 accountTypeDTO,
                 HttpStatus.OK.value()
@@ -64,11 +64,11 @@ public class AccountTypeController implements AccountTypeContract.view{
 
     @PostMapping("/AcTypes/create")
     @Override
-    public ResponseEntity<ApiResponse<AccountTypeDTO>> showCreateAccountType(@RequestBody AccountType accountType) {
+    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showCreateAccountType(@RequestBody AccountType accountType) {
         AccountType account =presenter.createAccountType(accountType);
         AccountTypeDTO accountTypeDTO = new AccountTypeDTO(account.getName());
 
-        ApiResponse<AccountTypeDTO> response = new ApiResponse<>(
+        ApiResponseOK<AccountTypeDTO> response = new ApiResponseOK<>(
                 "create account type",
                 accountTypeDTO,
                 HttpStatus.OK.value()
@@ -78,10 +78,10 @@ public class AccountTypeController implements AccountTypeContract.view{
 
     @PutMapping("/AcTypes/update/{id}")
     @Override
-    public ResponseEntity<ApiResponse<AccountTypeDTO>> showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {
+    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {
         AccountType accountType1 = presenter.updateAccountType(id, accountType);
         AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType1.getName());
-        ApiResponse<AccountTypeDTO> response = new ApiResponse<>(
+        ApiResponseOK<AccountTypeDTO> response = new ApiResponseOK<>(
                 "update account type",
                 accountTypeDTO,
                 HttpStatus.OK.value()

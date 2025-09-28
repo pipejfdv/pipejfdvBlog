@@ -2,11 +2,13 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.UsernameAuthException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.UserRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.UserContract;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +18,14 @@ import java.util.UUID;
 public class UserService implements UserContract.Model {
     private final UserRepository userRepository;
     private final AccountTypeRepository accountTypeRepository;
+    private final PasswordEncoder passwordEncoder;
     /*CONSTRUCTOR*/
-    public UserService(UserRepository userRepository, AccountTypeRepository accountTypeRepository) {
+    public UserService(UserRepository userRepository,
+                       AccountTypeRepository accountTypeRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.accountTypeRepository = accountTypeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     /*CRUD*/
     @Override
@@ -49,6 +55,7 @@ public class UserService implements UserContract.Model {
         AccountType ac = accountTypeRepository.findAccountTypeByName(typeOfAccount);
         user.setAccountType(ac);
         user.setId(UUID.randomUUID());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -62,5 +69,14 @@ public class UserService implements UserContract.Model {
         oldUser.setUsername(user.getUsername());
         userRepository.save(oldUser);
         return oldUser;
+    }
+    /*
+    data intended for MCSAuth user
+     */
+    @Override
+    public User infoUserAuth(String username) throws UsernameAuthException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameAuthException(username));
+        return user;
     }
 }

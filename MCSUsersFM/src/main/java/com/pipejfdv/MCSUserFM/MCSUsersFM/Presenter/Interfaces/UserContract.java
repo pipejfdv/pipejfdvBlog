@@ -2,10 +2,11 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.UsernameAuthException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.View.Responses.ApiResponse;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserPassDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -13,11 +14,16 @@ import java.util.UUID;
 
 public interface UserContract {
     interface View{
-        ResponseEntity<ApiResponse<UserDTO>> showUser(UUID id);
-        ResponseEntity<ApiResponse<UserDTO>> showCreateUser(User user, String typeOfAccount);
-        ResponseEntity<ApiResponse<UserDTO>> showDeleteUser(UUID id);
-        ResponseEntity<ApiResponse<List<UserDTO>>> showAllUsers();
-        ResponseEntity<ApiResponse<UserDTO>> showEditUser(UUID id, User user);
+        ResponseEntity<ApiResponseOK<UserDTO>> showUser(UUID id);
+        ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(User user, String typeOfAccount);
+        ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(UUID id);
+        ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers();
+        ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(UUID id, User user);
+
+        /*
+        Methods for MCSAuth in Presenter
+         */
+        UserPassDTO showViewUserInfoAuth(String username);
     }
 
     interface Presenter{
@@ -26,6 +32,11 @@ public interface UserContract {
         void readyToDeleteUser(UUID idAccount) throws IdNotFoundException;
         User readyToCreateUser(User user, String typeOfAccount) throws DuplicateElementException;
         User readyUpdateUser(UUID idAccount, User user) throws IdNotFoundException;
+
+        /*
+        Methods for MCSAuth in Presenter
+         */
+        User readyUserInfoAuth (String username) throws UsernameAuthException;
     }
 
     interface Model{
@@ -34,5 +45,10 @@ public interface UserContract {
         void deleteUser(UUID id) throws IdNotFoundException;
         User createUser(User user, String typeOfAccount) throws DuplicateElementException;
         User updateUser(UUID id, User user)throws IdNotFoundException;
+
+        /*
+        Methods for MCSAuth in Model
+         */
+        User infoUserAuth(String username) throws UsernameAuthException;
     }
 }

@@ -2,7 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK;
 
 import java.time.LocalDateTime;
 
-public class ApiResponse<T> {
+public class ApiResponseOK<T> {
     private String message;
     private T data;
     private int status;
@@ -10,7 +10,7 @@ public class ApiResponse<T> {
     /*
     * Structure of responses HTTP without error in MCSUsersFM
     * */
-    public ApiResponse(String message, T data, int status) {
+    public ApiResponseOK(String message, T data, int status) {
         this.message = message;
         this.data = data;
         this.status = status;

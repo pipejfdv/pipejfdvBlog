@@ -1,4 +1,4 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Fail.Handlers;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Handlers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;

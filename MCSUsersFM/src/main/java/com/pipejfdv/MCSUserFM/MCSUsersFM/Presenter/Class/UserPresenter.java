@@ -2,6 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.UsernameAuthException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services.UserService;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.UserContract;
@@ -41,5 +42,10 @@ public class UserPresenter implements UserContract.Presenter {
     @Override
     public User readyUpdateUser(UUID idAccount, User user) throws IdNotFoundException {
         return service.updateUser(idAccount, user);
+    }
+
+    @Override
+    public User readyUserInfoAuth(String username) throws UsernameAuthException{
+        return service.infoUserAuth(username);
     }
 }

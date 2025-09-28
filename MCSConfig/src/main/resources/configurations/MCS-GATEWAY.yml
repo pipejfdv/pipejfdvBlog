@@ -24,6 +24,12 @@ spring:
                 - Path=/pipejfdv/api/v1/funnyMind/**
               filters:
                 - StripPrefix=3
+            - id: auth-service
+              uri: lb://MCS-AUTH
+              predicates:
+                - Path=/pipejfdv/api/v1/auth/**
+              filters:
+                - StripPrefix=3
 
 eureka:
   client:

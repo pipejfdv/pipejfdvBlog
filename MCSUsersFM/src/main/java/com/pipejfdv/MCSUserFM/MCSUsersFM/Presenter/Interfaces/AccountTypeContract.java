@@ -4,20 +4,19 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.View.Responses.ApiResponse;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface AccountTypeContract {
     interface view{
-        ResponseEntity<ApiResponse<AccountTypeDTO>> showAccountType(UUID id);
-        ResponseEntity<ApiResponse<List<AccountTypeDTO>>> showAccountTypes();
-        ResponseEntity<ApiResponse<AccountTypeDTO>> showDeleteAccountType(UUID idAccount);
-        ResponseEntity<ApiResponse<AccountTypeDTO>> showCreateAccountType(AccountType accountType);
-        ResponseEntity<ApiResponse<AccountTypeDTO>> showUpdateAccountType(UUID idAccount, AccountType accountType);
+        ResponseEntity<ApiResponseOK<AccountTypeDTO>> showAccountType(UUID id);
+        ResponseEntity<ApiResponseOK<List<AccountTypeDTO>>> showAccountTypes();
+        ResponseEntity<ApiResponseOK<AccountTypeDTO>> showDeleteAccountType(UUID idAccount);
+        ResponseEntity<ApiResponseOK<AccountTypeDTO>> showCreateAccountType(AccountType accountType);
+        ResponseEntity<ApiResponseOK<AccountTypeDTO>> showUpdateAccountType(UUID idAccount, AccountType accountType);
     }
     interface Presenter{
         AccountType getAccountType(UUID id);

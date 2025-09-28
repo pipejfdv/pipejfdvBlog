@@ -5,7 +5,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.View.Responses.ApiResponse;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -13,11 +13,11 @@ import java.util.UUID;
 
 public interface GuardianContract {
     interface View{
-        ResponseEntity<ApiResponse<GuardianDTO>> showGuardian(UUID idSearch, User user) throws IdNotFoundException, DuplicateElementException;
-        ResponseEntity<ApiResponse<List<GuardianDTO>>> showGuardians();
-        ResponseEntity<ApiResponse<GuardianDTO>> showDeleteGuardian(UUID id);
-        ResponseEntity<ApiResponse<GuardianDTO>> showCreateGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument);
-        ResponseEntity<ApiResponse<GuardianDTO>> showEditGuardian(UUID id,Guardian guardian);
+        ResponseEntity<ApiResponseOK<GuardianDTO>> showGuardian(UUID idSearch, User user) throws IdNotFoundException, DuplicateElementException;
+        ResponseEntity<ApiResponseOK<List<GuardianDTO>>> showGuardians();
+        ResponseEntity<ApiResponseOK<GuardianDTO>> showDeleteGuardian(UUID id);
+        ResponseEntity<ApiResponseOK<GuardianDTO>> showCreateGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument);
+        ResponseEntity<ApiResponseOK<GuardianDTO>> showEditGuardian(UUID id, Guardian guardian);
     }
 
     interface Presenter{

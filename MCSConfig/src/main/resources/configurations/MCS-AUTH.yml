@@ -1,10 +1,23 @@
 server:
   port: 9000
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/auth_token_db
+    username: devpostgres
+    password: devpass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
 
 jwt:
-  secret: secretaPass
+  secret: dX3k^Rg9UznX3R8fCgekVYTNDpmk7w34tuepf5E%ZjT6M^tms@@8vSbw$X&e$!E1
   expiration: 86400000 # a day
-  refresh-token:
+  refresh-expiration:
     expiration: 604800000 # 7 day
 
 eureka:
