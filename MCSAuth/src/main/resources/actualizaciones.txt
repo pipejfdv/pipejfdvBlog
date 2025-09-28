@@ -1,16 +1,12 @@
-Aquí se registran todas las actualizciones que se realizaron
+Cambios realizados
 
-Se crea con el fin de no dejar un commit tan grande y se quede el registro del cambio tan pesado que se hizo.
+- Se creo o se configura spring security en MCSAuth para hacer peticiones
+- Se corrige tipo de ID en la solicitud de busqueda del tipo de cuenta en el path "/User/Auth/info/{username}"
+    - Se cambio el tipo de retorno en ese método, debido a que es más facil la comunicación entre los servicios
 
-- Se modifica las propiedades de jwt, para que pueda tomar el valor del refresh token anidando una clase.
-- Se creo un archivo de configuración para spring security valide las credenciales del usuario con:
-    UserDetailsService
-    AuthenticationProvider
-    PasswordEncoder (creación del método de encriptación y desencriptación de contraseña)
-- Separación de responsabilidad para jwt y su creación de token.
-- AuthResponse se le agrega el campo de refresToken String
-- Entidad AuthToken se especifica el tipo de dato BEARER
-- Se separa la responsabilidad de los servicios de MCSUserFM a AuthService
-- Se crea una clase especifica que manejar solo los datos de (username & password) UserCrentials
-- Objeto UserPassDTO, son los datos que se enviaran al micro servicio de MCSAuth, no es necesario el correo
-- Consulta en la base de datos por usuario, en el micro servicio MCSUsersFM y creación de su endpoint
+
+
+
+------
+se creo método de prueba para comprobar la petición: Borrar (Slf4, método prueba)
+"private MCSUsersFMServices mcsUsersFMServices;" -> AuthController

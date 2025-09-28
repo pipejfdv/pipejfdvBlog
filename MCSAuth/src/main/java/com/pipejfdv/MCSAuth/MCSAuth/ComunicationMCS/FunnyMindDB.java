@@ -11,11 +11,13 @@ import java.util.UUID;
 /*
 *   This interface connect with MCS-USER-FM
 */
-@FeignClient(name = "MCS-USER-FM", url = "localhost:8090/funnyMind")
+@FeignClient(name = "MCS-USER-FM",
+        url = "localhost:8090",
+        path = "/funnyMind")
 public interface FunnyMindDB {
     /*
     *   Method take data of user
     */
     @GetMapping("/User/Auth/info/{username}")
-    UserPassDTO getCredentialsUser(@PathVariable String username);
+    UserPassDTO getCredentialsUser(@PathVariable("username") String username);
 }
