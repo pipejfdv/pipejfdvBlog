@@ -3,3 +3,10 @@ spring:
     name: MCS-AUTH
   config:
     import: optional:configserver:http://localhost:8888
+#QUITAR CAMPOS
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG

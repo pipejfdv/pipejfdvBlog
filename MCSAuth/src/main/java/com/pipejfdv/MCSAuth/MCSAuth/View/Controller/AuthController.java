@@ -27,7 +27,7 @@ public class AuthController implements UserContractFM.View {
     * @Params UserCredentials(Body/JSON) user
     * @Return ResponseEntity with OK 200
     */
-    @PostMapping("/login/")
+    @PostMapping("/login")
     @Override
     public ResponseEntity<UserFMDataOK<AuthResponse>> Login(@RequestBody UserCredentials user) {
         AuthResponse response = presenter.authenticate(user);
@@ -37,7 +37,7 @@ public class AuthController implements UserContractFM.View {
                 HttpStatus.OK.value()
         ));
     }
-    /*
+
     @GetMapping("/prueba/{username}")
     public UserPassDTO prueba(@PathVariable String username){
         UserPassDTO user = mcsUsersFMServices.getCredentialsUser(username);
@@ -45,5 +45,5 @@ public class AuthController implements UserContractFM.View {
 
         return user;
     }
-     */
+
 }

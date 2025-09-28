@@ -1,5 +1,6 @@
 package com.pipejfdv.MCSAuth.MCSAuth.Components;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 */
 @Component
 @ConfigurationProperties(prefix = "jwt")
+@Data
 @Getter
 @Setter
 public class JwtProperties {

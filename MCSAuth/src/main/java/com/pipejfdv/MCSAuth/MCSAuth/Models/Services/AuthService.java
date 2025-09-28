@@ -11,6 +11,11 @@ import java.util.UUID;
 @Service
 public class AuthService {
     private AuthTokenRepository authTokenRepository;
+
+    public AuthService(AuthTokenRepository authTokenRepository) {
+        this.authTokenRepository = authTokenRepository;
+    }
+
     /*
      * This object is use for save AuthToken in database MCSAuth
      * @Params UserPassDTO user
