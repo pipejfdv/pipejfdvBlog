@@ -1,9 +1,24 @@
 Cambios realizados
 
-- Se cambia el campo del yml de Auth ya que presenta un nombre diferente y por eso no tomabá el refresht token
-- Al repository de Auth se le agrega la etiqueta @Repository
-- Se agrego constructor al AuthService, para que pueda almacenar la información
+- Configuración de archivo JwtUtil
+ * Se creó un método "getSecretKey()" el cual permite crear el hash de la clave en un método independiente
+    para que se pueda usar en diferentes partes del código
+ * "String extractUsernameForToken(final String token)" esto permite sacar la información del token y conseguir
+    el usuario y cargar dicho rol del usuario.
+ * "Date extractExpiration(final String token)" se usa para extraer la feche de expiración.
+ * "boolean isTokenExpired(final String token)" se usa para confirmar la expiración del token.
+ * "boolean isTokenValid(final String token, final UserPassDTO user)" confirmar si el token es válido
 
+- Se crea archivo JwtAuth: Con el objetivo de colocar un filtro personalizado
+
+- Se modifica la interfaz para que no sea necesario crear dobles interfaces y vistas, se mantiene de esta manera
+por lo que los métodos son relacionados con la autentificación.
+
+- Se crea una consulta SQL para poder actualizar valores especificos cuando el usuario tiene acceso a una petición
+protegida
+
+- Creación de método en el controlador con parametro header "/refresh", se usa para que cuando el usuario en el frontend
+se le expire el token principal, se envie el "refresh token", para que le actualice y le den uno nuevo.
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
 

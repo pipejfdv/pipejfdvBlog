@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController implements UserContractFM.View {
     private final UserContractFM.Presenter presenter;
-    private MCSUsersFMServices mcsUsersFMServices;
+    private final MCSUsersFMServices mcsUsersFMServices;
 
     public AuthController(UserContractFM.Presenter presenter, MCSUsersFMServices mcsUsersFMServices) {
         this.presenter = presenter;
@@ -38,6 +38,22 @@ public class AuthController implements UserContractFM.View {
         ));
     }
 
+    /*
+    * this method is used for front end, if main token is expired and is necessary get other token
+    */
+    @PostMapping("/refresh")
+    @Override
+    public ResponseEntity<UserFMDataOK<AuthResponse>> specialRequest(@RequestHeader("Authorization") String authHeader) {
+        AuthResponse response = presenter.confirmAuthToAccessToken(authHeader);
+        return ResponseEntity.ok(new UserFMDataOK<>(
+                "Allow access",
+                response,
+                HttpStatus.OK.value()
+        ));
+    }
+
+
+    /*Se puede quitar este método*/
     @GetMapping("/prueba/{username}")
     public UserPassDTO prueba(@PathVariable String username){
         UserPassDTO user = mcsUsersFMServices.getCredentialsUser(username);

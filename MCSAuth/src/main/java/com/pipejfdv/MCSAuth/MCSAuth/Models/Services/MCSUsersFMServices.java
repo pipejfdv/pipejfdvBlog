@@ -2,6 +2,7 @@ package com.pipejfdv.MCSAuth.MCSAuth.Models.Services;
 
 import com.pipejfdv.MCSAuth.MCSAuth.ComunicationMCS.FunnyMindDB;
 import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.UserNotFoundException;
+import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthResponse;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthToken;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.ModelsDTO.UserPassDTO;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Repositories.AuthTokenRepository;
@@ -30,5 +31,13 @@ public class MCSUsersFMServices implements UserContractFM.Model {
         catch (FeignException.NotFound ex) {
             throw new UserNotFoundException(username);
         }
+    }
+
+    /*
+    * This method is give here because contract with interface is solicited but no necessary in this model
+    */
+    @Override
+    public AuthResponse refreshTokenForEspecialPetition(String authHeader) {
+        return null;
     }
 }

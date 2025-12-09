@@ -63,4 +63,11 @@ public class UserPresenterFM implements UserContractFM.Presenter {
             throw new TokenNotSavedException(userPassDTO.getIdUser());
         }
     }
+
+    /*
+    Authorization for access sensible information
+     */
+    public AuthResponse confirmAuthToAccessToken(String token) {
+        return authService.refreshTokenForEspecialPetition(token);
+    }
 }

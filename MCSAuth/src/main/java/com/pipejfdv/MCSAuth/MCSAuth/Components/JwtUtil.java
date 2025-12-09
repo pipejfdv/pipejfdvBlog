@@ -1,10 +1,13 @@
 package com.pipejfdv.MCSAuth.MCSAuth.Components;
 
 import com.pipejfdv.MCSAuth.MCSAuth.Models.ModelsDTO.UserPassDTO;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 
@@ -30,7 +33,7 @@ public class JwtUtil {
                 .claim("accountType", user.getTypeOfAccount())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(Keys.hmacShaKeyFor(jwt.getSecret().getBytes()), Jwts.SIG.HS256)
+                .signWith(getSecretKey())
                 .compact();
     }
     /*
@@ -44,5 +47,60 @@ public class JwtUtil {
      */
     public String generateRefreshToken(UserPassDTO user) {
         return buildToken(user, jwt.getRefreshExpiration().getExpiration());
+    }
+    /*
+    * Create secret key to token is same to hashing
+    */
+    private SecretKey getSecretKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(jwt.getSecret());
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    /*
+    * Username extraction of token
+    * @Param final String token
+    * @Return String username
+    */
+    public String extractUsernameForToken(final String token) {
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return jwtToken.getSubject();
+    }
+
+    /*
+     *  Validity token
+     * @Param final String token
+     * @Return Date
+     */
+    public Date extractExpiration(final String token) {
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return jwtToken.getExpiration();
+    }
+
+    /*
+    *  Token is valid to continue to credentials
+    *  @Param final String token
+    *  @Param final UserPassDTO
+    *  @Return boolean True is correct / False is incorrect
+    */
+    public boolean isTokenValid(final String token, final UserPassDTO user) {
+        final String username = extractUsernameForToken(token);
+        return  (username.equals(user.getUsername())) && !isTokenExpired(token);
+    }
+
+    /*
+    * Is token valid or Expired
+    * @Param final String token
+    * @Return boolean True is correct / False is incorrect
+    */
+    public boolean isTokenExpired(final String token) {
+        return extractExpiration(token).before(new Date());
     }
 }

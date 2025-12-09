@@ -15,7 +15,7 @@ spring:
         format_sql: true
 
 jwt:
-  secret: dX3k^Rg9UznX3R8fCgekVYTNDpmk7w34tuepf5E%ZjT6M^tms@@8vSbw$X&e$!E1
+  secret: dX3kRg9UznX3R8fCgekVYTNDpmk7w34tuepf5E/ZjT6Mtms+=8vSbwSX=e+/E1
   expiration: 86400000 # a day
   refresh-expiration:
     expiration: 604800000 # 7 day
