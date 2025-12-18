@@ -25,7 +25,7 @@ public interface AuthTokenRepository extends JpaRepository<AuthToken, UUID> {
 
     /*
     Update credentials token when user try to inside sensible information
-    and is autorice
+    and is authorized
      */
     @Transactional
     @Modifying

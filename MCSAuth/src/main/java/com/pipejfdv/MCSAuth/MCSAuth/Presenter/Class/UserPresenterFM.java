@@ -1,8 +1,10 @@
 package com.pipejfdv.MCSAuth.MCSAuth.Presenter.Class;
 
 import com.pipejfdv.MCSAuth.MCSAuth.Components.JwtUtil;
-import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.TokenNotSavedException;
+import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.InvalidBearerTokenException;
+import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.TokenNotSavedInDBException;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthResponse;
+import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthToken;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.UserCredentials;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.ModelsDTO.UserPassDTO;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Services.AuthService;
@@ -37,7 +39,7 @@ public class UserPresenterFM implements UserContractFM.Presenter {
     * and assign token after to validate credentials of user
     * @Params UserCredentials username
     * @Return object AuthResponse
-    * @Throw TokenNotSavedException
+    * @Throw TokenNotSavedInDBException
     */
     @Override
     public AuthResponse authenticate(UserCredentials username) {
@@ -60,7 +62,7 @@ public class UserPresenterFM implements UserContractFM.Presenter {
             );
         }
         else  {
-            throw new TokenNotSavedException(userPassDTO.getIdUser());
+            throw new TokenNotSavedInDBException(userPassDTO.getIdUser());
         }
     }
 
@@ -69,5 +71,18 @@ public class UserPresenterFM implements UserContractFM.Presenter {
      */
     public AuthResponse confirmAuthToAccessToken(String token) {
         return authService.refreshTokenForEspecialPetition(token);
+    }
+
+    @Override
+    public AuthResponse logout(String authHeader) throws InvalidBearerTokenException {
+        if(authHeader == null && authHeader.startsWith("Bearer")){
+            throw new InvalidBearerTokenException(authHeader);
+        }
+        final String jwtToken = authHeader.substring(7);
+        final String user = jwt.extractUsernameForToken(jwtToken);
+        if(authService.revokeAllUserTokens(mcsUsersFMServices.getCredentialsUser(user))){
+            return new AuthResponse();
+        }
+        return null;
     }
 }

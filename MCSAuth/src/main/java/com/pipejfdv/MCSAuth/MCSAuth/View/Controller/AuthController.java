@@ -52,14 +52,16 @@ public class AuthController implements UserContractFM.View {
         ));
     }
 
-
-    /*Se puede quitar este método*/
-    @GetMapping("/prueba/{username}")
-    public UserPassDTO prueba(@PathVariable String username){
-        UserPassDTO user = mcsUsersFMServices.getCredentialsUser(username);
-        log.info("prueba user: {}", user.getUsername());
-
-        return user;
+    /*
+    * This is used to revoke the tokens and logout
+    */
+    @PostMapping("/logout")
+    public ResponseEntity<UserFMDataOK<AuthResponse>> logoutRequest(@RequestHeader("Authorization") String authHeader){
+        AuthResponse response = presenter.logout(authHeader);
+        return ResponseEntity.ok(new UserFMDataOK<>(
+                "Logout success",
+                response,
+                HttpStatus.OK.value()
+        ));
     }
-
 }

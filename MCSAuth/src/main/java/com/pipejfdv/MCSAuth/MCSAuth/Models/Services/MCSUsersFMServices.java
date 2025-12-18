@@ -1,11 +1,12 @@
 package com.pipejfdv.MCSAuth.MCSAuth.Models.Services;
 
 import com.pipejfdv.MCSAuth.MCSAuth.ComunicationMCS.FunnyMindDB;
+import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.NotCompletedUpdateTokenException;
+import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.NotFoundTokenException;
 import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.UserNotFoundException;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthResponse;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthToken;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.ModelsDTO.UserPassDTO;
-import com.pipejfdv.MCSAuth.MCSAuth.Models.Repositories.AuthTokenRepository;
 import com.pipejfdv.MCSAuth.MCSAuth.Presenter.Interfaces.UserContractFM;
 import feign.FeignException;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,18 @@ public class MCSUsersFMServices implements UserContractFM.Model {
     }
 
     /*
-    * This method is give here because contract with interface is solicited but no necessary in this model
+    * Those methods are give here because contract with interface is solicited but no necessary in this model
     */
     @Override
     public AuthResponse refreshTokenForEspecialPetition(String authHeader) {
+        return null;
+    }
+    @Override
+    public AuthToken findByToken(String token) throws NotFoundTokenException {
+        return null;
+    }
+    @Override
+    public Boolean updateToken(AuthToken authToken) throws NotCompletedUpdateTokenException {
         return null;
     }
 }

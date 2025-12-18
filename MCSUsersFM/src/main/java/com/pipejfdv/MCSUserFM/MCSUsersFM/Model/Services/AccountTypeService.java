@@ -38,6 +38,7 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         if (accountTypeRepository.existsByName(accountType.getName())) {
             throw new DuplicateElementException(accountType.getName());
         }
+        accountType.setId(UUID.randomUUID());
         accountTypeRepository.save(accountType);
         return accountTypeRepository.findAccountTypeByName(accountType.getName());
     }
