@@ -17,6 +17,8 @@ spring:
             wiretap: true
           httpclient:
             wiretap: true
+            connect-timeout: 5000
+            response-timeout: 10s
           routes:
             - id: user-fm
               uri: lb://MCS-USER-FM
@@ -30,6 +32,18 @@ spring:
                 - Path=/pipejfdv/api/v1/auth/**
               filters:
                 - StripPrefix=3
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: ${jwt.secret}
+
+logging:
+  level:
+    reactor.netty.http.client: DEBUG
+    reactor.netty.http.server: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
 
 eureka:
   client:

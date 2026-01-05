@@ -75,7 +75,7 @@ public class AuthService implements UserContractFM.Model {
         return true;
     }
     /*
-     *   This method is used to verification is user have access to specific information
+     *  This method is used to verification is user have access to specific information
      *  @Param String authHeader - header token with info
      *  @Return AuthResponse
      *  @Throw InvalidBearerTokenException

@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController implements UserContractFM.View {
     private final UserContractFM.Presenter presenter;
-    private final MCSUsersFMServices mcsUsersFMServices;
 
-    public AuthController(UserContractFM.Presenter presenter, MCSUsersFMServices mcsUsersFMServices) {
+    public AuthController(UserContractFM.Presenter presenter) {
         this.presenter = presenter;
-        this.mcsUsersFMServices = mcsUsersFMServices;
     }
     /*
     * This Login method is responsible for confirming the login and assigning a token to the user

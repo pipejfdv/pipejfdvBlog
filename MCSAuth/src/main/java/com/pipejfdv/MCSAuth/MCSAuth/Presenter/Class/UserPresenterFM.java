@@ -4,7 +4,6 @@ import com.pipejfdv.MCSAuth.MCSAuth.Components.JwtUtil;
 import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.InvalidBearerTokenException;
 import com.pipejfdv.MCSAuth.MCSAuth.Exceptions.TokenNotSavedInDBException;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthResponse;
-import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.AuthToken;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Model.UserCredentials;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.ModelsDTO.UserPassDTO;
 import com.pipejfdv.MCSAuth.MCSAuth.Models.Services.AuthService;
@@ -75,7 +74,7 @@ public class UserPresenterFM implements UserContractFM.Presenter {
 
     @Override
     public AuthResponse logout(String authHeader) throws InvalidBearerTokenException {
-        if(authHeader == null && authHeader.startsWith("Bearer")){
+        if(authHeader == null && authHeader.startsWith("Bearer ")){
             throw new InvalidBearerTokenException(authHeader);
         }
         final String jwtToken = authHeader.substring(7);

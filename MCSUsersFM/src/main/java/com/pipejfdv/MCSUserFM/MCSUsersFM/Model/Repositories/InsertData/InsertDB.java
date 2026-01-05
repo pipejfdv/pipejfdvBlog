@@ -26,8 +26,8 @@ public class InsertDB implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (accountTypeRepository.count() == 0) {
             accountTypeRepository.saveAll(List.of(
-                    new AccountType("Demo User"),
-                    new AccountType("Premium User"),
+                    new AccountType("DemoUser"),
+                    new AccountType("PremiumUser"),
                     new AccountType("Admin"),
                     new AccountType("Medic")
             ));

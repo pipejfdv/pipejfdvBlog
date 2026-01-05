@@ -1,23 +1,21 @@
 Cambios realizados
 
-- Se quite la validación de springFilter para el path "index", ya que no se maneja dicha información en el back end
-- Se crea un archivo aparte "ConfigurationSpringSecurity" para mantener separa la configuración del jwt y Spring security
-- Se identifica un error al crear un tipo de cuenta y es que no se le asignaba el UUID, se corrige y aprueba.
-- Se modifica el método de "logout" para que se realiza a traves de una petición y no directamente del securityConfig
-    Adicionales:
-    Son métodos y excepciones que se agregarón para que cumpliera con su respectiva función
-        Excepciones:
-        - "NotCompletedUpdateTokenException" -> para cuando se modifique el token ayude con la confirmación
-        - "NotFoundTokenException" -> Si el token que se busca no se encontro
-        AuthServie:
-        - "findByToken": Busqueda de token
-        - "updateToken": Actualizar token
+- Se agregan dependencias jwt y security en el gateway
+    - Modificación en el MCS-GATEWAY.yml para agregar la clave de jwt
+- Se agrega tiempo de espera para las solicitudes para que no se quede bloqueado el gateway en el YML
+- Para cada petición ahora será necesario agregar en el header "key = Authorization value = Bearer XXXTOKENXXX"
 
------ Observaciones -----
+----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Se debe crear CRUD para los tipos de documento
+- Realizar pruebas de rendimiento y carga para las peticiones
+- Al borrar el usuario es necesario realizar la petición al MCSAuth, para que también se borre el registro
+- cambiar el formato de las peticiones, para simplificar código con el token JWT
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
+- Corregir vulnerabilidades del gateway
 
 ------ Activaciones por quitar -------
 - Activado el Debug del autoservicio de seguridad
+- Activado debug gateway
+    verificar información del yml
