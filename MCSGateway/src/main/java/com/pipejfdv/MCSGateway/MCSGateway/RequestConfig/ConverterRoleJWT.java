@@ -14,7 +14,9 @@ import java.util.List;
 
 @Component
 public class ConverterRoleJWT implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
-
+    /*
+    * This method is used for change the account type so that they can be interpreted for spring security
+    */
     @Override
     public Mono<AbstractAuthenticationToken> convert(Jwt source) {
         String accountType = source.getClaimAsString("accountType");

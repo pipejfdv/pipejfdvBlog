@@ -8,6 +8,8 @@ import com.pipejfdv.MCSAuth.MCSAuth.Models.ModelsDTO.UserPassDTO;
 import com.pipejfdv.MCSAuth.MCSAuth.View.ResponsesHTTP.OK.UserFMDataOK;
 import org.springframework.http.ResponseEntity;
 
+import java.util.UUID;
+
 public interface UserContractFM {
     interface View{
         /*
@@ -23,6 +25,10 @@ public interface UserContractFM {
         * Logout users
         */
         ResponseEntity<UserFMDataOK<AuthResponse>> logoutRequest (String authHeader);
+        /*
+        * information token deleted
+        */
+        ResponseEntity<UserFMDataOK<AuthResponse>> deletedTokenInformation (UUID id);
     }
     interface Presenter{
         /*
@@ -37,6 +43,10 @@ public interface UserContractFM {
         * Logout User and remove tokens
         */
         AuthResponse logout(String autHeader) throws InvalidBearerTokenException;
+        /*
+        * This method is responsible for deleted information
+        */
+        AuthResponse deletedToken (UUID id) throws UserNotFoundException;
     }
     interface Model{
         /*
@@ -57,6 +67,10 @@ public interface UserContractFM {
         * Update info about token for user
         */
         Boolean updateToken(AuthToken authToken) throws NotCompletedUpdateTokenException;
+        /*
+        * Deleted information token in database
+        */
+        Boolean deletedRegistryTokenUser (UUID id) throws UserNotFoundException;
     }
 
 }

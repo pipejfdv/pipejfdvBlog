@@ -130,6 +130,14 @@ public class AuthService implements UserContractFM.Model {
         return true;
     }
 
+    @Override
+    public Boolean deletedRegistryTokenUser(UUID id) throws UserNotFoundException {
+        AuthToken token = authTokenRepository.findAnOnceUser(id)
+                .orElseThrow(()->new UserNotFoundException(id.toString()));
+        authTokenRepository.delete(token);
+        return true;
+    }
+
     /*
     * This method is give here because contract with interface is solicited but no necessary in this model
     * */

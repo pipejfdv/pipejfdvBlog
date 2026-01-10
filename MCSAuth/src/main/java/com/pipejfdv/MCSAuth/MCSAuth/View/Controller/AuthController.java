@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Slf4j
 @RestController
 @RequestMapping("/auth")
@@ -59,6 +61,19 @@ public class AuthController implements UserContractFM.View {
         return ResponseEntity.ok(new UserFMDataOK<>(
                 "Logout success",
                 response,
+                HttpStatus.OK.value()
+        ));
+    }
+
+    /*
+    * This is the charge to delete information of user, this action is used if MCSUsersFM deleted user
+    */
+    @DeleteMapping("/deleted/{id}")
+    public ResponseEntity<UserFMDataOK<AuthResponse>> deletedTokenInformation(@PathVariable UUID id){
+        AuthResponse answer = presenter.deletedToken(id);
+        return ResponseEntity.ok(new UserFMDataOK<>(
+                "Information successfully deleted",
+                answer,
                 HttpStatus.OK.value()
         ));
     }

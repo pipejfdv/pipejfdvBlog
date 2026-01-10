@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -22,6 +23,13 @@ public interface AuthTokenRepository extends JpaRepository<AuthToken, UUID> {
     * search token specify
     */
     AuthToken findByToken(String token);
+
+    /*
+    * Query JPA - find a once user
+    */
+    @Transactional
+    @Query("SELECT a FROM AuthToken a WHERE a.userIdFM = :userIdFM")
+    Optional<AuthToken> findAnOnceUser(@Param("userIdFM")UUID userIdFM);
 
     /*
     Update credentials token when user try to inside sensible information

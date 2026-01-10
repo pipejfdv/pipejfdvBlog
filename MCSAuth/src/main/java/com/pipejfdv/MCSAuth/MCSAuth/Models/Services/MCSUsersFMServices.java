@@ -11,6 +11,8 @@ import com.pipejfdv.MCSAuth.MCSAuth.Presenter.Interfaces.UserContractFM;
 import feign.FeignException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 
 @Service
 public class MCSUsersFMServices implements UserContractFM.Model {
@@ -47,6 +49,10 @@ public class MCSUsersFMServices implements UserContractFM.Model {
     }
     @Override
     public Boolean updateToken(AuthToken authToken) throws NotCompletedUpdateTokenException {
+        return null;
+    }
+    @Override
+    public Boolean deletedRegistryTokenUser(UUID id) throws UserNotFoundException {
         return null;
     }
 }

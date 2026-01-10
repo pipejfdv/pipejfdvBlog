@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(a -> a
                         .pathMatchers("/pipejfdv/api/v1/funnyMind/**").hasAnyRole("PremiumUser", "DemoUser")
+                        .pathMatchers("/pipejfdv/api/v1/auth/deleted/**").hasAnyRole("Admin")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(auth -> auth
