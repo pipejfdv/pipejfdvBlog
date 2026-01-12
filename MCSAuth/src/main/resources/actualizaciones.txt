@@ -1,8 +1,8 @@
 Cambios realizados
 
-- Se agrega las dependencias de spring security y jwt al MCSUsersFM para poder usar Authentication,
-esto permite tomar el token en la petición y extraer el rol el ID entre otras opciones
-- Authentication se incluyo en la petición de getGuardian, es necesario corregir los demás métodos
+- Se crea el archivo JwtUtils en MCSUsersFM, para que este pueda extraer Authentication y traer los datos, como:
+    IdUser -> envíado dentro del token
+    accountType -> envía el tipo de cuenta en el claims del token
 
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar

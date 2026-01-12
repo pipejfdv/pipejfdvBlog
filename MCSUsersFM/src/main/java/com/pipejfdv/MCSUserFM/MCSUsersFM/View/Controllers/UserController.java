@@ -1,14 +1,14 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Config.JwtUtils;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserPassDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.AccountTypePresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.UserPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.UserContract;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,18 +25,27 @@ import java.util.stream.Collectors;
 @RequestMapping("/funnyMind")
 public class UserController implements UserContract.View {
     private final UserPresenter presenter;
+    private final JwtUtils jwtUtils;
 
-    public UserController(UserPresenter presenter) {
+    public UserController(UserPresenter presenter, JwtUtils jwtUtils) {
         this.presenter = presenter;
+        this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("/User/userData/{id}")
+    @GetMapping("/User/userData")
     @Override
     /*
     *   This component take information about USER and show these data
     */
-    public ResponseEntity<ApiResponseOK<UserDTO>> showUser(@PathVariable UUID id) {
-        User user = presenter.readyUser(id);
+    public ResponseEntity<ApiResponseOK<UserDTO>> showUser(
+            @RequestParam(value = "id", required = false) String idUser,
+            Authentication authentication)
+    {
+        UUID targetId = (idUser == null || idUser.isBlank())
+                ? jwtUtils.extractUserId(authentication)
+                : UUID.fromString(idUser);
+
+        User user = presenter.readyUser(targetId);
         UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user data",
@@ -63,9 +72,8 @@ public class UserController implements UserContract.View {
             @RequestParam(value = "id", required = false) String idUser,
             Authentication authentication) {
 
-        JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;
         UUID targetId = (idUser == null || idUser.isBlank())
-                ? UUID.fromString(jwtAuth.getToken().getId())
+                ? jwtUtils.extractUserId(authentication)
                 : UUID.fromString(idUser);
 
         User deleteUser = presenter.readyUser(targetId);

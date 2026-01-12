@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public interface UserContract {
     interface View{
-        ResponseEntity<ApiResponseOK<UserDTO>> showUser(UUID id);
+        ResponseEntity<ApiResponseOK<UserDTO>> showUser(String idSearch, Authentication authentication);
         ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(User user, String typeOfAccount);
         ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(String idSearch, Authentication authentication);
         ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers();
