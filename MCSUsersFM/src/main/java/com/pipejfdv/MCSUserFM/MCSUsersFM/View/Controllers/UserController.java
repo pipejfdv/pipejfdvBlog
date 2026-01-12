@@ -11,6 +11,8 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +57,7 @@ public class UserController implements UserContract.View {
         ));
     }
 
-    @DeleteMapping("/User/delete/{id}")
+    @DeleteMapping("/User/delete")
     @Override
     public ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(
             @RequestParam(value = "id", required = false) String idUser,
@@ -68,12 +70,13 @@ public class UserController implements UserContract.View {
 
         User deleteUser = presenter.readyUser(targetId);
         UserDTO userDTO = new UserDTO(deleteUser.getUsername(), deleteUser.getEmail());
-        ApiResponseOK response = new ApiResponseOK<>(
+        presenter.readyToDeleteUser(targetId);
+
+        ApiResponseOK<UserDTO> response = new ApiResponseOK<>(
                 "user deleted",
                 userDTO,
                 HttpStatus.OK.value()
         );
-        presenter.readyToDeleteUser(id);
         return ResponseEntity.ok(response);
     }
 

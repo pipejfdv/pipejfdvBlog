@@ -8,6 +8,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserPassDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public interface UserContract {
     interface View{
         ResponseEntity<ApiResponseOK<UserDTO>> showUser(UUID id);
         ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(User user, String typeOfAccount);
-        ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(UUID id);
+        ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(String idSearch, Authentication authentication);
         ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers();
         ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(UUID id, User user);
 
