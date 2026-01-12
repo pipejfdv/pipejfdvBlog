@@ -1,19 +1,15 @@
 Cambios realizados
 
-- Se agregan dependencias jwt y security en el gateway
-    - Modificación en el MCS-GATEWAY.yml para agregar la clave de jwt
-- Se agrega tiempo de espera para las solicitudes para que no se quede bloqueado el gateway en el YML
-- Para cada petición ahora será necesario agregar en el header "key = Authorization value = Bearer XXXTOKENXXX"
-- Se agrega comentarios en ConverterRoleJWT - gateway para entender uso del método
-- Funcionalidad de eliminar token creada de manera exitosa
-    - Se asigna privilegios solo para admin de borrar solo la cuenta
-    - Se crea una consulta de jpa para buscar un solo usuario con ID en especifico
+- Se agrega las dependencias de spring security y jwt al MCSUsersFM para poder usar Authentication,
+esto permite tomar el token en la petición y extraer el rol el ID entre otras opciones
+- Authentication se incluyo en la petición de getGuardian, es necesario corregir los demás métodos
+
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Se debe crear CRUD para los tipos de documento
 - Realizar pruebas de rendimiento y carga para las peticiones
-- Al borrar el usuario es necesario realizar la petición al MCSAuth, para que también se borre el registro
 - cambiar el formato de las peticiones, para simplificar código con el token JWT
+- Centralizar la clave del token
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
 - Corregir vulnerabilidades del gateway

@@ -30,9 +30,8 @@ public class UserService implements UserContract.Model {
     /*CRUD*/
     @Override
     public User getUser(UUID id) throws IdNotFoundException {
-        User user = userRepository.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(()-> new IdNotFoundException(id));
-        return user;
     }
 
     @Override

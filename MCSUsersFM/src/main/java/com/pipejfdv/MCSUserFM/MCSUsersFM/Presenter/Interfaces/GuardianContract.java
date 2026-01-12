@@ -7,25 +7,29 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface GuardianContract {
     interface View{
-        ResponseEntity<ApiResponseOK<GuardianDTO>> showGuardian(UUID idSearch, User user) throws IdNotFoundException, DuplicateElementException;
+        ResponseEntity<ApiResponseOK<GuardianDTO>> showGuardian(String idSearch, Authentication authentication) throws IdNotFoundException, DuplicateElementException;
         ResponseEntity<ApiResponseOK<List<GuardianDTO>>> showGuardians();
         ResponseEntity<ApiResponseOK<GuardianDTO>> showDeleteGuardian(UUID id);
         ResponseEntity<ApiResponseOK<GuardianDTO>> showCreateGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument);
         ResponseEntity<ApiResponseOK<GuardianDTO>> showEditGuardian(UUID id, Guardian guardian);
+        ResponseEntity<ApiResponseOK<GuardianDTO>> showToSearchGuardianForUserId (User userId);
     }
 
     interface Presenter{
-        GuardianDTO readyGuardian(UUID idSearch, User user) throws IdNotFoundException;
+        GuardianDTO readyGuardian(UUID idSearch, String rol) throws IdNotFoundException;
         List<GuardianDTO> readyGuardians();
         void readyToDeleteGuardian(UUID id) throws IdNotFoundException;
         Guardian readyToCreateUser(Guardian guardian, UUID idUserAssignment, UUID typeDocument) throws DuplicateElementException;
         Guardian readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException;
+        // search for guardian using user ID
+        Guardian readyToSearchGuardianForUserId(User idUSer);
     }
     interface Model{
         Guardian getGuardian(UUID id) throws IdNotFoundException;
@@ -33,5 +37,7 @@ public interface GuardianContract {
         Guardian createGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument) throws DuplicateElementException;
         void deleteGuardian(UUID id) throws IdNotFoundException;
         Guardian updateGuardian(UUID id, Guardian guardian) throws IdNotFoundException;
+        // search for guardian using user ID
+        Guardian searchGuardianForUserId (User idUser);
     }
 }

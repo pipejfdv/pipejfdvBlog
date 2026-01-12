@@ -12,6 +12,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.GuardianContract;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -73,5 +74,13 @@ public class GuardianServices implements GuardianContract.Model {
         oldGuardian.setPhone(guardian.getPhone());
         oldGuardian.setBiography(guardian.getBiography());
         return repository.save(oldGuardian);
+    }
+    /*
+    *  search for guardian using user ID
+    */
+    @Override
+    public Guardian searchGuardianForUserId (User user) throws IdNotFoundException{
+        return repository.findGuardianForUser(user)
+                .orElseThrow(() -> new IdNotFoundException(user.getId()));
     }
 }

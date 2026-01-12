@@ -29,7 +29,8 @@ public class InsertDB implements CommandLineRunner {
                     new AccountType("DemoUser"),
                     new AccountType("PremiumUser"),
                     new AccountType("Admin"),
-                    new AccountType("Medic")
+                    new AccountType("Medic"),
+                    new AccountType("Analyst")
             ));
         }
         if (documentTypeRepository.count() == 0) {

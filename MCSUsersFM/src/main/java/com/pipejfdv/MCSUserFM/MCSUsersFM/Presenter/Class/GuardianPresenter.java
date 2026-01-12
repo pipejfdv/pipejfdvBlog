@@ -22,9 +22,9 @@ public class GuardianPresenter implements GuardianContract.Presenter {
     }
 
     @Override
-    public GuardianDTO readyGuardian(UUID id, User user) throws IdNotFoundException {
+    public GuardianDTO readyGuardian(UUID id, String rol) throws IdNotFoundException {
         Guardian guardian = guardianServices.getGuardian(id);
-        if(user.getAccountType().getName().equals("Admin")){
+        if(rol.equals("Admin")){
             return new GuardianDTO(
                     guardian.getName(),
                     guardian.getLastname(),
@@ -78,5 +78,10 @@ public class GuardianPresenter implements GuardianContract.Presenter {
     @Override
     public Guardian readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException {
         return guardianServices.updateGuardian(id, guardian);
+    }
+
+    @Override
+    public Guardian readyToSearchGuardianForUserId(User idUSer){
+        return guardianServices.searchGuardianForUserId(idUSer);
     }
 }
