@@ -57,8 +57,16 @@ public class UserController implements UserContract.View {
 
     @DeleteMapping("/User/delete/{id}")
     @Override
-    public ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(@PathVariable UUID id) {
-        User deleteUser = presenter.readyUser(id);
+    public ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(
+            @RequestParam(value = "id", required = false) String idUser,
+            Authentication authentication) {
+
+        JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;
+        UUID targetId = (idUser == null || idUser.isBlank())
+                ? UUID.fromString(jwtAuth.getToken().getId())
+                : UUID.fromString(idUser);
+
+        User deleteUser = presenter.readyUser(targetId);
         UserDTO userDTO = new UserDTO(deleteUser.getUsername(), deleteUser.getEmail());
         ApiResponseOK response = new ApiResponseOK<>(
                 "user deleted",
