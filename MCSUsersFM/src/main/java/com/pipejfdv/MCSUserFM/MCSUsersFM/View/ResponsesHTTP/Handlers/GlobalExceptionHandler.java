@@ -2,6 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Handlers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Fail.ErrorResponseFail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +31,17 @@ public class GlobalExceptionHandler {
                 HttpStatus.CONFLICT.value()
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    /*
+    * When the parameters are incorrect
+    */
+    @ExceptionHandler(NameAccountNotFoundException.class)
+    public ResponseEntity<ErrorResponseFail> handleAccountTypeDifferentException(NameAccountNotFoundException ex){
+        ErrorResponseFail error = new ErrorResponseFail(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

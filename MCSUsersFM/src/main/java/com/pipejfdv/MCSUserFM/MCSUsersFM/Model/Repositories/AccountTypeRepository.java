@@ -12,7 +12,7 @@ public interface AccountTypeRepository extends JpaRepository<AccountType, UUID> 
 
     Optional<AccountType> findById(UUID id);
 
-    AccountType findAccountTypeByName(String name);
+    Optional<AccountType> findAccountTypeByName(String name);
 
     boolean existsByName(String name);
 }

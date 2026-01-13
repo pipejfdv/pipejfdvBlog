@@ -2,6 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.UsernameAuthException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
@@ -47,11 +48,12 @@ public class UserService implements UserContract.Model {
     }
 
     @Override
-    public User createUser(User user, String typeOfAccount) throws DuplicateElementException {
+    public User createUser(User user, String typeOfAccount) throws DuplicateElementException, NameAccountNotFoundException {
         if(userRepository.existsByEmail(user.getEmail())){
             throw new DuplicateElementException(user.getEmail());
         }
-        AccountType ac = accountTypeRepository.findAccountTypeByName(typeOfAccount);
+        AccountType ac = accountTypeRepository.findAccountTypeByName(typeOfAccount)
+                .orElseThrow(()-> new NameAccountNotFoundException(typeOfAccount));
         user.setAccountType(ac);
         user.setId(UUID.randomUUID());
         user.setPassword(passwordEncoder.encode(user.getPassword()));

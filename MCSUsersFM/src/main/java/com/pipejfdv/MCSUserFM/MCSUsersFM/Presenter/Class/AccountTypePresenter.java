@@ -18,8 +18,8 @@ public class AccountTypePresenter implements AccountTypeContract.Presenter {
     }
 
     @Override
-    public AccountType getAccountType(UUID id) {
-        return service.readyAccountType(id);
+    public AccountType getAccountType(UUID id, String account) {
+        return service.readyAccountType(id, account);
     }
 
     @Override

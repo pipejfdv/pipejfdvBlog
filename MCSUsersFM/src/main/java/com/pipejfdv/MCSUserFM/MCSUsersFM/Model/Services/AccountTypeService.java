@@ -2,6 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.AccountTypeContract;
@@ -18,10 +19,16 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         this.accountTypeRepository = accountTypeRepository;
     }
     /*CRUD*/
-    public AccountType readyAccountType(UUID id) {
-        AccountType accountType = accountTypeRepository.findById(id)
-                .orElseThrow(()-> new IdNotFoundException(id));
-        return accountType;
+    public AccountType readyAccountType(UUID id, String account) throws IdNotFoundException, NameAccountNotFoundException {
+        if(id == null){
+            return accountTypeRepository.findAccountTypeByName(account)
+                    .orElseThrow(() -> new NameAccountNotFoundException(account));
+        }
+        if (account == null || account.isBlank()){
+            return accountTypeRepository.findById(id)
+                    .orElseThrow(()-> new IdNotFoundException(id));
+        }
+        return null;
     }
 
     public List<AccountType> listAccountTypes() {
@@ -40,7 +47,8 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         }
         accountType.setId(UUID.randomUUID());
         accountTypeRepository.save(accountType);
-        return accountTypeRepository.findAccountTypeByName(accountType.getName());
+        return accountTypeRepository.findAccountTypeByName(accountType.getName())
+                .orElseThrow(() -> new NameAccountNotFoundException(accountType.getName()));
     }
 
     public AccountType updated(UUID idAccount, AccountType accountType) {

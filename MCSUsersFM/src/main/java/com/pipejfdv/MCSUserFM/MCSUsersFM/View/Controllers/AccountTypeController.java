@@ -22,11 +22,24 @@ public class AccountTypeController implements AccountTypeContract.view{
         this.presenter = presenter;
     }
 
-    @GetMapping("/AcTypes/account/{id}")
-    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showAccountType(@PathVariable UUID id) {
-        AccountType accountType = presenter.getAccountType(id);
-        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName());
-        ApiResponseOK response = new ApiResponseOK<>(
+    @GetMapping("/AcTypes/account")
+    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showAccountType(
+            @RequestParam (value = "id", required = false) UUID id,
+            @RequestParam (value = "account", required = false) String nameAccountType)
+    {
+        AccountTypeDTO accountTypeDTO;
+        if (id == null){
+            AccountType accountType = presenter.getAccountType(null, nameAccountType);
+            accountTypeDTO = new AccountTypeDTO(accountType.getName());
+        }
+        else if (nameAccountType == null || nameAccountType.isBlank()){
+            AccountType accountType = presenter.getAccountType(id, null);
+            accountTypeDTO = new AccountTypeDTO(accountType.getName());
+        }
+        else {
+            throw new IllegalArgumentException("Wrong Parameters");
+        }
+        ApiResponseOK<AccountTypeDTO> response = new ApiResponseOK<>(
                 "account ready",
                 accountTypeDTO,
                 HttpStatus.OK.value()
@@ -48,17 +61,32 @@ public class AccountTypeController implements AccountTypeContract.view{
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/AcTypes/{id}")
+    @DeleteMapping("/AcTypes")
     @Override
-    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showDeleteAccountType(@PathVariable UUID id) {
-        AccountType accountType = presenter.getAccountType(id);
-        AccountTypeDTO accountTypeDTO = new AccountTypeDTO(accountType.getName(), accountType.getId());
+    public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showDeleteAccountType(
+            @RequestParam (value = "idAccountType", required = false) UUID id,
+            @RequestParam (value = "account", required = false) String nameAccountType)
+    {
+        AccountType accountType;
+        AccountTypeDTO accountTypeDTO;
+        if(id == null){
+            accountType = presenter.getAccountType(null, nameAccountType);
+            accountTypeDTO = new AccountTypeDTO(accountType.getName(), accountType.getId());
+            presenter.deleteAccountType(accountTypeDTO.getId());
+        }
+        else if (nameAccountType == null || nameAccountType.isBlank()) {
+            accountType = presenter.getAccountType(id, null);
+            accountTypeDTO = new AccountTypeDTO(accountType.getName(), accountType.getId());
+            presenter.deleteAccountType(accountTypeDTO.getId());
+        }
+        else {
+            throw new IllegalArgumentException("Wrong Parameters");
+        }
         ApiResponseOK<AccountTypeDTO> response = new ApiResponseOK<>(
                 "Account type deleted",
                 accountTypeDTO,
                 HttpStatus.OK.value()
         );
-        presenter.deleteAccountType(id);
         return ResponseEntity.ok(response);
     }
 

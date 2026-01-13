@@ -2,6 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.UsernameAuthException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserDTO;
@@ -44,7 +45,7 @@ public interface UserContract {
         User getUser(UUID id)throws IdNotFoundException;
         List<User> getUsers();
         void deleteUser(UUID id) throws IdNotFoundException;
-        User createUser(User user, String typeOfAccount) throws DuplicateElementException;
+        User createUser(User user, String typeOfAccount) throws DuplicateElementException, NameAccountNotFoundException;
         User updateUser(UUID id, User user)throws IdNotFoundException;
 
         /*

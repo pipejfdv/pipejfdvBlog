@@ -1,18 +1,19 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Config.JwtUtils;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserPassDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.AccountTypePresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.UserPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.UserContract;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Fail.ErrorResponseFail;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/funnyMind")
 public class UserController implements UserContract.View {
-    private final UserPresenter presenter;
+    private final UserPresenter userPresenter;
+    private final AccountTypePresenter accountTypePresenter;
     private final JwtUtils jwtUtils;
 
-    public UserController(UserPresenter presenter, JwtUtils jwtUtils) {
-        this.presenter = presenter;
+    public UserController(UserPresenter userPresenter, JwtUtils jwtUtils, AccountTypePresenter accountTypePresenter) {
+        this.userPresenter = userPresenter;
         this.jwtUtils = jwtUtils;
+        this.accountTypePresenter = accountTypePresenter;
     }
 
     @GetMapping("/User/userData")
@@ -45,7 +48,7 @@ public class UserController implements UserContract.View {
                 ? jwtUtils.extractUserId(authentication)
                 : UUID.fromString(idUser);
 
-        User user = presenter.readyUser(targetId);
+        User user = userPresenter.readyUser(targetId);
         UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user data",
@@ -57,7 +60,8 @@ public class UserController implements UserContract.View {
     @PostMapping("/User/create/{typeOfAccount}")
     @Override
     public ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(@RequestBody User user, @PathVariable String typeOfAccount) {
-        User newUser = presenter.readyToCreateUser(user, typeOfAccount);
+        AccountType accountType = accountTypePresenter.getAccountType(null, typeOfAccount);
+        User newUser = userPresenter.readyToCreateUser(user, accountType.getName());
         UserDTO userDTO = new UserDTO(newUser.getUsername(), newUser.getEmail());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user created",
@@ -76,9 +80,9 @@ public class UserController implements UserContract.View {
                 ? jwtUtils.extractUserId(authentication)
                 : UUID.fromString(idUser);
 
-        User deleteUser = presenter.readyUser(targetId);
+        User deleteUser = userPresenter.readyUser(targetId);
         UserDTO userDTO = new UserDTO(deleteUser.getUsername(), deleteUser.getEmail());
-        presenter.readyToDeleteUser(targetId);
+        userPresenter.readyToDeleteUser(targetId);
 
         ApiResponseOK<UserDTO> response = new ApiResponseOK<>(
                 "user deleted",
@@ -91,7 +95,7 @@ public class UserController implements UserContract.View {
     @GetMapping("/User/list")
     @Override
     public ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers() {
-        List<UserDTO> listDTO = presenter.UsersList().stream()
+        List<UserDTO> listDTO = userPresenter.UsersList().stream()
                 .map(user -> new UserDTO(user.getUsername(), user.getEmail()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new ApiResponseOK<>(
@@ -104,7 +108,7 @@ public class UserController implements UserContract.View {
     @PutMapping("/User/update/{id}")
     @Override
     public ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(@PathVariable UUID id, @RequestBody User user) {
-        User userUpdate = presenter.readyUpdateUser(id, user);
+        User userUpdate = userPresenter.readyUpdateUser(id, user);
         UserDTO userDTO = new UserDTO(userUpdate.getUsername(), userUpdate.getEmail());
         ApiResponseOK response = new ApiResponseOK<>(
                 "user updated",
@@ -120,7 +124,7 @@ public class UserController implements UserContract.View {
      */
     @GetMapping("/User/Auth/info/{username}")
     public UserPassDTO showViewUserInfoAuth(@PathVariable String username){
-        User userAuth = presenter.readyUserInfoAuth(username);
+        User userAuth = userPresenter.readyUserInfoAuth(username);
         return new UserPassDTO(userAuth.getId(),
                 userAuth.getUsername(),
                 userAuth.getPassword(),
