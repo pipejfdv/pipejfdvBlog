@@ -1,14 +1,13 @@
 Cambios realizados
 
-- Se crea el archivo JwtUtils en MCSUsersFM, para que este pueda extraer Authentication y traer los datos, como:
-    IdUser -> envíado dentro del token
-    accountType -> envía el tipo de cuenta en el claims del token
+- cambiar el formato de las peticiones, para simplificar código con el token JWT
+    GUARDIAN - OK
+    USER - OK
 
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Se debe crear CRUD para los tipos de documento
 - Realizar pruebas de rendimiento y carga para las peticiones
-- cambiar el formato de las peticiones, para simplificar código con el token JWT
 - Centralizar la clave del token
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro

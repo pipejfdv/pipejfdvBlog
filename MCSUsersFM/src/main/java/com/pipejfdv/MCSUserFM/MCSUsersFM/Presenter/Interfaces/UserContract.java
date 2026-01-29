@@ -20,7 +20,7 @@ public interface UserContract {
         ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(User user, String typeOfAccount);
         ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(String idSearch, Authentication authentication);
         ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers();
-        ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(UUID id, User user);
+        ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(String idSearch, User user, Authentication authentication);
 
         /*
         Methods for MCSAuth in Presenter

@@ -8,7 +8,6 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.UserPassDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.AccountTypePresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.UserPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.UserContract;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Fail.ErrorResponseFail;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -105,17 +104,24 @@ public class UserController implements UserContract.View {
         ));
     }
 
-    @PutMapping("/User/update/{id}")
+    @PutMapping("/User/update")
     @Override
-    public ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(@PathVariable UUID id, @RequestBody User user) {
-        User userUpdate = userPresenter.readyUpdateUser(id, user);
+    public ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(
+            @RequestParam(value = "id", required = false) String idUser,
+            @RequestBody User InfoUserUpdate,
+            Authentication authentication)
+    {
+        UUID targetId = (idUser == null || idUser.isBlank())
+                ? jwtUtils.extractUserId(authentication)
+                : UUID.fromString(idUser);
+
+        User userUpdate = userPresenter.readyUpdateUser(targetId, InfoUserUpdate);
         UserDTO userDTO = new UserDTO(userUpdate.getUsername(), userUpdate.getEmail());
-        ApiResponseOK response = new ApiResponseOK<>(
+        return ResponseEntity.ok(new ApiResponseOK<>(
                 "user updated",
                 userDTO,
                 HttpStatus.OK.value()
-        );
-        return ResponseEntity.ok(response);
+        ));
     }
     /*
     This method is in charge of send information user from database at MCSAuth

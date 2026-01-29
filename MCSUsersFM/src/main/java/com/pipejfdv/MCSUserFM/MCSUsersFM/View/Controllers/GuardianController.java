@@ -76,8 +76,8 @@ public class GuardianController implements GuardianContract.View {
     @Override
     public ResponseEntity<ApiResponseOK<GuardianDTO>> showCreateGuardian(
             @RequestBody Guardian guardian,
-            @PathVariable("idUserAssignment") UUID idUserAssignment,
-            @PathVariable("typeDocument") UUID typeDocument) {
+            @PathVariable UUID idUserAssignment,
+            @PathVariable UUID typeDocument) {
         Guardian newGuardian = guardianPresenter.readyToCreateUser(guardian, idUserAssignment, typeDocument);
         GuardianDTO guardianDTO = new GuardianDTO(
                 newGuardian.getName(),
