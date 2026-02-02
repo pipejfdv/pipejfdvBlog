@@ -2,7 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
@@ -27,7 +27,7 @@ public interface AccountTypeContract {
         AccountType updateAccountType(UUID idAccount, AccountType accountType);
     }
     interface AccountTypeModel{
-        AccountType readyAccountType(UUID id, String account) throws NameAccountNotFoundException, IdNotFoundException;
+        AccountType readyAccountType(UUID id, String account) throws NameNotFoundException, IdNotFoundException;
         List<AccountType> listAccountTypes();
         void deleted (UUID idAccount) throws IdNotFoundException;
         AccountType created(AccountType accountType) throws DuplicateElementException;

@@ -1,8 +1,7 @@
 Cambios realizados
 
-- cambiar el formato de las peticiones, para simplificar código con el token JWT
-    GUARDIAN - OK
-    USER - OK
+- CRUD de DocumentType
+- cambio de nombre de la excepción del "nombre no encontrado"
 
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar

@@ -2,7 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Handlers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Fail.ErrorResponseFail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
     /*
     * When the parameters are incorrect
     */
-    @ExceptionHandler(NameAccountNotFoundException.class)
-    public ResponseEntity<ErrorResponseFail> handleAccountTypeDifferentException(NameAccountNotFoundException ex){
+    @ExceptionHandler(NameNotFoundException.class)
+    public ResponseEntity<ErrorResponseFail> handleAccountTypeDifferentException(NameNotFoundException ex){
         ErrorResponseFail error = new ErrorResponseFail(
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()

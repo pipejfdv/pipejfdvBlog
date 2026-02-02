@@ -2,7 +2,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameAccountNotFoundException;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.AccountTypeContract;
@@ -19,10 +19,10 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         this.accountTypeRepository = accountTypeRepository;
     }
     /*CRUD*/
-    public AccountType readyAccountType(UUID id, String account) throws IdNotFoundException, NameAccountNotFoundException {
+    public AccountType readyAccountType(UUID id, String account) throws IdNotFoundException, NameNotFoundException {
         if(id == null){
             return accountTypeRepository.findAccountTypeByName(account)
-                    .orElseThrow(() -> new NameAccountNotFoundException(account));
+                    .orElseThrow(() -> new NameNotFoundException(account));
         }
         if (account == null || account.isBlank()){
             return accountTypeRepository.findById(id)
@@ -41,14 +41,14 @@ public class AccountTypeService implements AccountTypeContract.AccountTypeModel 
         accountTypeRepository.delete(accountType);
     }
 
-    public AccountType created(AccountType accountType) {
+    public AccountType created(AccountType accountType) throws DuplicateElementException {
         if (accountTypeRepository.existsByName(accountType.getName())) {
             throw new DuplicateElementException(accountType.getName());
         }
         accountType.setId(UUID.randomUUID());
         accountTypeRepository.save(accountType);
         return accountTypeRepository.findAccountTypeByName(accountType.getName())
-                .orElseThrow(() -> new NameAccountNotFoundException(accountType.getName()));
+                .orElseThrow(() -> new NameNotFoundException(accountType.getName()));
     }
 
     public AccountType updated(UUID idAccount, AccountType accountType) {
