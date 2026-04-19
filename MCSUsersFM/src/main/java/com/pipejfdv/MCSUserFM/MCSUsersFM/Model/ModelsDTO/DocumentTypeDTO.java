@@ -2,11 +2,15 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
 
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class DocumentTypeDTO {
-    private final String nameDocumentType;
+    private final UUID id;
+    private final String type;
 
-    public DocumentTypeDTO(String name){
-        this.nameDocumentType = name;
+    public DocumentTypeDTO(UUID id, String type){
+        this.id = id;
+        this.type = type;
     }
 }

@@ -48,7 +48,7 @@ public class UserController implements UserContract.View {
                 : UUID.fromString(idUser);
 
         User user = userPresenter.readyUser(targetId);
-        UserDTO userDTO = new UserDTO(user.getUsername(), user.getEmail());
+        UserDTO userDTO = new UserDTO(user.getId(),user.getUsername(), user.getEmail());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user data",
                 userDTO,
@@ -61,7 +61,7 @@ public class UserController implements UserContract.View {
     public ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(@RequestBody User user, @PathVariable String typeOfAccount) {
         AccountType accountType = accountTypePresenter.getAccountType(null, typeOfAccount);
         User newUser = userPresenter.readyToCreateUser(user, accountType.getName());
-        UserDTO userDTO = new UserDTO(newUser.getUsername(), newUser.getEmail());
+        UserDTO userDTO = new UserDTO(newUser.getId(),newUser.getUsername(), newUser.getEmail());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user created",
                 userDTO,
@@ -80,7 +80,7 @@ public class UserController implements UserContract.View {
                 : UUID.fromString(idUser);
 
         User deleteUser = userPresenter.readyUser(targetId);
-        UserDTO userDTO = new UserDTO(deleteUser.getUsername(), deleteUser.getEmail());
+        UserDTO userDTO = new UserDTO(deleteUser.getId(),deleteUser.getUsername(), deleteUser.getEmail());
         userPresenter.readyToDeleteUser(targetId);
 
         ApiResponseOK<UserDTO> response = new ApiResponseOK<>(
@@ -95,7 +95,7 @@ public class UserController implements UserContract.View {
     @Override
     public ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers() {
         List<UserDTO> listDTO = userPresenter.UsersList().stream()
-                .map(user -> new UserDTO(user.getUsername(), user.getEmail()))
+                .map(user -> new UserDTO(user.getId(),user.getUsername(), user.getEmail()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user list",
@@ -116,7 +116,7 @@ public class UserController implements UserContract.View {
                 : UUID.fromString(idUser);
 
         User userUpdate = userPresenter.readyUpdateUser(targetId, InfoUserUpdate);
-        UserDTO userDTO = new UserDTO(userUpdate.getUsername(), userUpdate.getEmail());
+        UserDTO userDTO = new UserDTO(userUpdate.getId(),userUpdate.getUsername(), userUpdate.getEmail());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user updated",
                 userDTO,

@@ -26,6 +26,7 @@ public class GuardianPresenter implements GuardianContract.Presenter {
         Guardian guardian = guardianServices.getGuardian(id);
         if(rol.equals("Admin")){
             return new GuardianDTO(
+                    guardian.getId(),
                     guardian.getName(),
                     guardian.getLastname(),
                     guardian.getPhone(),
@@ -37,6 +38,7 @@ public class GuardianPresenter implements GuardianContract.Presenter {
                     guardian.getDocumentType().getType());
         }
         return new GuardianDTO(
+                guardian.getId(),
                 guardian.getName(),
                 guardian.getLastname(),
                 guardian.getPhone(),
@@ -52,6 +54,7 @@ public class GuardianPresenter implements GuardianContract.Presenter {
     public List<GuardianDTO> readyGuardians() {
         List<GuardianDTO> listDTO = guardianServices.getGuardians().stream()
                 .map(guardian -> new GuardianDTO(
+                        guardian.getId(),
                         guardian.getName(),
                         guardian.getLastname(),
                         guardian.getPhone(),

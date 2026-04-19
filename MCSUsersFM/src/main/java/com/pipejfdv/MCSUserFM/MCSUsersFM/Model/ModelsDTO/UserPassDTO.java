@@ -8,6 +8,9 @@ public class UserPassDTO {
     private String password;
     private String typeOfAccount;
 
+    public UserPassDTO() {
+    }
+
     public UserPassDTO(UUID idUser, String username, String password, String typeOfAccount) {
         this.idUser = idUser;
         this.username = username;

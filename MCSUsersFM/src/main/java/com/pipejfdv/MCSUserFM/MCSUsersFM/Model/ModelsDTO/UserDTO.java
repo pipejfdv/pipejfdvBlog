@@ -2,12 +2,16 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 
+import java.util.UUID;
+
 public class UserDTO {
-    final private String username;
-    final private String email;
+    private UUID idUser;
+    private String email;
+    private String username;
     private AccountType accountType;
 
-    public UserDTO(String username, String email) {
+    public UserDTO(UUID idUser, String username, String email) {
+        this.idUser = idUser;
         this.username = username;
         this.email = email;
     }
@@ -16,6 +20,10 @@ public class UserDTO {
         this.username = username;
         this.email = email;
         this.accountType = accountType;
+    }
+
+    public UUID getIdUser() {
+        return idUser;
     }
 
     public String getUsername() {

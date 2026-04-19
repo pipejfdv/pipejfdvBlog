@@ -80,6 +80,7 @@ public class GuardianController implements GuardianContract.View {
             @PathVariable UUID typeDocument) {
         Guardian newGuardian = guardianPresenter.readyToCreateUser(guardian, idUserAssignment, typeDocument);
         GuardianDTO guardianDTO = new GuardianDTO(
+                newGuardian.getId(),
                 newGuardian.getName(),
                 newGuardian.getLastname(),
                 newGuardian.getPhone(),

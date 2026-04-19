@@ -1,7 +1,12 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
 
 
+import lombok.Getter;
+
+import java.util.UUID;
+@Getter
 public class GuardianDTO {
+    private UUID id;
     final private String name;
     final private String lastname;
     final private String phone;
@@ -13,7 +18,8 @@ public class GuardianDTO {
     private final String documentType;
 
     /*DTO for Admin*/
-    public GuardianDTO(String name,
+    public GuardianDTO(UUID id,
+            String name,
                        String lastname,
                        String phone,
                        String biography,
@@ -22,6 +28,7 @@ public class GuardianDTO {
                        String typeAccountName,
                        String document,
                        String typeDocument) {
+        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.phone = phone;

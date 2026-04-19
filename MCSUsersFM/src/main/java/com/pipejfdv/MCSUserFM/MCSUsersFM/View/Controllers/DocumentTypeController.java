@@ -26,7 +26,7 @@ public class DocumentTypeController implements DocumentTypeContract.View {
     public ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showCreateDocumentType(@RequestBody DocumentType documentType) {
         documentTypePresenter.readyToCreateDocumentType(documentType);
         DocumentType newDocument = documentTypePresenter.readyDocumentType(documentType.getType(), null);
-        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(newDocument.getType());
+        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(newDocument.getId(), newDocument.getType());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "Document create - successful",
                 documentTypeDTO,
@@ -40,7 +40,7 @@ public class DocumentTypeController implements DocumentTypeContract.View {
             @RequestParam(value = "name", required = false) String nameDocumentType,
             @RequestParam(value = "id", required = false) UUID idDocumentType) {
         DocumentType document = documentTypePresenter.readyDocumentType(nameDocumentType, idDocumentType);
-        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(document.getType());
+        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(document.getId(), document.getType());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "Document",
                 documentTypeDTO,
@@ -52,7 +52,7 @@ public class DocumentTypeController implements DocumentTypeContract.View {
     @GetMapping("/DT/List")
     public ResponseEntity<ApiResponseOK<List<DocumentTypeDTO>>> showAllDocumentType() {
         List<DocumentTypeDTO> listDocumentDTO = documentTypePresenter.readyDocumentTypeList().stream()
-                .map(document -> new DocumentTypeDTO(document.getType()))
+                .map(document -> new DocumentTypeDTO(document.getId(), document.getType()))
                 .toList();
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "Type documents",
@@ -69,7 +69,7 @@ public class DocumentTypeController implements DocumentTypeContract.View {
         DocumentType document = documentTypePresenter.readyToUpdateDocumentType(updateDocument, nameDocumentType);
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "updated document",
-                new DocumentTypeDTO(document.getType()),
+                new DocumentTypeDTO(document.getId(), document.getType()),
                 HttpStatus.OK.value()
                 )
         );
@@ -81,7 +81,7 @@ public class DocumentTypeController implements DocumentTypeContract.View {
             @RequestParam(value = "name", required = false) String nameDocumentType,
             @RequestParam(value = "id", required = false) UUID idDocumentType) {
         DocumentType documentType = documentTypePresenter.readyDocumentType(nameDocumentType, idDocumentType);
-        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(documentType.getType());
+        DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(documentType.getId(), documentType.getType());
         documentTypePresenter.readyToDeleteDocumentType(nameDocumentType, idDocumentType);
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "Document deleted",
