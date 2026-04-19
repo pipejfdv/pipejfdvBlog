@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "relationships")
 public class Relationships {
@@ -25,4 +24,10 @@ public class Relationships {
     //relation 1:N with GuardianChildren
     @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "relationships")
     private List<GuardianChildren> guardianChildren;
+
+    // Constructor for creating new relationships without guardian children
+    public Relationships(String relationship) {
+        this.id = UUID.randomUUID();
+        this.relationship = relationship;
+    }
 }
