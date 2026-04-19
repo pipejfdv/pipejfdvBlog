@@ -1,8 +1,7 @@
 Cambios realizados
 
-- CRUD de DocumentType - no incluye delete
-- cambio de nombre de la excepción del "nombre no encontrado"
-- Se agregaron relaciones en la base de datos
+- Se crea el contrato de GuardianChildren
+- Se simplifica línea de código de creación de DocumentType
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones

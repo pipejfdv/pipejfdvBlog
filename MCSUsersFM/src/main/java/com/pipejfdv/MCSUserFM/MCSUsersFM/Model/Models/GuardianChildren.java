@@ -33,4 +33,11 @@ public class GuardianChildren {
     @ManyToOne(targetEntity = Relationships.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "relationships")
     private Relationships relationships;
+
+    public GuardianChildren(Guardian guardian, Children children, Relationships relationships) {
+        this.id = UUID.randomUUID();
+        this.guardian = guardian;
+        this.children = children;
+        this.relationships = relationships;
+    }
 }

@@ -24,8 +24,7 @@ public class DocumentTypeController implements DocumentTypeContract.View {
     @Override
     @PostMapping("/DT/create")
     public ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showCreateDocumentType(@RequestBody DocumentType documentType) {
-        documentTypePresenter.readyToCreateDocumentType(documentType);
-        DocumentType newDocument = documentTypePresenter.readyDocumentType(documentType.getType(), null);
+        DocumentType newDocument = documentTypePresenter.readyToCreateDocumentType(documentType);
         DocumentTypeDTO documentTypeDTO = new DocumentTypeDTO(newDocument.getId(), newDocument.getType());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "Document create - successful",
