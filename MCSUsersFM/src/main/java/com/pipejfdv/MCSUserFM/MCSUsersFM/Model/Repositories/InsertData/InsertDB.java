@@ -3,9 +3,11 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.InsertData;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.DocumentType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Relationships;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.TceClassification;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.DocumentTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.RelationshipsRepository;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.TceClassificationRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +21,16 @@ public class InsertDB implements CommandLineRunner {
     private final AccountTypeRepository accountTypeRepository;
     private final DocumentTypeRepository documentTypeRepository;
     private final RelationshipsRepository relationshipsRepository;
+    private final TceClassificationRepository tceClassificationRepository;
 
-    public InsertDB(AccountTypeRepository accountTypeRepository, DocumentTypeRepository documentTypeRepository, RelationshipsRepository relationshipsRepository) {
+    public InsertDB(AccountTypeRepository accountTypeRepository,
+                    DocumentTypeRepository documentTypeRepository,
+                    RelationshipsRepository relationshipsRepository,
+                    TceClassificationRepository tceClassificationRepository) {
         this.accountTypeRepository = accountTypeRepository;
         this.documentTypeRepository = documentTypeRepository;
         this.relationshipsRepository = relationshipsRepository;
+        this.tceClassificationRepository = tceClassificationRepository;
     }
 
     @Override
@@ -39,7 +46,7 @@ public class InsertDB implements CommandLineRunner {
         }
         if (documentTypeRepository.count() == 0) {
             documentTypeRepository.saveAll(List.of(
-                    new DocumentType("Cédula Ciudadania"),
+                    new DocumentType("Cédula Ciudadanía"),
                     new DocumentType("Cedula Extranjería"),
                     new DocumentType("Tarjeta de Identidad"),
                     new DocumentType("Permiso Transitorio")
@@ -56,6 +63,14 @@ public class InsertDB implements CommandLineRunner {
                     new Relationships("Madrastra"),
                     new Relationships("Hermano"),
                     new Relationships("Hermana")
+            ));
+        }
+        if(tceClassificationRepository.count() == 0){
+            tceClassificationRepository.saveAll(List.of(
+                    new TceClassification("Inicial"),
+                    new TceClassification("Basico"),
+                    new TceClassification("Intermedio"),
+                    new TceClassification("Avanzado")
             ));
         }
     }

@@ -25,4 +25,9 @@ public class TceClassification {
     //relation 1:N with Children
     @OneToMany(targetEntity = Children.class, fetch = FetchType.LAZY, mappedBy = "tceClassification")
     private List<Children> children;
+
+    public TceClassification(String classification) {
+        this.id = UUID.randomUUID();
+        this.classification = classification;
+    }
 }

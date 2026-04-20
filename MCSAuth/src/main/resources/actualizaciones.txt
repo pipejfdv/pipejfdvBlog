@@ -1,11 +1,13 @@
 Cambios realizados
 
-- Se crea el contrato de GuardianChildren
-- Se simplifica línea de código de creación de DocumentType
+- Se cambió el nombre de ChildrenDTO a ChildrenPublicDTO
+- Se crea ChildrenAdminDTO
+- CRUD de TceClassification comletado, solo componentes necesarios
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token
+- Ajustar los tipos de DTO por rol
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
 - Corregir vulnerabilidades del gateway
