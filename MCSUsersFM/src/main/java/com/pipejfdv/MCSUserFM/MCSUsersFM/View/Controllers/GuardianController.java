@@ -3,6 +3,8 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianPublicDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianAdminDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.GuardianPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.UserPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.GuardianContract;
@@ -27,32 +29,51 @@ public class GuardianController implements GuardianContract.View {
         this.userPresenter = userPresenter;
     }
 
-    @GetMapping("/Guardian/guardianData")
-    @Override
-    public ResponseEntity<ApiResponseOK<GuardianDTO>> showGuardian(
+    // Endpoint para User y Therapist - retorna GuardianPublicDTO
+    @GetMapping("/Guardian/public")
+    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showGuardianPublic(
             @RequestParam(value = "id", required = false) String idSearch,
             Authentication authentication) {
-        JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;
-        String rol = jwtAuth.getToken().getClaimAsString("accountType");
+        
+        UUID guardianId;
         if(idSearch == null || idSearch.isBlank()){
-            User user =  userPresenter.readyUser(UUID.fromString(jwtAuth.getToken().getId()));
-            UUID idGuardian = guardianPresenter.readyToSearchGuardianForUserId(user).getId();
-            GuardianDTO guardianDTO = guardianPresenter.readyGuardian(idGuardian, rol);
-            return ResponseEntity.ok(new ApiResponseOK<>(
-                    "guardian data",
-                    guardianDTO,
-                    HttpStatus.OK.value()
-            ));
-        }else {
-            GuardianDTO guardianDTO = guardianPresenter.readyGuardian(UUID.fromString(idSearch), rol);
-            return ResponseEntity.ok(new ApiResponseOK<>(
-                    "guardian data",
-                    guardianDTO,
-                    HttpStatus.OK.value()
-            ));
+            User user = userPresenter.readyUser(UUID.fromString(((JwtAuthenticationToken) authentication).getToken().getId()));
+            guardianId = guardianPresenter.readyToSearchGuardianForUserId(user).getId();
+        } else {
+            guardianId = UUID.fromString(idSearch);
         }
+        
+        GuardianPublicDTO guardianDTO = guardianPresenter.readyGuardianPublic(guardianId);
+        return ResponseEntity.ok(new ApiResponseOK<>(
+                "guardian public data",
+                guardianDTO,
+                HttpStatus.OK.value()
+        ));
     }
 
+    // Endpoint para Admin - retorna GuardianAdminDTO
+    @GetMapping("/Guardian/admin")
+    public ResponseEntity<ApiResponseOK<GuardianAdminDTO>> showGuardianAdmin(
+            @RequestParam(value = "id", required = false) String idSearch,
+            Authentication authentication) {
+        
+        UUID guardianId;
+        if(idSearch == null || idSearch.isBlank()){
+            User user = userPresenter.readyUser(UUID.fromString(((JwtAuthenticationToken) authentication).getToken().getId()));
+            guardianId = guardianPresenter.readyToSearchGuardianForUserId(user).getId();
+        } else {
+            guardianId = UUID.fromString(idSearch);
+        }
+        
+        GuardianAdminDTO guardianDTO = guardianPresenter.readyGuardianAdmin(guardianId);
+        return ResponseEntity.ok(new ApiResponseOK<>(
+                "guardian admin data",
+                guardianDTO,
+                HttpStatus.OK.value()
+        ));
+    }
+
+    
     @GetMapping("/Guardian/list")
     @Override
     public ResponseEntity<ApiResponseOK<List<GuardianDTO>>> showGuardians() {
@@ -66,9 +87,24 @@ public class GuardianController implements GuardianContract.View {
     @Override
     public ResponseEntity<ApiResponseOK<GuardianDTO>> showDeleteGuardian(UUID id) {
         guardianPresenter.readyToDeleteGuardian(id);
+        // Usamos readyGuardianAdmin para obtener todos los datos antes de eliminar
+        GuardianAdminDTO guardianAdminDTO = guardianPresenter.readyGuardianAdmin(id);
+        // Convertimos a GuardianDTO para mantener compatibilidad con la respuesta esperada
+        GuardianDTO guardianDTO = new GuardianDTO(
+                guardianAdminDTO.getId(),
+                guardianAdminDTO.getName(),
+                guardianAdminDTO.getLastname(),
+                guardianAdminDTO.getPhone(),
+                guardianAdminDTO.getBiography(),
+                guardianAdminDTO.getUsername(),
+                guardianAdminDTO.getEmail(),
+                guardianAdminDTO.getAccountType(),
+                guardianAdminDTO.getDocument(),
+                guardianAdminDTO.getDocumentType()
+        );
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "guardian & user delete",
-                guardianPresenter.readyGuardian(id, null),
+                guardianDTO,
                 HttpStatus.OK.value()
         ));
     }

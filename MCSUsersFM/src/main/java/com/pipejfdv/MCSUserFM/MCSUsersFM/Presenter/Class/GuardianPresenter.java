@@ -5,6 +5,8 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianPublicDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianAdminDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services.GuardianServices;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.GuardianContract;
 import org.springframework.stereotype.Component;
@@ -21,31 +23,31 @@ public class GuardianPresenter implements GuardianContract.Presenter {
         this.guardianServices = guardianServices;
     }
 
-    @Override
-    public GuardianDTO readyGuardian(UUID id, String rol) throws IdNotFoundException {
+    
+    // Nuevo método para rol de User/Therapist - retorna GuardianPublicDTO
+    public GuardianPublicDTO readyGuardianPublic(UUID id) throws IdNotFoundException {
         Guardian guardian = guardianServices.getGuardian(id);
-        if(rol.equals("Admin")){
-            return new GuardianDTO(
-                    guardian.getId(),
-                    guardian.getName(),
-                    guardian.getLastname(),
-                    guardian.getPhone(),
-                    guardian.getBiography(),
-                    guardian.getUser().getUsername(),
-                    guardian.getUser().getEmail(),
-                    guardian.getUser().getAccountType().getName(),
-                    guardian.getDocument(),
-                    guardian.getDocumentType().getType());
-        }
-        return new GuardianDTO(
+        return new GuardianPublicDTO(
                 guardian.getId(),
                 guardian.getName(),
                 guardian.getLastname(),
                 guardian.getPhone(),
                 guardian.getBiography(),
-                null,
+                guardian.getUser().getEmail());
+    }
+
+    // Nuevo método para rol de Admin - retorna GuardianAdminDTO
+    public GuardianAdminDTO readyGuardianAdmin(UUID id) throws IdNotFoundException {
+        Guardian guardian = guardianServices.getGuardian(id);
+        return new GuardianAdminDTO(
+                guardian.getId(),
+                guardian.getName(),
+                guardian.getLastname(),
+                guardian.getPhone(),
+                guardian.getBiography(),
                 guardian.getUser().getEmail(),
-                null,
+                guardian.getUser().getUsername(),
+                guardian.getUser().getAccountType().getName(),
                 guardian.getDocument(),
                 guardian.getDocumentType().getType());
     }

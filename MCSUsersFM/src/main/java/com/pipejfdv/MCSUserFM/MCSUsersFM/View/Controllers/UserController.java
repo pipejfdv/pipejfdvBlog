@@ -58,7 +58,7 @@ public class UserController implements UserContract.View {
 
     @PostMapping("/User/create/{typeOfAccount}")
     @Override
-    public ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(@RequestBody User user, @PathVariable String typeOfAccount) {
+    public ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(@RequestBody User user, @PathVariable(required = true) String typeOfAccount) {
         AccountType accountType = accountTypePresenter.getAccountType(null, typeOfAccount);
         User newUser = userPresenter.readyToCreateUser(user, accountType.getName());
         UserDTO userDTO = new UserDTO(newUser.getId(),newUser.getUsername(), newUser.getEmail());
