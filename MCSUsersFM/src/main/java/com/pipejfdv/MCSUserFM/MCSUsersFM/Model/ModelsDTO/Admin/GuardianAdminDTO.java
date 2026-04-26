@@ -1,5 +1,6 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Admin;
 
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.GuardianPublicDTO;
 import lombok.Getter;
 
 import java.util.UUID;

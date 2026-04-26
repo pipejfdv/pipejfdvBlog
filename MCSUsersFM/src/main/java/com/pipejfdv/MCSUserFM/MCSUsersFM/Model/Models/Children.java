@@ -20,6 +20,7 @@ import java.util.UUID;
 @Table(name = "children")
 public class Children {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(columnDefinition = "CHAR(36)", nullable = false, updatable = false)
     private UUID id;
@@ -38,7 +39,7 @@ public class Children {
     @JoinColumn(name = "document_type")
     private DocumentType documentType;
     @NotBlank(message = "document void")
-    private String document;
+    private Long document;
 
     // relation N:1 with TceClassification
     @ManyToOne(targetEntity = TceClassification.class, fetch = FetchType.LAZY)
@@ -48,4 +49,15 @@ public class Children {
     // relation 1:N with GuardianChildren
     @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "children")
     private List<GuardianChildren> guardianChildren;
+
+    public Children( String names, String lastName, LocalDate birthDate, DocumentType documentType, Long document, TceClassification tceClassification, List<GuardianChildren> guardianChildren) {
+        this.id = UUID.randomUUID();
+        this.names = names;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.documentType = documentType;
+        this.document = document;
+        this.tceClassification = tceClassification;
+        this.guardianChildren = guardianChildren;
+    }
 }

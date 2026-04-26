@@ -16,6 +16,7 @@ import java.util.UUID;
 @Table(name = "guardian_children")
 public class GuardianChildren {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(columnDefinition = "CHAR(36)")
     private UUID id;

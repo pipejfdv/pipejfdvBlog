@@ -1,4 +1,4 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public;
 
 import lombok.Getter;
 

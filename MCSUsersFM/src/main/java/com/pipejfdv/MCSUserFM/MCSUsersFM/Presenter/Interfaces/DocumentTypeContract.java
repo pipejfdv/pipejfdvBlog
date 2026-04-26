@@ -5,7 +5,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.ParametersNotReceived;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.DocumentType;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.DocumentTypeDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.DocumentTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
 

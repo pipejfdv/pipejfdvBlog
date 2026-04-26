@@ -4,6 +4,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Relationships;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.RelationshipsDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.RelationshipsPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.RelationshipsContract;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
@@ -47,13 +48,21 @@ public class RelationshipsController implements RelationshipsContract.View {
     }
 
     @Override
-    @GetMapping("/relationship/list")
-    public ResponseEntity<ApiResponseOK<List<String>>> listRelationships() {
-        List<String> listRelations = relationshipsPresenter.listRelationships().stream()
-                .map(Relationships :: getRelationship).toList();
+    @GetMapping("/relationship/Admin/list")
+    public ResponseEntity<ApiResponseOK<List<Relationships>>> listRelationshipsAdmin() {
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "list of relationships",
-                listRelations,
+                relationshipsPresenter.listRelationshipsAdmin(),
+                HttpStatus.OK.value()
+        ));
+    }
+
+    @Override
+    @GetMapping("/relationship/Public/list")
+    public ResponseEntity<ApiResponseOK<List<RelationshipsDTO>>> listRelationshipsPublic() {
+        return ResponseEntity.ok(new ApiResponseOK<>(
+                "list of relationships",
+                relationshipsPresenter.listRelationshipsPublic(),
                 HttpStatus.OK.value()
         ));
     }

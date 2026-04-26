@@ -1,4 +1,4 @@
-package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO;
+package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Admin;
 
 import java.util.UUID;
 

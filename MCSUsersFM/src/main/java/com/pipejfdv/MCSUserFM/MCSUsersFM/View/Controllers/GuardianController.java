@@ -2,9 +2,8 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianPublicDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianAdminDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.GuardianPublicDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Admin.GuardianAdminDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.GuardianPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.UserPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.GuardianContract;
@@ -12,7 +11,6 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,7 +74,7 @@ public class GuardianController implements GuardianContract.View {
     
     @GetMapping("/Guardian/list")
     @Override
-    public ResponseEntity<ApiResponseOK<List<GuardianDTO>>> showGuardians() {
+    public ResponseEntity<ApiResponseOK<List<GuardianPublicDTO>>> showGuardians() {
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "guardian list",
                 guardianPresenter.readyGuardians(),
@@ -85,22 +83,19 @@ public class GuardianController implements GuardianContract.View {
     }
 
     @Override
-    public ResponseEntity<ApiResponseOK<GuardianDTO>> showDeleteGuardian(UUID id) {
+    @DeleteMapping("/Guardian/delete/{id}")
+    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showDeleteGuardian(@PathVariable UUID id) {
         guardianPresenter.readyToDeleteGuardian(id);
         // Usamos readyGuardianAdmin para obtener todos los datos antes de eliminar
         GuardianAdminDTO guardianAdminDTO = guardianPresenter.readyGuardianAdmin(id);
-        // Convertimos a GuardianDTO para mantener compatibilidad con la respuesta esperada
-        GuardianDTO guardianDTO = new GuardianDTO(
+        // Convertimos a GuardianPublicDTO para mantener compatibilidad con la respuesta esperada
+        GuardianPublicDTO guardianDTO = new GuardianPublicDTO(
                 guardianAdminDTO.getId(),
                 guardianAdminDTO.getName(),
                 guardianAdminDTO.getLastname(),
                 guardianAdminDTO.getPhone(),
                 guardianAdminDTO.getBiography(),
-                guardianAdminDTO.getUsername(),
-                guardianAdminDTO.getEmail(),
-                guardianAdminDTO.getAccountType(),
-                guardianAdminDTO.getDocument(),
-                guardianAdminDTO.getDocumentType()
+                guardianAdminDTO.getEmail()
         );
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "guardian & user delete",
@@ -110,22 +105,19 @@ public class GuardianController implements GuardianContract.View {
     }
     @PostMapping("/Guardian/create/{idUserAssignment}/{typeDocument}")
     @Override
-    public ResponseEntity<ApiResponseOK<GuardianDTO>> showCreateGuardian(
+    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> createGuardian(
             @RequestBody Guardian guardian,
             @PathVariable UUID idUserAssignment,
             @PathVariable UUID typeDocument) {
         Guardian newGuardian = guardianPresenter.readyToCreateUser(guardian, idUserAssignment, typeDocument);
-        GuardianDTO guardianDTO = new GuardianDTO(
+        GuardianPublicDTO guardianDTO = new GuardianPublicDTO(
                 newGuardian.getId(),
                 newGuardian.getName(),
                 newGuardian.getLastname(),
                 newGuardian.getPhone(),
-                null,
-                newGuardian.getUser().getUsername(),
-                newGuardian.getUser().getEmail(),
-                null,
-                null,
-                null);
+                newGuardian.getBiography(),
+                newGuardian.getUser().getEmail()
+                );
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "guardian created",
                 guardianDTO,
@@ -134,7 +126,7 @@ public class GuardianController implements GuardianContract.View {
     }
 
     @Override
-    public ResponseEntity<ApiResponseOK<GuardianDTO>> showEditGuardian(UUID id, Guardian guardian) {
+    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showEditGuardian(UUID id, Guardian guardian) {
         return null;
     }
 
@@ -142,7 +134,7 @@ public class GuardianController implements GuardianContract.View {
      *  search for guardian using user ID
      */
     @Override
-    public ResponseEntity<ApiResponseOK<GuardianDTO>> showToSearchGuardianForUserId(User userId) {
+    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showToSearchGuardianForUserId(User userId) {
         return null;
     }
 }

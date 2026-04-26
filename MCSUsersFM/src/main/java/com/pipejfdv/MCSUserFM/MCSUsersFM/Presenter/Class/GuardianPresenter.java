@@ -4,9 +4,8 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianPublicDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianAdminDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.GuardianPublicDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Admin.GuardianAdminDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services.GuardianServices;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.GuardianContract;
 import org.springframework.stereotype.Component;
@@ -53,21 +52,17 @@ public class GuardianPresenter implements GuardianContract.Presenter {
     }
 
     @Override
-    public List<GuardianDTO> readyGuardians() {
-        List<GuardianDTO> listDTO = guardianServices.getGuardians().stream()
-                .map(guardian -> new GuardianDTO(
+    public List<GuardianPublicDTO> readyGuardians() {
+        return guardianServices.getGuardians().stream()
+                .map(guardian -> new GuardianPublicDTO(
                         guardian.getId(),
                         guardian.getName(),
                         guardian.getLastname(),
                         guardian.getPhone(),
-                        null,
-                        guardian.getUser().getUsername(),
-                        guardian.getUser().getEmail(),
-                        guardian.getUser().getAccountType().getName(),
-                        guardian.getDocument(),
-                        guardian.getDocumentType().getType()))
-                .collect(Collectors.toList());
-        return listDTO;
+                        guardian.getBiography(),
+                        guardian.getUser().getEmail()
+                        ))
+                .toList();
     }
 
     @Override

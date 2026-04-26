@@ -4,6 +4,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Relationships;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.RelationshipsDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Services.RelationshipsService;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.RelationshipsContract;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,16 @@ public class RelationshipsPresenter implements RelationshipsContract.Presenter{
     }
 
     @Override
-    public List<Relationships> listRelationships() {
+    public List<RelationshipsDTO> listRelationshipsPublic() {
+        return relationshipsService.listRelationships().stream()
+                .map(r -> new RelationshipsDTO(
+                        r.getId(),
+                        r.getRelationship()
+                )).toList();
+    }
+
+    @Override
+    public List<Relationships> listRelationshipsAdmin() {
         return relationshipsService.listRelationships();
     }
 

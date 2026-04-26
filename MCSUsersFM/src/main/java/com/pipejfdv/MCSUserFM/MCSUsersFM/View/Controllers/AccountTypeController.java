@@ -1,7 +1,7 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.AccountTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.AccountTypePresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.AccountTypeContract;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;

@@ -4,9 +4,9 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianPublicDTO;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.GuardianAdminDTO;
+
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.GuardianPublicDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Admin.GuardianAdminDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,11 +16,11 @@ import java.util.UUID;
 
 public interface GuardianContract {
     interface View{
-        ResponseEntity<ApiResponseOK<List<GuardianDTO>>> showGuardians();
-        ResponseEntity<ApiResponseOK<GuardianDTO>> showDeleteGuardian(UUID id);
-        ResponseEntity<ApiResponseOK<GuardianDTO>> showCreateGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument);
-        ResponseEntity<ApiResponseOK<GuardianDTO>> showEditGuardian(UUID id, Guardian guardian);
-        ResponseEntity<ApiResponseOK<GuardianDTO>> showToSearchGuardianForUserId (User userId);
+        ResponseEntity<ApiResponseOK<List<GuardianPublicDTO>>> showGuardians();
+        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showDeleteGuardian(UUID id);
+        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> createGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument);
+        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showEditGuardian(UUID id, Guardian guardian);
+        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showToSearchGuardianForUserId (User userId);
         
         // Nuevos métodos específicos por rol
         ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showGuardianPublic(String idSearch, Authentication authentication);
@@ -28,7 +28,7 @@ public interface GuardianContract {
     }
 
     interface Presenter{
-        List<GuardianDTO> readyGuardians();
+        List<GuardianPublicDTO> readyGuardians();
         void readyToDeleteGuardian(UUID id) throws IdNotFoundException;
         Guardian readyToCreateUser(Guardian guardian, UUID idUserAssignment, UUID typeDocument) throws DuplicateElementException;
         Guardian readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException;

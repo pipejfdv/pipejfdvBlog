@@ -1,7 +1,7 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.DocumentType;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.DocumentTypeDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.DocumentTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.DocumentTypePresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.DocumentTypeContract;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;

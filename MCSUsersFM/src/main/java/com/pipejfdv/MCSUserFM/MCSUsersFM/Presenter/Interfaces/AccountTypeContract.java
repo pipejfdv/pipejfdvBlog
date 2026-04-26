@@ -4,7 +4,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.DuplicateElementException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.IdNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.NameNotFoundException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
-import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.AccountTypeDTO;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.AccountTypeDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
 import org.springframework.http.ResponseEntity;
 

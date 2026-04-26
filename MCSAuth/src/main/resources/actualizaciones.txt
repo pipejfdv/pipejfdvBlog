@@ -1,8 +1,12 @@
 Cambios realizados
 
-- Se cambió el nombre de ChildrenDTO a ChildrenPublicDTO
-- Se crea ChildrenAdminDTO
-- CRUD de TceClassification comletado, solo componentes necesarios
+- Cambio en los tipos de DTO de Guardian, se crea uno público y otro admin
+- CRUD de children, se corrigen los parámetros y el tipo de respuestas por rol
+El update queda pendiente por se debe unir con la otra tabla
+- Se modifica la generación de los UUID, para que quedén de manera automatica en tablas Children y GuardianChildren
+- Se crea la tabla intermedia, es necesario ralizar la asociación en las peticiones como "GetChildrenByGuardian"
+no funcionarán
+- Se modifica el contrato de relationships para que retorne los nombres nada más
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
