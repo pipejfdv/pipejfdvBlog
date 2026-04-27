@@ -20,6 +20,12 @@ spring:
             connect-timeout: 5000
             response-timeout: 10s
           routes:
+            - id: games
+              uri: lb://MCS-JUEGOS
+              predicates:
+                - Path=/pipejfdv/api/v1/games/**
+              filters:
+                - StripPrefix=3
             - id: user-fm
               uri: lb://MCS-USER-FM
               predicates:
@@ -32,6 +38,7 @@ spring:
                 - Path=/pipejfdv/api/v1/auth/**
               filters:
                 - StripPrefix=3
+
   security:
     oauth2:
       resourceserver:

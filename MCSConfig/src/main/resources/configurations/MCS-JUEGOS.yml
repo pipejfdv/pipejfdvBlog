@@ -1,0 +1,21 @@
+server:
+  port: 8091
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/juegosdb
+    username: devpostgresJuegos
+    password: devpass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .authorizeExchange(a -> a
                         .pathMatchers("/pipejfdv/api/v1/funnyMind/**").hasAnyRole("PremiumUser", "DemoUser", "Admin")
                         .pathMatchers("/pipejfdv/api/v1/auth/deleted/**").hasAnyRole("Admin")
+                        .pathMatchers("/pipejfdv/api/v1/games/**").hasAnyRole("PremiumUser", "DemoUser", "Admin")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(auth -> auth

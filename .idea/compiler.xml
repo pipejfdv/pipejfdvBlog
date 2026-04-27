@@ -17,10 +17,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
         <module name="MCSAuth" />
+        <module name="MCSJuegos" />
       </profile>
     </annotationProcessing>
   </component>
@@ -30,6 +30,7 @@
       <module name="MCSConfig" options="-parameters" />
       <module name="MCSEureka" options="-parameters" />
       <module name="MCSGateway" options="-parameters" />
+      <module name="MCSJuegos" options="-parameters" />
       <module name="MCSUsersFM" options="-parameters" />
     </option>
   </component>

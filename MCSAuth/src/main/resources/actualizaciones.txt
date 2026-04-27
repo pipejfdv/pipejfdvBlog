@@ -1,6 +1,6 @@
 Cambios realizados
 
-- CRUD de Perfiles completos para el admin y public
+
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
@@ -9,6 +9,7 @@ Cambios realizados
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
 - Corregir vulnerabilidades del gateway - password
+- pass en MCSYML
 - Verificar los paratros enviados en una petición, ya que llegan así {relationship} y debe llegar solo el texto sin llaves
 
 ------ Activaciones por quitar -------

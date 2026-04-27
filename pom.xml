@@ -28,6 +28,7 @@
     <module>MCSConfig</module>
     <module>MCSEureka</module>
     <module>MCSGateway</module>
+    <module>MCSJuegos</module>
   </modules>
 
   <dependencyManagement>
