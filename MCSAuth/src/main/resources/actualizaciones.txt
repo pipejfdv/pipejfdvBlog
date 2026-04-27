@@ -1,12 +1,6 @@
 Cambios realizados
 
-- Cambio en los tipos de DTO de Guardian, se crea uno público y otro admin
-- CRUD de children, se corrigen los parámetros y el tipo de respuestas por rol
-El update queda pendiente por se debe unir con la otra tabla
-- Se modifica la generación de los UUID, para que quedén de manera automatica en tablas Children y GuardianChildren
-- Se crea la tabla intermedia, es necesario ralizar la asociación en las peticiones como "GetChildrenByGuardian"
-no funcionarán
-- Se modifica el contrato de relationships para que retorne los nombres nada más
+- CRUD de Perfiles completos para el admin y public
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
@@ -14,7 +8,7 @@ no funcionarán
 - Ajustar los tipos de DTO por rol
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
-- Corregir vulnerabilidades del gateway
+- Corregir vulnerabilidades del gateway - password
 - Verificar los paratros enviados en una petición, ya que llegan así {relationship} y debe llegar solo el texto sin llaves
 
 ------ Activaciones por quitar -------
