@@ -67,10 +67,10 @@ public class InsertDB implements CommandLineRunner {
         }
         if(tceClassificationRepository.count() == 0){
             tceClassificationRepository.saveAll(List.of(
-                    new TceClassification("Inicial"),
-                    new TceClassification("Basico"),
-                    new TceClassification("Intermedio"),
-                    new TceClassification("Avanzado")
+                    new TceClassification("Leve - GCS 13-15"),
+                    new TceClassification("Moderado - GCS 9-12"),
+                    new TceClassification("Grave - GCS 3-8"),
+                    new TceClassification("No especificado")
             ));
         }
     }

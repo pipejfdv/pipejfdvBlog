@@ -1,6 +1,7 @@
 Cambios realizados
 
-
+- Se construye sistema de puntos para los juegos y sus tablas den la base de datos
+- Para estructura se crea con arquitectura MVC
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
@@ -10,6 +11,7 @@ Cambios realizados
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
 - Corregir vulnerabilidades del gateway - password
 - pass en MCSYML
+- La excepción "getChildProgres" no está completa porque no maneja el error por "IdNotFound" por Id de categoría
 - Verificar los paratros enviados en una petición, ya que llegan así {relationship} y debe llegar solo el texto sin llaves
 
 ------ Activaciones por quitar -------
