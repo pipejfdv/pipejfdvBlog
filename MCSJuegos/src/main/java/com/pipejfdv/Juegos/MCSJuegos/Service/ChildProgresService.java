@@ -71,16 +71,12 @@ public class ChildProgresService {
 
     // multiplication of score
     private double multiplicationScore(double score, UUID childrenId){
-        /* get type that domain
-        String categoryOfGame = categoryOfGameService.getCategoryOfGame(categoryOfGameId).getName();
-        log.info("Obtuve el dominio del juego:{}", categoryOfGame);*/
-        // identify children
         ChildProgres childProgres = childProgresRepository.findByChildrenId(childrenId)
                 .orElseThrow(() -> new IdNotFound(childrenId));
         log.info("Obtuve el niño: {}", childProgres.getChildrenId());
         // get domain by children
-        String childProgresCategoryOfGame = childProgres.getCategoryOfGame().getName();
-        log.info("Obtuve el dominio del niño frente a ese juego:{}", childProgresCategoryOfGame);
+        /*String childProgresCategoryOfGame = childProgres.getCategoryOfGame().getName();
+        log.info("Obtuve el dominio del niño frente a ese juego:{}", childProgresCategoryOfGame);*/
         // get level by children
         String childProgresLevel = childProgres.getLevel().name();
         log.info("Obtuve el nivel de ese dominio del niño:{}", childProgresLevel);
@@ -93,7 +89,7 @@ public class ChildProgresService {
             default -> score * 0.0;
         };
     }
-
+    // get penalty
     private double penalty(double score, int attempts){
         return switch (attempts) {
             case 2 -> score + (((score * 80) / 100) - score); // 80% of the total score
@@ -103,7 +99,7 @@ public class ChildProgresService {
             default -> score;
         };
     }
-
+    // get next level
     private levelDomain.level nextLevel(double finalXp){
         if(finalXp > levelBeginner){
             return levelDomain.level.Basico;

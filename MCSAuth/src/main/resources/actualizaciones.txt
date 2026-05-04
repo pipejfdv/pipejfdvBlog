@@ -1,7 +1,6 @@
 Cambios realizados
 
-- Se construye sistema de puntos para los juegos y sus tablas den la base de datos
-- Para estructura se crea con arquitectura MVC
+- Se identifica error de generación de ID para MCSJuegos y se corrige
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
@@ -18,3 +17,4 @@ Cambios realizados
 - Activado el Debug del autoservicio de seguridad
 - Activado debug gateway
     verificar información del yml
+- Activado el debug de MCSJuegos

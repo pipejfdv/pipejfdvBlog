@@ -2,6 +2,8 @@ package com.pipejfdv.Juegos.MCSJuegos.Model.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -13,6 +15,7 @@ import java.util.UUID;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(SqlTypes.CHAR)
     @Column(columnDefinition = "CHAR(36)",nullable = false, updatable = false)
     private UUID id;
     @Column(nullable = false)
@@ -23,6 +26,7 @@ public class Game {
     @JoinColumn(name = "category_of_game")
     private CategoryOfGame categoryOfGames;
 
+    // relation 1:1 with GameStat
     @OneToOne(targetEntity = GameStat.class, fetch = FetchType.EAGER)
     private GameStat gameStat;
 
