@@ -134,4 +134,14 @@ public class ChildrenController implements ChildrenContract.View{
                 HttpStatus.OK.value()
         ));
     }
+
+    /*
+    * This method is used to get children by id in MCSJuegos
+    * @param childrenId
+    * @return ResponseEntity<ApiResponseOK<ChildrenPublicDTO>>
+    * */
+    @GetMapping("/children/getPublic/games/{childrenId}")
+    public ChildrenPublicDTO getChildrenPublicGames(@PathVariable UUID childrenId) {
+        return childrenPresenter.getChildrenPublic(childrenId);
+    }
 }

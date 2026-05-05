@@ -4,6 +4,8 @@ import com.pipejfdv.Juegos.MCSJuegos.ComunicatiosMCS.FunnyMindDB;
 import com.pipejfdv.Juegos.MCSJuegos.Exceptions.IdNotFound;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.Game;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.GameStat;
+import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.ChildDTO;
+import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.GameStatsDTO;
 import com.pipejfdv.Juegos.MCSJuegos.Repositories.GameRepository;
 import com.pipejfdv.Juegos.MCSJuegos.Repositories.GameStatsRepository;
 import org.springframework.stereotype.Service;
@@ -25,27 +27,55 @@ public class GameStatService {
     }
     //---------CRUD---------
     // Create
-    public GameStat createGameStats(GameStat gameStats) {
+    public GameStatsDTO createGameStats(GameStat gameStats) {
         try {
-            funnyMindDB.getChildren(gameStats.getChildrenId());
+            ChildDTO children = funnyMindDB.getChildren(gameStats.getChildrenId());
+            Game game = gameRepository.findById(gameStats.getGame().getId())
+                    .orElseThrow(() -> new IdNotFound(gameStats.getGame().getId()));
+            GameStat savedGameStat = gameStatRepository.save(new GameStat(
+                    gameStats.getTotalScore(),
+                    gameStats.getBestScore(),
+                    game,
+                    children.getId()
+            ));
+            return new GameStatsDTO(
+                    savedGameStat.getId(),
+                    children.getId(),
+                    children.getNames(),
+                    savedGameStat.getGame().getId(),
+                    game.getName(),
+                    savedGameStat.getTotalScore(),
+                    savedGameStat.getBestScore(),
+                    savedGameStat.getLastPlay()
+            );
         } catch (Exception e) {
-            throw new IdNotFound(gameStats.getChildrenId());
+            throw new RuntimeException("error: " + e);
         }
-        return gameStatRepository.save(gameStats);
     }
 
     // Read - it's just for game
-    public GameStat getGameStats(UUID childrenId, UUID gameId) {
+    public GameStatsDTO getGameStats(UUID childrenId, UUID gameId) {
         Game game = gameRepository.findById(gameId).orElseThrow(() -> new IdNotFound(gameId));
-        return gameStatRepository.findByChildrenIdAndGame(childrenId, game)
+        GameStat gameStat = gameStatRepository.findByChildrenIdAndGame(childrenId, game)
                 .orElseThrow(() -> new IdNotFound(childrenId));
+        ChildDTO children = funnyMindDB.getChildren(gameStat.getChildrenId());
+        return new GameStatsDTO(
+                gameStat.getId(),
+                gameStat.getChildrenId(),
+                children.getNames(),
+                gameStat.getGame().getId(),
+                game.getName(),
+                gameStat.getTotalScore(),
+                gameStat.getBestScore(),
+                gameStat.getLastPlay()
+        );
     }
 
     // update
-    public GameStat updateGameStats(UUID childrenId, UUID gameId, GameStat gameStats) {
+    public GameStatsDTO updateGameStats(UUID childrenId, UUID gameId, GameStat gameStats) {
+        ChildDTO children;
         try {
-            funnyMindDB.getChildren(childrenId);
-
+            children = funnyMindDB.getChildren(childrenId);
         } catch (Exception e) {
             throw new IdNotFound(childrenId);
         }
@@ -56,6 +86,16 @@ public class GameStatService {
         if (gameStat.getBestScore() < gameStats.getBestScore()){
             gameStat.setBestScore(gameStats.getBestScore());
         }
-        return gameStatRepository.save(gameStats);
+        GameStat updateGameStat = gameStatRepository.save(gameStat);
+        return new GameStatsDTO(
+                updateGameStat.getId(),
+                updateGameStat.getChildrenId(),
+                children.getNames(),
+                updateGameStat.getGame().getId(),
+                game.getName(),
+                updateGameStat.getTotalScore(),
+                updateGameStat.getBestScore(),
+                updateGameStat.getLastPlay()
+        );
     }
 }

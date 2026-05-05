@@ -24,7 +24,7 @@ public class GameStat {
     private UUID id;
     @Convert(converter = DurationConverter.class)
     @Column(nullable = false)
-    private Duration totalPlayTime;
+    private Duration totalPlayTime = Duration.ZERO;
     @Column(nullable = false)
     private long totalScore;
     @Column(nullable = false)
@@ -39,6 +39,13 @@ public class GameStat {
     // relation 1:* with MCSUsersFM - Children
     @Column(nullable = false)
     private UUID childrenId;
+
+    public GameStat(long totalScore, long bestScore, Game game, UUID childrenId) {
+        this.totalScore = totalScore;
+        this.bestScore = bestScore;
+        this.game = game;
+        this.childrenId = childrenId;
+    }
 
     @PrePersist
     public void prePersist() {

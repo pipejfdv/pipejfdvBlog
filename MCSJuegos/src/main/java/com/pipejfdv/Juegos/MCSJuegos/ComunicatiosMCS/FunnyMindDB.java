@@ -17,6 +17,6 @@ public interface FunnyMindDB {
     /*
     *   Method take data of user
     */
-    @GetMapping("/MCSgames/child/{childrenId}")
+    @GetMapping("/children/getPublic/games/{childrenId}")
     ChildDTO getChildren(@PathVariable UUID childrenId);
 }
