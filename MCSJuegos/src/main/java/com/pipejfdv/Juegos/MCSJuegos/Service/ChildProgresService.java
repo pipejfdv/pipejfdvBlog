@@ -5,6 +5,7 @@ import com.pipejfdv.Juegos.MCSJuegos.Exceptions.IdNotFound;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.CategoryOfGame;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.ChildProgres;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.levelDomain;
+import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.CategoryOfGameDTO;
 import com.pipejfdv.Juegos.MCSJuegos.Repositories.ChildProgresRepository;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class ChildProgresService {
     private double scoreForGame(UUID categoryOfGameId,
                                 int totalItems, int correctAnswer, int mistakes,
                                 Duration timeTaken, Duration maxTime){
-        CategoryOfGame categoryOfGame = categoryOfGameService.getCategoryOfGame(categoryOfGameId);
+        CategoryOfGameDTO categoryOfGame = categoryOfGameService.getCategoryOfGame(categoryOfGameId);
         if(categoryOfGame.getName().equals("FUNCIÓN EJECUTIVA") || categoryOfGame.getName().equals("MEMORIA Y ATENCIÓN")){
             double score = (double) (correctAnswer / totalItems)*100 - mistakes * 4.2;
             return (score > 30)
