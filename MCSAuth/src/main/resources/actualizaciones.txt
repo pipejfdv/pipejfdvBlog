@@ -1,7 +1,8 @@
 Cambios realizados
 
-- Controller de GameStats se implementó
-- Petición en MCSUsersFM Children se agregó la petición especial para MCSJuegos
+- Controller de categoryOfGames se implementó
+- Controller de ChildProgress se implementó
+- Implementación de entidades de DTO para controlar información de salida
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones

@@ -13,7 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "child_progres")
+@Table(name = "child_progres",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"children_id", "category_of_game"}))
 public class ChildProgres {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,7 +23,8 @@ public class ChildProgres {
     private UUID id;
     @Column(nullable = false)
     private double xp = 0;
-    @Column(nullable = false)
+    // configuration is ChildProgresService
+    @Column(name = "attempts_daily")
     private int attemptsDaily = 0;
 
     @Enumerated(EnumType.STRING)
@@ -37,4 +39,11 @@ public class ChildProgres {
     // relation 1:* with MCSUsersFM - Children
     @Column(nullable = false)
     private UUID childrenId;
+
+    public ChildProgres(levelDomain.level level, double xp, CategoryOfGame categoryOfGame, UUID childrenId) {
+        this.level = level;
+        this.xp = xp;
+        this.categoryOfGame = categoryOfGame;
+        this.childrenId = childrenId;
+    }
 }

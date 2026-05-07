@@ -2,10 +2,12 @@ package com.pipejfdv.Juegos.MCSJuegos.Service;
 
 import com.pipejfdv.Juegos.MCSJuegos.ComunicatiosMCS.FunnyMindDB;
 import com.pipejfdv.Juegos.MCSJuegos.Exceptions.IdNotFound;
-import com.pipejfdv.Juegos.MCSJuegos.Model.Models.CategoryOfGame;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.ChildProgres;
+import com.pipejfdv.Juegos.MCSJuegos.Model.Models.ProgressParameterPackage;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.levelDomain;
 import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.CategoryOfGameDTO;
+import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.ChildDTO;
+import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.ChildProgressDTO;
 import com.pipejfdv.Juegos.MCSJuegos.Repositories.ChildProgresRepository;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Slf4j
@@ -71,14 +72,10 @@ public class ChildProgresService {
     }
 
     // multiplication of score
-    private double multiplicationScore(double score, UUID childrenId){
-        ChildProgres childProgres = childProgresRepository.findByChildrenId(childrenId)
+    private double multiplicationScore(double score, UUID childrenId, UUID categoryOfGameId){
+        ChildProgres childProgres = childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId)
                 .orElseThrow(() -> new IdNotFound(childrenId));
         log.info("Obtuve el niño: {}", childProgres.getChildrenId());
-        // get domain by children
-        /*String childProgresCategoryOfGame = childProgres.getCategoryOfGame().getName();
-        log.info("Obtuve el dominio del niño frente a ese juego:{}", childProgresCategoryOfGame);*/
-        // get level by children
         String childProgresLevel = childProgres.getLevel().name();
         log.info("Obtuve el nivel de ese dominio del niño:{}", childProgresLevel);
         return switch (childProgresLevel) {
@@ -102,30 +99,50 @@ public class ChildProgresService {
     }
     // get next level
     private levelDomain.level nextLevel(double finalXp){
-        if(finalXp > levelBeginner){
-            return levelDomain.level.Basico;
-        } else if (finalXp > levelBasic) {
-            return levelDomain.level.Intermedio;
-        } else if (finalXp > levelIntermediate) {
+        if(finalXp >= levelExpert){
+            return levelDomain.level.Experto;
+        } else if (finalXp >= levelAdvanced) {
             return levelDomain.level.Avanzado;
-        } else if (finalXp > levelAdvanced) {
-            return levelDomain.level.Experto;
-        } else if (finalXp > levelExpert){
-            return levelDomain.level.Experto;
+        } else if (finalXp >= levelIntermediate) {
+            return levelDomain.level.Intermedio;
+        } else if (finalXp >= levelBasic) {
+            return levelDomain.level.Basico;
+        } else if (finalXp >= levelBeginner) {
+            return levelDomain.level.Basico;
         } else {
             return levelDomain.level.Inicial;
         }
     }
+    // validation if ChildProgres already exists
+    public boolean existsChildProgres(UUID childrenId, UUID categoryOfGameId) {
+        return childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId).isPresent();
+    }
     //-------------------CRUD-------------------
     // Create
-    public ChildProgres createChildProgres(ChildProgres childProgres) throws IdNotFound {
+    public ChildProgressDTO createChildProgres(ProgressParameterPackage params) throws IdNotFound {
+        ChildDTO child = null;
         try {
-            funnyMindDB.getChildren(childProgres.getChildrenId());
+            child = funnyMindDB.getChildren(params.getChildProgres().getChildrenId());
         }
         catch (FeignException.NotFound e) {
-            throw new IdNotFound(childProgres.getChildrenId());
+            throw new IdNotFound(params.getChildProgres().getChildrenId());
         }
-        return childProgresRepository.save(childProgres);
+        double score = scoreForGame(params.getChildProgres().getCategoryOfGame().getId(), params.getTotalItems(),
+                params.getCorrectAnswer(), params.getMistakes(), params.getTimeTaken(), params.getMaxTime());
+        double xp = calculateScore(score);
+        ChildProgres childProgres = childProgresRepository.save(new ChildProgres(
+                params.getChildProgres().getLevel(),
+                xp,
+                params.getChildProgres().getCategoryOfGame(),
+                child.getId()
+        ));
+        return new ChildProgressDTO(
+                childProgres.getId(),
+                childProgres.getXp(),
+                childProgres.getAttemptsDaily(),
+                childProgres.getLevel(),
+                childProgres.getChildrenId()
+        );
     }
 
     // Read only one
@@ -135,21 +152,26 @@ public class ChildProgresService {
     }
 
     // update by game
-    public ChildProgres updateChildProgres(UUID childrenId, UUID categoryOfGameId,
-                                           int correctAnswer, int totalItems, int mistakes,
-                                           Duration timeTaken, Duration maxTime,
-                                           int attempts) throws IdNotFound {
-        //validate score is biggest that 30 and value
-        double score = scoreForGame(categoryOfGameId, totalItems, correctAnswer, mistakes, timeTaken, maxTime);
+    public ChildProgressDTO updateChildProgres(ProgressParameterPackage params) throws IdNotFound {
+        double score = scoreForGame(params.getChildProgres().getCategoryOfGame().getId(), params.getTotalItems(),
+                params.getCorrectAnswer(), params.getMistakes(), params.getTimeTaken(), params.getMaxTime());
         double xp = calculateScore(score);
-        double xpTotal = multiplicationScore(xp, childrenId);
-        ChildProgres childProgres = childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId)
-                .orElseThrow(() -> new IdNotFound(childrenId));
-        childProgres.setAttemptsDaily(attempts);
+        double xpTotal = multiplicationScore(xp, params.getChildProgres().getChildrenId(), params.getChildProgres().getCategoryOfGame().getId());
+        ChildProgres childProgres = childProgresRepository.findByChildrenIdAndCategoryOfGameId(
+                params.getChildProgres().getChildrenId(), params.getChildProgres().getCategoryOfGame().getId())
+                .orElseThrow(() -> new IdNotFound(params.getChildProgres().getChildrenId()));
+        childProgres.setAttemptsDaily(childProgres.getAttemptsDaily()+1);
         double finalXp = penalty(xpTotal , childProgres.getAttemptsDaily()) + childProgres.getXp();
         childProgres.setLevel(nextLevel(finalXp));
         childProgres.setXp(finalXp);
-        return childProgresRepository.save(childProgres);
+        ChildProgres updateChild = childProgresRepository.save(childProgres);
+        return new ChildProgressDTO(
+                updateChild.getId(),
+                updateChild.getXp(),
+                updateChild.getAttemptsDaily(),
+                updateChild.getLevel(),
+                updateChild.getChildrenId()
+        );
     }
 
 
