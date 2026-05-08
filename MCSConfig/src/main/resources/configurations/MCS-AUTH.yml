@@ -18,7 +18,7 @@ jwt:
   secret: ${JWT_SECRET:dX3kRg9UznX3R8fCgekVYTNDpmk7w34tuepf5E/ZjT6Mtms+=8vSbwSX=e+/E1}
   expiration: ${JWT_EXPIRATION:86400000} # a day
   refresh-expiration:
-    expiration: ${JWT_REFRESH_EXPIRATION:604800000} # 7 day
+    expiration: ${JWT_REFRESH_EXPIRATION:259200000} # 3 day
 
 eureka:
   instance:

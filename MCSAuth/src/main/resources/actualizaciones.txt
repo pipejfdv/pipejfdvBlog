@@ -1,15 +1,12 @@
 Cambios realizados
 
-- Creación de variables de entorno
+- Se cambió el tiempo de expiración del token a 3 días
 ----- Observaciones & Tareas pendientes -----
-- Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
-- Centralizar la clave del token
 - Ajustar los tipos de DTO por rol /50%
 - Es necesario implementar el cambio de tipo de cuenta para el usuario
-- Cambiar el tiempo de expiración del token a 3 días
 - Actualizar los datos del Guardian
-- Al eliminar al niño por el token no esta buscando al Guardian
+- Al eliminar al niño por el token no está buscando al Guardian
 ----- Bugs ------
 - Verificar los parámetros enviados en una petición, ya que llegan así {relationship} y debe llegar solo el texto sin
 llaves
