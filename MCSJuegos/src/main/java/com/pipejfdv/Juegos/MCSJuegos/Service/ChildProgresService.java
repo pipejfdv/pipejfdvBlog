@@ -146,9 +146,16 @@ public class ChildProgresService {
     }
 
     // Read only one
-    public ChildProgres getChildProgres(UUID childrenId, UUID categoryOfGameId) throws IdNotFound {
-        return childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId)
+    public ChildProgressDTO getChildProgres(UUID childrenId, UUID categoryOfGameId) throws IdNotFound {
+        ChildProgres childProgres = childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId)
                 .orElseThrow(()-> new IdNotFound(childrenId));
+        return new ChildProgressDTO(
+                childProgres.getId(),
+                childProgres.getXp(),
+                childProgres.getAttemptsDaily(),
+                childProgres.getLevel(),
+                childProgres.getChildrenId()
+        );
     }
 
     // update by game

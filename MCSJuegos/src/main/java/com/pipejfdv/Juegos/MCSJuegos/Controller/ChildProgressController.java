@@ -2,11 +2,9 @@ package com.pipejfdv.Juegos.MCSJuegos.Controller;
 
 import com.pipejfdv.Juegos.MCSJuegos.Controller.ResponsesHTTP.OK.ResponseOk;
 import com.pipejfdv.Juegos.MCSJuegos.Exceptions.IdNotFound;
-import com.pipejfdv.Juegos.MCSJuegos.Model.Models.ChildProgres;
 import com.pipejfdv.Juegos.MCSJuegos.Model.Models.ProgressParameterPackage;
 import com.pipejfdv.Juegos.MCSJuegos.Model.ModelsDTO.ChildProgressDTO;
 import com.pipejfdv.Juegos.MCSJuegos.Service.ChildProgresService;
-import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +41,12 @@ public class ChildProgressController {
         }
     }
 
+    @GetMapping("/progress/{childId}/{categoryOfGameId}")
+    public ResponseEntity<ResponseOk<ChildProgressDTO>> getProgress(@PathVariable UUID childId, @PathVariable UUID categoryOfGameId){
+        return ResponseEntity.ok(new ResponseOk<>(
+                "get success",
+                childProgresService.getChildProgres(childId, categoryOfGameId),
+                HttpStatus.OK.value()
+        ));
+    }
 }
