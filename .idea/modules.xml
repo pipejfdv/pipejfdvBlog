@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MCSJuegos/MCSJuegos.iml" filepath="$PROJECT_DIR$/MCSJuegos/MCSJuegos.iml" />
       <module fileurl="file://$PROJECT_DIR$/MCSUsersFM/MCSUsersFM.iml" filepath="$PROJECT_DIR$/MCSUsersFM/MCSUsersFM.iml" />
     </modules>
   </component>
