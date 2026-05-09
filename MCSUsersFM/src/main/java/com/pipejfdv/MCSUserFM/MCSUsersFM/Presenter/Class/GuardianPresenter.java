@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class GuardianPresenter implements GuardianContract.Presenter {
@@ -66,8 +65,9 @@ public class GuardianPresenter implements GuardianContract.Presenter {
     }
 
     @Override
-    public void readyToDeleteGuardian(UUID id) throws IdNotFoundException {
+    public Boolean readyToDeleteGuardian(UUID id) throws IdNotFoundException {
         guardianServices.deleteGuardian(id);
+        return true;
     }
 
     @Override
@@ -76,12 +76,21 @@ public class GuardianPresenter implements GuardianContract.Presenter {
     }
 
     @Override
-    public Guardian readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException {
-        return guardianServices.updateGuardian(id, guardian);
+    public GuardianPublicDTO readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException {
+        Guardian newGuardian = guardianServices.updateGuardian(id, guardian);
+        return new GuardianPublicDTO(
+                newGuardian.getId(),
+                newGuardian.getName(),
+                newGuardian.getLastname(),
+                newGuardian.getPhone(),
+                newGuardian.getBiography(),
+                newGuardian.getUser().getEmail()
+        );
     }
 
     @Override
-    public Guardian readyToSearchGuardianForUserId(User idUSer){
+    public Guardian readyToSearchGuardianForUserId(User idUSer) {
         return guardianServices.searchGuardianForUserId(idUSer);
     }
+
 }

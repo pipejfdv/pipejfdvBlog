@@ -1,13 +1,29 @@
 Cambios realizados
 
+<<<<<<< Updated upstream
 - Controller de categoryOfGames se implementó
 - Controller de ChildProgress se implementó
 - Implementación de entidades de DTO para controlar información de salida
+=======
+- Método de update por Guardian se completa
+- Método de delete por Guardian se completa
+- Se eliminan dependencias del méto get Guardian, para que sean consultas al repositorio directamente
+- Eliminado el método de búsqueda de Guardian por ID de usuario, ya que se tiene el método get
+- Modificación en los nombres de los métodos update y deleted de Guardian
+>>>>>>> Stashed changes
 ----- Observaciones & Tareas pendientes -----
 - Es necesario aprender usar variables de entorno, se expuso clave jwt, se debe cambiar
 - Realizar pruebas de rendimiento y carga para las peticiones
+<<<<<<< Updated upstream
 - Centralizar la clave del token
 - Ajustar los tipos de DTO por rol
+=======
+- Ajustar los tipos de DTO por rol /50%
+- Es necesario implementar el cambio de tipo de cuenta para el usuario
+- Actualizar los datos del Guardian
+- Al eliminar al niño por el token no está buscando al Guardian
+- Modificar los roles de los usuarios
+>>>>>>> Stashed changes
 ----- Bugs ------
 - Se identifica que el usuario se crea sin rol, es necesario especificar o que rechace el registro
 - Corregir vulnerabilidades del gateway - password

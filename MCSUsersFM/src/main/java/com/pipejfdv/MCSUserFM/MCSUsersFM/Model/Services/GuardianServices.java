@@ -62,13 +62,17 @@ public class GuardianServices implements GuardianContract.Model {
 
     @Override
     public void deleteGuardian(UUID id) throws IdNotFoundException {
-        Guardian guardian = getGuardian(id);
+        Guardian guardian = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+        User user = guardian.getUser();
         repository.delete(guardian);
+        if (user != null) {
+            userRepository.delete(user);
+        }
     }
 
     @Override
     public Guardian updateGuardian(UUID id, Guardian guardian) throws IdNotFoundException {
-        Guardian oldGuardian = getGuardian(id);
+        Guardian oldGuardian = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
         oldGuardian.setName(guardian.getName());
         oldGuardian.setLastname(guardian.getLastname());
         oldGuardian.setPhone(guardian.getPhone());
