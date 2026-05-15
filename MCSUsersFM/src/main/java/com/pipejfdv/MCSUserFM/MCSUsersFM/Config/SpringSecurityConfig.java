@@ -35,7 +35,12 @@ public class SpringSecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/funnyMind/**").permitAll()
+                        .requestMatchers("/funnyMind/User/create/**", "/funnyMind/User/Auth/**").permitAll()
+                        .requestMatchers("/funnyMind/User/userData/**",
+                                "/funnyMind/User/delete/**", "/funnyMind/User/update/**").hasAnyRole("FMAdmin",
+                                "PremiumUser", "DemoUser", "Medic")
+                        .requestMatchers("/funnyMind/User/list").hasAnyRole("FMAdmin")
+                        .requestMatchers("/funnyMind").hasAnyRole("Medic")
                         .anyRequest().denyAll()
                 )
                 .sessionManagement(session -> session

@@ -1,6 +1,7 @@
 Cambios realizados
 
-- Se cambió el tiempo de expiración del token a 3 días
+- Cambio de nombre del rol Admin por FMAdmin
+- Ajuste de rutas por rol en UserController
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Ajustar los tipos de DTO por rol /50%
@@ -11,6 +12,8 @@ Cambios realizados
 - Verificar los parámetros enviados en una petición, ya que llegan así {relationship} y debe llegar solo el texto sin
 llaves
 - El token sigue activo a pesar de cerrar sesión
+- La ruta "@GetMapping("/User/Auth/info/{username}")" queda desprotegida, es necesario manejar roles entre MCS
+Afectación en seguridad
 
 ------ Activaciones por quitar -------
 - Activado el Debug del autoservicio de seguridad
