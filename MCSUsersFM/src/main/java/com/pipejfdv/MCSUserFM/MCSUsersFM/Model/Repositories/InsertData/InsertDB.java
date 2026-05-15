@@ -39,7 +39,7 @@ public class InsertDB implements CommandLineRunner {
             accountTypeRepository.saveAll(List.of(
                     new AccountType("DemoUser"),
                     new AccountType("PremiumUser"),
-                    new AccountType("Admin"),
+                    new AccountType("FMAdmin"),
                     new AccountType("Medic"),
                     new AccountType("Analyst")
             ));

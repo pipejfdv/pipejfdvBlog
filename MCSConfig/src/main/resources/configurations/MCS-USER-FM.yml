@@ -1,13 +1,13 @@
 server:
-  port: 8090
+  port: ${USER_FM_SERVER_PORT:8090}
 spring:
   application:
     name: MCS-USER-FM
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3310/DBPruebasFM
-    username: devuser
-    password: devpass
+    url: ${USER_FM_DB_URL:jdbc:mysql://localhost:3310/DBPruebasFM}
+    username: ${USER_FM_DB_USERNAME:devuser}
+    password: ${USER_FM_DB_PASSWORD:devpass}
   jpa:
     hibernate:
       ddl-auto: create
@@ -15,7 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_HOSTNAME:localhost}
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka}
