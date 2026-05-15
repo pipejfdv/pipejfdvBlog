@@ -1,5 +1,6 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Config.JwtUtils;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Guardian;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.GuardianPublicDTO;
@@ -22,9 +23,13 @@ import java.util.UUID;
 public class GuardianController implements GuardianContract.View {
     private final GuardianPresenter guardianPresenter;
     private final UserPresenter userPresenter;
-    public GuardianController(GuardianPresenter guardianPresenter, UserPresenter userPresenter) {
+    private final JwtUtils jwtUtils;
+    public GuardianController(GuardianPresenter guardianPresenter,
+                              UserPresenter userPresenter,
+                              JwtUtils jwtUtils) {
         this.guardianPresenter = guardianPresenter;
         this.userPresenter = userPresenter;
+        this.jwtUtils = jwtUtils;
     }
 
     // Endpoint para User y Therapist - retorna GuardianPublicDTO
@@ -83,26 +88,24 @@ public class GuardianController implements GuardianContract.View {
     }
 
     @Override
-    @DeleteMapping("/Guardian/delete/{id}")
-    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showDeleteGuardian(@PathVariable UUID id) {
-        guardianPresenter.readyToDeleteGuardian(id);
-        // Usamos readyGuardianAdmin para obtener todos los datos antes de eliminar
-        GuardianAdminDTO guardianAdminDTO = guardianPresenter.readyGuardianAdmin(id);
-        // Convertimos a GuardianPublicDTO para mantener compatibilidad con la respuesta esperada
-        GuardianPublicDTO guardianDTO = new GuardianPublicDTO(
-                guardianAdminDTO.getId(),
-                guardianAdminDTO.getName(),
-                guardianAdminDTO.getLastname(),
-                guardianAdminDTO.getPhone(),
-                guardianAdminDTO.getBiography(),
-                guardianAdminDTO.getEmail()
-        );
+    @DeleteMapping("/Guardian/delete")
+    public ResponseEntity<ApiResponseOK<Boolean>> deleteGuardian(
+            @RequestParam(value = "id", required = false) String id,
+            Authentication authentication) {
+        UUID targetId;
+        if (id == null || id.isBlank()){
+            User user = userPresenter.readyUser(UUID.fromString(((JwtAuthenticationToken) authentication).getToken().getId()));
+            targetId = guardianPresenter.readyToSearchGuardianForUserId(user).getId();
+        } else {
+            targetId = UUID.fromString(id);
+        }
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "guardian & user delete",
-                guardianDTO,
+                guardianPresenter.readyToDeleteGuardian(targetId),
                 HttpStatus.OK.value()
         ));
     }
+    // Create Guardian
     @PostMapping("/Guardian/create/{idUserAssignment}/{typeDocument}")
     @Override
     public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> createGuardian(
@@ -125,16 +128,24 @@ public class GuardianController implements GuardianContract.View {
         ));
     }
 
+    // Edit Guardian
     @Override
-    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showEditGuardian(UUID id, Guardian guardian) {
-        return null;
-    }
-
-    /*
-     *  search for guardian using user ID
-     */
-    @Override
-    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showToSearchGuardianForUserId(User userId) {
-        return null;
+    @PutMapping("/Guardian/edit")
+    public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> editGuardian(
+            @RequestParam(name = "id", required = false) String id,
+            @RequestBody Guardian guardian,
+            Authentication authentication) {
+        UUID targetId;
+        if (id == null || id.isBlank()){
+            User user = userPresenter.readyUser(UUID.fromString(((JwtAuthenticationToken) authentication).getToken().getId()));
+            targetId = guardianPresenter.readyToSearchGuardianForUserId(user).getId();
+        } else {
+            targetId = UUID.fromString(id);
+        }
+        return ResponseEntity.ok(new ApiResponseOK<>(
+                "guardian edited",
+                guardianPresenter.readyToUpdateUser(targetId, guardian),
+                HttpStatus.OK.value()
+        ));
     }
 }

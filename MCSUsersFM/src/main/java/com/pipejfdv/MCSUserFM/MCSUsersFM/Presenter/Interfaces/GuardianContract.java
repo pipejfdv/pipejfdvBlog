@@ -17,10 +17,9 @@ import java.util.UUID;
 public interface GuardianContract {
     interface View{
         ResponseEntity<ApiResponseOK<List<GuardianPublicDTO>>> showGuardians();
-        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showDeleteGuardian(UUID id);
+        ResponseEntity<ApiResponseOK<Boolean>> deleteGuardian(String id, Authentication authentication);
         ResponseEntity<ApiResponseOK<GuardianPublicDTO>> createGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument);
-        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showEditGuardian(UUID id, Guardian guardian);
-        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showToSearchGuardianForUserId (User userId);
+        ResponseEntity<ApiResponseOK<GuardianPublicDTO>> editGuardian(String id, Guardian guardian, Authentication authentication);
         
         // Nuevos métodos específicos por rol
         ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showGuardianPublic(String idSearch, Authentication authentication);
@@ -29,9 +28,9 @@ public interface GuardianContract {
 
     interface Presenter{
         List<GuardianPublicDTO> readyGuardians();
-        void readyToDeleteGuardian(UUID id) throws IdNotFoundException;
+        Boolean readyToDeleteGuardian(UUID id) throws IdNotFoundException;
         Guardian readyToCreateUser(Guardian guardian, UUID idUserAssignment, UUID typeDocument) throws DuplicateElementException;
-        Guardian readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException;
+        GuardianPublicDTO readyToUpdateUser(UUID id, Guardian guardian) throws IdNotFoundException;
         // search for guardian using user ID
         Guardian readyToSearchGuardianForUserId(User idUSer);
         
