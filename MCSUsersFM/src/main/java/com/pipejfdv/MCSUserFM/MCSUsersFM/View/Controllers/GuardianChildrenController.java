@@ -32,7 +32,7 @@ public class GuardianChildrenController implements GuardianChildrenContract.View
                 )
         );
     }
-
+    // this method update the relationship between guardian and child
     @Override
     @PutMapping("/guardianChildren/update/{guardianChildId}/{relationshipId}")
     public ResponseEntity<ApiResponseOK<String>> updateGuardianChildren(

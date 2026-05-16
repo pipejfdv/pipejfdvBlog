@@ -21,7 +21,7 @@ public class TceClassificationController implements TCEClassificationContract.Vi
     }
 
     @Override
-    @GetMapping("/tceClassification/{id}")
+    @GetMapping("/tceClassification/type/{id}")
     public ResponseEntity<ApiResponseOK<TceClassification>> getTCEClassification(@PathVariable UUID id) {
         return ResponseEntity.ok(new ApiResponseOK<>("Type of classification TCE", tceClassificationPresenter.getTCEClassification(id), HttpStatus.OK.value()));
     }
@@ -33,7 +33,7 @@ public class TceClassificationController implements TCEClassificationContract.Vi
     }
 
     @Override
-    @PutMapping("/tceClassification/{id}/{classification}")
+    @PutMapping("/tceClassification/update/{id}/{classification}")
     public ResponseEntity<ApiResponseOK<TceClassification>> updateTCEClassification(@PathVariable UUID id,@PathVariable String classification) {
         return ResponseEntity.ok(new ApiResponseOK<>("Update of classification TCE", tceClassificationPresenter.updateTCEClassification(id, classification), HttpStatus.OK.value()));
     }

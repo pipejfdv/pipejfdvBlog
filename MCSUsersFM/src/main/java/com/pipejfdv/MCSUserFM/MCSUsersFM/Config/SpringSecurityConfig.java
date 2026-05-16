@@ -35,12 +35,40 @@ public class SpringSecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/funnyMind/User/create/**", "/funnyMind/User/Auth/**").permitAll()
-                        .requestMatchers("/funnyMind/User/userData/**",
-                                "/funnyMind/User/delete/**", "/funnyMind/User/update/**").hasAnyRole("FMAdmin",
-                                "PremiumUser", "DemoUser", "Medic")
-                        .requestMatchers("/funnyMind/User/list").hasAnyRole("FMAdmin")
-                        .requestMatchers("/funnyMind").hasAnyRole("Medic")
+                        // public paths
+                        .requestMatchers("/funnyMind/User/create/**",
+                                "/funnyMind/User/Auth/**",
+                                "/funnyMind/DT/List", "/funnyMind/DT/Document",
+                                "/funnyMind/tceClassification/list").permitAll()
+
+                        // mix paths (DemoUser, PremiumUser, FMAdmin, Medic)
+                        .requestMatchers(
+                                "/funnyMind/User/userData/**",
+                                "/funnyMind/User/delete/**",
+                                "/funnyMind/User/update/**",
+                                "/funnyMind/Guardian/public",
+                                "/funnyMind/Guardian/delete",
+                                "/funnyMind/Guardian/create/**",
+                                "/funnyMind/Guardian/edit",
+                                "/funnyMind/tceClassification/type/**"
+                        ).hasAnyRole("DemoUser", "PremiumUser", "FMAdmin", "Medic")
+                        // protected paths DemoUser & PremiumUser
+                        .requestMatchers(
+                                "/funnyMind/guardianChildren/**"
+                        ).hasAnyRole("DemoUser", "PremiumUser")
+                        // protected paths Admin
+                        .requestMatchers(
+                                "/funnyMind/User/list",
+                                "/funnyMind/Guardian/admin",
+                                "/funnyMind/Guardian/list",
+                                "/funnyMind/DT/**",
+                                "/funnyMind/guardianChildren/**",
+                                "/funnyMind/tceClassification/**"
+                        ).hasAnyRole("FMAdmin")
+
+                        // protected paths Medic (sin rutas exclusivas → "")
+                        .requestMatchers("/funnyMind/tceClassification/**").hasAnyRole("Medic")
+
                         .anyRequest().denyAll()
                 )
                 .sessionManagement(session -> session

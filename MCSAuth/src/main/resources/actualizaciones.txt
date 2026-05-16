@@ -1,11 +1,12 @@
 Cambios realizados
 
-- Cambio de nombre del rol Admin por FMAdmin
-- Ajuste de rutas por rol en UserController
+- Rutas aseguradas de DT (Document Type) y Guardian
+- Rutas aseguradas de TCE Classification y se modifica para separarlas de los usuarios
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token
 - Ajustar los tipos de DTO por rol
+- Crear comentarios
 ----- Bugs ------
 - Verificar los parámetros enviados en una petición, ya que llegan así {relationship} y debe llegar solo el texto sin
 llaves
