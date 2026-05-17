@@ -1,0 +1,194 @@
+version: '3.8'
+
+services:
+  # === BASES DE DATOS ===
+  mysql-users:
+    image: mysql:8.0
+    container_name: mysql-users
+    environment:
+      MYSQL_DATABASE: DBPruebasFM
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - funny-mind-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-auth:
+    image: postgres:15-alpine
+    container_name: postgres-auth
+    environment:
+      POSTGRES_DB: auth_token_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+    networks:
+      - funny-mind-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-juegos:
+    image: postgres:15-alpine
+    container_name: postgres-juegos
+    environment:
+      POSTGRES_DB: juegosdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_juegos_data:/var/lib/postgresql/data
+    networks:
+      - funny-mind-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # === MICROSERVICIOS ===
+  mcs-config:
+    build:
+      context: .
+      dockerfile: MCSConfig/Dockerfile
+    container_name: mcs-config
+    ports:
+      - "8888:8888"
+    networks:
+      - funny-mind-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mcs-eureka:
+    build:
+      context: .
+      dockerfile: MCSEureka/Dockerfile
+    container_name: mcs-eureka
+    ports:
+      - "8761:8761"
+    depends_on:
+      mcs-config:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER_URL=http://mcs-config:8888
+    networks:
+      - funny-mind-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mcs-gateway:
+    build:
+      context: .
+      dockerfile: MCSGateway/Dockerfile
+    container_name: mcs-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      mcs-eureka:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER_URL=http://mcs-config:8888
+      - EUREKA_HOSTNAME=mcs-gateway
+      - EUREKA_DEFAULT_ZONE=http://mcs-eureka:8761/eureka
+    networks:
+      - funny-mind-net
+
+  mcs-auth:
+    build:
+      context: .
+      dockerfile: MCSAuth/Dockerfile
+    container_name: mcs-auth
+    ports:
+      - "9000:9000"
+    depends_on:
+      mcs-eureka:
+        condition: service_healthy
+      postgres-auth:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER_URL=http://mcs-config:8888
+      - EUREKA_HOSTNAME=mcs-auth
+      - EUREKA_DEFAULT_ZONE=http://mcs-eureka:8761/eureka
+      - AUTH_DB_URL=jdbc:postgresql://postgres-auth:5432/auth_token_db
+      - AUTH_DB_USERNAME=admin
+      - AUTH_DB_PASSWORD=admin123
+    networks:
+      - funny-mind-net
+
+  mcs-users:
+    build:
+      context: .
+      dockerfile: MCSUsersFM/Dockerfile
+    container_name: mcs-users
+    ports:
+      - "8090:8090"
+    depends_on:
+      mcs-eureka:
+        condition: service_healthy
+      mysql-users:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER_URL=http://mcs-config:8888
+      - EUREKA_HOSTNAME=mcs-users
+      - EUREKA_DEFAULT_ZONE=http://mcs-eureka:8761/eureka
+      - USER_FM_DB_URL=jdbc:mysql://mysql-users:3306/DBPruebasFM
+      - USER_FM_DB_USERNAME=admin
+      - USER_FM_DB_PASSWORD=admin123
+    networks:
+      - funny-mind-net
+
+  mcs-juegos:
+    build:
+      context: .
+      dockerfile: MCSJuegos/Dockerfile
+    container_name: mcs-juegos
+    ports:
+      - "8091:8091"
+    depends_on:
+      mcs-eureka:
+        condition: service_healthy
+      postgres-juegos:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - CONFIG_SERVER_URL=http://mcs-config:8888
+      - EUREKA_HOSTNAME=mcs-juegos
+      - EUREKA_DEFAULT_ZONE=http://mcs-eureka:8761/eureka
+      - JUEGOS_DB_URL=jdbc:postgresql://postgres-juegos:5432/juegosdb
+      - JUEGOS_DB_USERNAME=admin
+      - JUEGOS_DB_PASSWORD=admin123
+    networks:
+      - funny-mind-net
+
+networks:
+  funny-mind-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  postgres_auth_data:
+  postgres_juegos_data:

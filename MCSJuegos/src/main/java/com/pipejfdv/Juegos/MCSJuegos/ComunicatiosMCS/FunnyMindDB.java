@@ -12,7 +12,6 @@ import java.util.UUID;
 * Fetches child user data from the User FM service
 */
 @FeignClient(name = "MCS-USER-FM",
-        url = "localhost:8090",
         path = "/funnyMind")
 public interface FunnyMindDB {
     /*

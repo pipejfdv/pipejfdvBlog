@@ -69,6 +69,10 @@ MCSAuth (9000) ←── Feign ──→ MCSUsersFM (8090) ←── Feign ─�
 - **Spring Security** + **OAuth2 Resource Server**
 - **Spring Data JPA** + Hibernate
 - **Bases de Datos**: MySQL (MCSUsersFM), PostgreSQL (MCSAuth, MCSJuegos)
-- **JWT**: librería jjwt
+- **JWT**: librería jjwt (0.12.x)
 - **Lombok**
 - **Maven**
+
+### Notas de Gateway
+- Endpoint público añadido: `/pipejfdv/api/v1/funnyMind/User/exists/**`
+- Rol `Medic` ahora incluido en rutas `/pipejfdv/api/v1/games/**`

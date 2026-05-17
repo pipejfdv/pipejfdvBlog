@@ -12,7 +12,6 @@ import java.util.UUID;
 * Feign client interface for communicating with the MCSUsersFM microservice.
 */
 @FeignClient(name = "MCS-USER-FM",
-        url = "localhost:8090",
         path = "/funnyMind")
 public interface FunnyMindDB {
     /*
