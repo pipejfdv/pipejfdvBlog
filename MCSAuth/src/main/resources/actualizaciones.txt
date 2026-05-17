@@ -1,8 +1,6 @@
 Cambios realizados
 
-- Validación de los usuarios registrados, no pueden repetirse
-- Actualizar clasificación de tce por usuario, método solo del medic
-- Se agrega el rol Medic en el MCSGateway
+- Rutas de relationship, guardianChildren, profiles y accountType
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token

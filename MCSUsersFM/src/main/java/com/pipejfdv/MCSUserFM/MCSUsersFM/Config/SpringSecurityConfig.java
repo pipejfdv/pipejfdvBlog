@@ -39,6 +39,8 @@ public class SpringSecurityConfig {
                         .requestMatchers("/funnyMind/User/create/**",
                                 "/funnyMind/DT/List", "/funnyMind/DT/Document",
                                 "/funnyMind/tceClassification/list",
+                                "/funnyMind/relationship/Public/list",
+                                "/funnyMind/AcTypes/List",
                                 //paths of MCS
                                 "/funnyMind/User/Auth/**",
                                 "/funnyMind/children/getPublic/games/**").permitAll()
@@ -61,7 +63,15 @@ public class SpringSecurityConfig {
                                 "/funnyMind/children/create/**",
                                 "/funnyMind/children/update",
                                 "/funnyMind/children/deleted",
-                                "/funnyMind/children/create/**"
+                                "/funnyMind/children/create/**",
+                                "/funnyMind/guardianChildren/**",
+                                "/funnyMind/relationship/create/**",
+                                "/funnyMind/relationship/get",
+                                "/funnyMind/AcTypes/account",
+                                "/funnyMind/profiles/create/**",
+                                "/funnyMind/profiles/get/**",
+                                "/funnyMind/profiles/public/list/**",
+                                "/funnyMind/profiles/update/**"
                         ).hasAnyRole("DemoUser", "PremiumUser")
                         // protected paths Medic
                         .requestMatchers("/funnyMind/tceClassification/updateByChildren/**",
@@ -78,7 +88,11 @@ public class SpringSecurityConfig {
                                 "/funnyMind/children/getAdmin/**",
                                 "/funnyMind/children/Ad_Me/list",
                                 "/funnyMind/children/deleted",
-                                "/funnyMind/children/create/**"
+                                "/funnyMind/children/create/**",
+                                "/funnyMind/guardianChildren/**",
+                                "/funnyMind/relationship/**",
+                                "/funnyMind/AcTypes/**",
+                                "/funnyMind/profiles/**"
                         ).hasAnyRole("FMAdmin")
 
                         .anyRequest().denyAll()
