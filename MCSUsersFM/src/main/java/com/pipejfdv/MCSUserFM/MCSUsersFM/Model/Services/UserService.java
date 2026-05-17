@@ -52,6 +52,9 @@ public class UserService implements UserContract.Model {
         if(userRepository.existsByEmail(user.getEmail())){
             throw new DuplicateElementException(user.getEmail());
         }
+        if(userRepository.existsByUsername(user.getUsername())){
+            throw new DuplicateElementException(user.getUsername());
+        }
         AccountType ac = accountTypeRepository.findAccountTypeByName(typeOfAccount)
                 .orElseThrow(()-> new NameNotFoundException(typeOfAccount));
         user.setAccountType(ac);

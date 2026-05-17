@@ -1,7 +1,8 @@
 Cambios realizados
 
-- Rutas aseguradas de DT (Document Type) y Guardian
-- Rutas aseguradas de TCE Classification y se modifica para separarlas de los usuarios
+- Validación de los usuarios registrados, no pueden repetirse
+- Actualizar clasificación de tce por usuario, método solo del medic
+- Se agrega el rol Medic en el MCSGateway
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token
@@ -13,7 +14,6 @@ llaves
 - El token sigue activo a pesar de cerrar sesión
 - La ruta "@GetMapping("/User/Auth/info/{username}")" queda desprotegida, es necesario manejar roles entre MCS
 Afectación en seguridad
-
 ------ Activaciones por quitar -------
 - Activado el Debug del autoservicio de seguridad
 - Activado debug gateway

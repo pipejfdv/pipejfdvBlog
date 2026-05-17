@@ -13,15 +13,21 @@ public interface TCEClassificationContract {
         ResponseEntity<ApiResponseOK<TceClassification>> getTCEClassification(UUID id);
         ResponseEntity<ApiResponseOK<List<TceClassification>>> TCEClassifications();
         ResponseEntity<ApiResponseOK<TceClassification>> updateTCEClassification(UUID id, String tceClassification);
+        //update TCEClassification by children
+        ResponseEntity<ApiResponseOK<Boolean>> updateTCEClassificationByChildren(UUID idChildren, UUID idTceClassification);
     }
     interface Presenter{
         TceClassification getTCEClassification(UUID id) throws IdNotFoundException;
         List<TceClassification> getTCEClassifications();
         TceClassification updateTCEClassification(UUID id, String tceClassification) throws IdNotFoundException;
+        //update TCEClassification by children
+        boolean updateTCEClassificationByChildren(UUID idChildren, UUID idTceClassification) throws IdNotFoundException;
     }
     interface Model{
         TceClassification getTCEClassification(UUID id) throws IdNotFoundException;
         List<TceClassification> getTCEClassifications();
         TceClassification updateTCEClassification(UUID id, String tceClassification) throws IdNotFoundException;
+        //update TCEClassification by children
+        boolean updateTCEClassificationByChildren(UUID idChildren, UUID idTceClassification) throws IdNotFoundException;
     }
 }

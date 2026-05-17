@@ -31,4 +31,9 @@ public class TceClassificationPresenter implements TCEClassificationContract.Pre
     public TceClassification updateTCEClassification(UUID id, String tceClassification) throws IdNotFoundException {
         return tceClassificationService.updateTCEClassification(id, tceClassification);
     }
+
+    @Override
+    public boolean updateTCEClassificationByChildren(UUID idChildren, UUID idTceClassification) throws IdNotFoundException {
+        return tceClassificationService.updateTCEClassificationByChildren(idChildren, idTceClassification);
+    }
 }

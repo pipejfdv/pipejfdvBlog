@@ -9,7 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
+    // validation methods for create users
     boolean existsByEmail(@NotBlank(message = "the email is void") String email);
+    boolean existsByUsername(@NotBlank(message = "the username is void") String username);
     /*
     This method use Optional so that it can return values null or not null values
      */

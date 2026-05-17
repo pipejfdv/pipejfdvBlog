@@ -37,9 +37,11 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // public paths
                         .requestMatchers("/funnyMind/User/create/**",
-                                "/funnyMind/User/Auth/**",
                                 "/funnyMind/DT/List", "/funnyMind/DT/Document",
-                                "/funnyMind/tceClassification/list").permitAll()
+                                "/funnyMind/tceClassification/list",
+                                //paths of MCS
+                                "/funnyMind/User/Auth/**",
+                                "/funnyMind/children/getPublic/games/**").permitAll()
 
                         // mix paths (DemoUser, PremiumUser, FMAdmin, Medic)
                         .requestMatchers(
@@ -50,12 +52,20 @@ public class SpringSecurityConfig {
                                 "/funnyMind/Guardian/delete",
                                 "/funnyMind/Guardian/create/**",
                                 "/funnyMind/Guardian/edit",
-                                "/funnyMind/tceClassification/type/**"
+                                "/funnyMind/tceClassification/type/**",
+                                "/funnyMind/children/getPublic/**"
                         ).hasAnyRole("DemoUser", "PremiumUser", "FMAdmin", "Medic")
                         // protected paths DemoUser & PremiumUser
                         .requestMatchers(
-                                "/funnyMind/guardianChildren/**"
+                                "/funnyMind/guardianChildren/**",
+                                "/funnyMind/children/create/**",
+                                "/funnyMind/children/update",
+                                "/funnyMind/children/deleted",
+                                "/funnyMind/children/create/**"
                         ).hasAnyRole("DemoUser", "PremiumUser")
+                        // protected paths Medic
+                        .requestMatchers("/funnyMind/tceClassification/updateByChildren/**",
+                                "/funnyMind/children/public/list").hasAnyRole("Medic")
                         // protected paths Admin
                         .requestMatchers(
                                 "/funnyMind/User/list",
@@ -63,11 +73,13 @@ public class SpringSecurityConfig {
                                 "/funnyMind/Guardian/list",
                                 "/funnyMind/DT/**",
                                 "/funnyMind/guardianChildren/**",
-                                "/funnyMind/tceClassification/**"
+                                "/funnyMind/tceClassification/**",
+                                "/funnyMind/children/create/**",
+                                "/funnyMind/children/getAdmin/**",
+                                "/funnyMind/children/Ad_Me/list",
+                                "/funnyMind/children/deleted",
+                                "/funnyMind/children/create/**"
                         ).hasAnyRole("FMAdmin")
-
-                        // protected paths Medic (sin rutas exclusivas → "")
-                        .requestMatchers("/funnyMind/tceClassification/**").hasAnyRole("Medic")
 
                         .anyRequest().denyAll()
                 )

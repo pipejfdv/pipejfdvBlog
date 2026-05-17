@@ -37,4 +37,15 @@ public class TceClassificationController implements TCEClassificationContract.Vi
     public ResponseEntity<ApiResponseOK<TceClassification>> updateTCEClassification(@PathVariable UUID id,@PathVariable String classification) {
         return ResponseEntity.ok(new ApiResponseOK<>("Update of classification TCE", tceClassificationPresenter.updateTCEClassification(id, classification), HttpStatus.OK.value()));
     }
+
+    @Override
+    @PutMapping("/tceClassification/updateByChildren/{idChildren}/{idTceClassification}")
+    public ResponseEntity<ApiResponseOK<Boolean>> updateTCEClassificationByChildren(
+            @PathVariable UUID idChildren,
+            @PathVariable UUID idTceClassification) {
+        return ResponseEntity.ok(new ApiResponseOK<>("Update of classification TCE by children",
+                tceClassificationPresenter.updateTCEClassificationByChildren(idChildren, idTceClassification),
+                HttpStatus.OK.value()
+        ));
+    }
 }

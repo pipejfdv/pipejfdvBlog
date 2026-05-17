@@ -85,7 +85,7 @@ public class JwtUtil {
     }
 
     /*
-    *  Token is valid to continue to credentials
+    *  Token is valid to continue to credential
     *  @Param final String token
     *  @Param final UserPassDTO
     *  @Return boolean True is correct / False is incorrect
