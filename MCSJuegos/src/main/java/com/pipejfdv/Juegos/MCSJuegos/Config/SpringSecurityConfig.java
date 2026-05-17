@@ -35,7 +35,16 @@ public class SpringSecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/games/**").permitAll()
+                        // public paths
+                        .requestMatchers("/games/listGames", "/games/listCategories").permitAll()
+                        // mix paths
+                        .requestMatchers("/games/read/**", "/games/read/category/**").hasAnyRole("DemoUser", "PremiumUser", "FMAdmin", "Medic")
+                        // path PremiumUser
+                        .requestMatchers("/games/progress", "/games/createGameStat").hasAnyRole("PremiumUser", "FMAdmin")
+                        // path Medic
+                        .requestMatchers("/games/progress/**", "/games/read/**").hasAnyRole("Medic")
+                        // path Admin
+                        .requestMatchers("/games/**").hasAnyRole("FMAdmin")
                         .anyRequest().denyAll()
                 )
                 .sessionManagement(session -> session
