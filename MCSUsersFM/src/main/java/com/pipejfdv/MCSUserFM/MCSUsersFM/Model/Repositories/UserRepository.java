@@ -3,6 +3,7 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -24,4 +25,16 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     * @Return an Optional containing the User if found, or empty if not
     */
     Optional<User> findByUsername(@NotBlank(message = "the username is void") String username);
+
+    /*
+    * Find a user associate with Guardian
+    * @Param id of user
+    * @Return a boolean of confirmation
+    */
+    @Query(""" 
+        SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END 
+        FROM User u 
+        JOIN u.guardian g WHERE g.user.id = :idUser
+    """)
+    Boolean userExists(UUID idUser);
 }

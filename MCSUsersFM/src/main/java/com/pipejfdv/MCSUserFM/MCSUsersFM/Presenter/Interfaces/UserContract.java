@@ -26,6 +26,10 @@ public interface UserContract {
         ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(String idSearch, User user, Authentication authentication);
 
         /*
+        Validations if user exists with Guardian
+        */
+        ResponseEntity<ApiResponseOK<Boolean>> userExists(UUID idUser);
+        /*
         Methods for MCSAuth in Presenter
          */
         UserPassDTO showViewUserInfoAuth(String username);
@@ -37,7 +41,10 @@ public interface UserContract {
         void readyToDeleteUser(UUID idAccount) throws IdNotFoundException;
         User readyToCreateUser(User user, String typeOfAccount) throws DuplicateElementException;
         User readyUpdateUser(UUID idAccount, User user) throws IdNotFoundException;
-
+        /*
+        Validations if user exists with Guardian
+        */
+        Boolean userExists(UUID id) throws IdNotFoundException;
         /*
         Methods for MCSAuth in Presenter
          */
@@ -50,7 +57,10 @@ public interface UserContract {
         void deleteUser(UUID id) throws IdNotFoundException;
         User createUser(User user, String typeOfAccount) throws DuplicateElementException, NameNotFoundException;
         User updateUser(UUID id, User user)throws IdNotFoundException;
-
+        /*
+        Validations if user exists with Guardian
+        */
+        Boolean userExists(UUID id) throws IdNotFoundException;
         /*
         Methods for MCSAuth in Model
          */

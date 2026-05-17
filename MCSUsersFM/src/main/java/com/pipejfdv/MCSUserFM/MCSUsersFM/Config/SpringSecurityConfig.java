@@ -54,7 +54,7 @@ public class SpringSecurityConfig {
                                 "/funnyMind/DT/List", "/funnyMind/DT/Document",
                                 "/funnyMind/tceClassification/list",
                                 "/funnyMind/relationship/Public/list",
-                                "/funnyMind/AcTypes/List",
+                                "/funnyMind/AcTypes/List", "/funnyMind/User/exists/**",
                                 //paths of MCS
                                 "/funnyMind/User/Auth/**",
                                 "/funnyMind/children/getPublic/games/**").permitAll()

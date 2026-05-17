@@ -18,6 +18,12 @@ Thumbs.db
 # Logs
 *.log
 
+# AI context for agents (excluded from repo)
+AGENTS.md
+
 # Spring Boot
 application-dev.yml
 application-prod.yml
+
+# AI Agent context (not for repo)
+AGENTS.md

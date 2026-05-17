@@ -150,6 +150,21 @@ public ResponseEntity<ApiResponseOK<UserDTO>> showUser(
         ));
     }
     /*
+    * Checks if a user exists related to guardians by ID
+    * @Params idUser UUID of the user to check
+    * @Return ResponseEntity with boolean value
+    */
+    @Override
+    @GetMapping("/User/exists/{idUser}")
+    public ResponseEntity<ApiResponseOK<Boolean>> userExists(@PathVariable UUID idUser) {
+        return ResponseEntity.ok(new ApiResponseOK<>(
+                "user exists",
+                userPresenter.userExists(idUser),
+                HttpStatus.OK.value()
+        ));
+    }
+
+    /*
     * Sends user authentication data (including password) to MCSAuth microservice
     * @Params username Username to search
     * @Return UserPassDTO with id, username, password and account type

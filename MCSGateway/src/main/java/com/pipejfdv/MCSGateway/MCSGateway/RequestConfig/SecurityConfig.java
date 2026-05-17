@@ -50,7 +50,8 @@ public class SecurityConfig {
                         "/pipejfdv/api/v1/funnyMind/User/create/**",
                         "/pipejfdv/api/v1/auth/login",
                         "/pipejfdv/api/v1/auth/logout",
-                        "/pipejfdv/api/v1/auth/refresh"
+                        "/pipejfdv/api/v1/auth/refresh",
+                        "/pipejfdv/api/v1/funnyMind/User/exists/**"
                 ))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(auth ->

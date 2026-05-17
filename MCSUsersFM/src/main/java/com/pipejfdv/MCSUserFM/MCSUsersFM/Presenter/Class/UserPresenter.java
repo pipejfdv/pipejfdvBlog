@@ -76,6 +76,15 @@ public class UserPresenter implements UserContract.Presenter {
     public User readyUpdateUser(UUID idAccount, User user) throws IdNotFoundException {
         return service.updateUser(idAccount, user);
     }
+    /*
+    * Confirmations of user existence with relation to guardians
+    * @Params id The UUID of the user
+    * @Return Boolean True if user exists, false otherwise
+    * */
+    @Override
+    public Boolean userExists(UUID id){
+        return service.userExists(id);
+    }
 
     /*
     * Retrieves user info for authentication by username

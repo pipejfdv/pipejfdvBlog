@@ -1,6 +1,6 @@
 Cambios realizados
 
-- Rutas protegidas del gateway y MCSAuth
+- Se crea una ruta especial para el front para que valide si el usario ya está relacionado con un Guardian
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token

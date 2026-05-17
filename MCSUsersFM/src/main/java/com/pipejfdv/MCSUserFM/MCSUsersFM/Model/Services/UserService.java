@@ -7,6 +7,7 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Exceptions.UsernameAuthException;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.GuardianRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.UserRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.UserContract;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,13 +25,16 @@ public class UserService implements UserContract.Model {
     private final UserRepository userRepository;
     private final AccountTypeRepository accountTypeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GuardianRepository guardianRepository;
     /*CONSTRUCTOR*/
     public UserService(UserRepository userRepository,
                        AccountTypeRepository accountTypeRepository,
-                       PasswordEncoder passwordEncoder) {
+                       PasswordEncoder passwordEncoder,
+                       GuardianRepository guardianRepository) {
         this.userRepository = userRepository;
         this.accountTypeRepository = accountTypeRepository;
         this.passwordEncoder = passwordEncoder;
+        this.guardianRepository = guardianRepository;
     }
     /*CRUD*/
     /*
@@ -108,6 +112,25 @@ public class UserService implements UserContract.Model {
         userRepository.save(oldUser);
         return oldUser;
     }
+
+    /*
+    * Information on whether the user is associated with a guardian
+    * @Params id The UUID of the user
+    * @Return Boolean True if user exists, false otherwise
+    * @Throw IdNotFoundException if user not found
+    * */
+    @Override
+    public Boolean userExists(UUID id) throws IdNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new IdNotFoundException(id));
+        if(!userRepository.userExists(user.getId())){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     /*
     * Retrieves user info for MCSAuth by username
     * @Params username The username to look up
