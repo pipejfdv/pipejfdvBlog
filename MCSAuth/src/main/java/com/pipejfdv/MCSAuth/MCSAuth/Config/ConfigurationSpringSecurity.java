@@ -27,7 +27,7 @@ public class ConfigurationSpringSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        //.requestMatchers("/auth/login/**", "/auth/refresh/**", "/auth/logout/**").permitAll()
+                        .requestMatchers("/auth/deleted/**").hasAnyRole("FMAdmin")
                         .anyRequest().denyAll()//deny other type of request
                 )
                 .sessionManagement(sess ->

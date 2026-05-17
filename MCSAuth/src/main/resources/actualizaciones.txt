@@ -1,6 +1,6 @@
 Cambios realizados
 
-- Rutas de relationship, guardianChildren, profiles y accountType
+- Rutas protegidas del gateway y MCSAuth
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token
