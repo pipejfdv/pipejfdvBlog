@@ -1,74 +1,74 @@
-# pipejfdvBlog - TBI Treatment Gaming Platform
+# pipejfdvBlog - Plataforma de Juegos Terapéuticos para TCE
 
-Backend platform of therapeutic games for the treatment of **Traumatic Brain Injury (TCE)**. Built with a microservices architecture using Spring Boot, Spring Cloud, and JWT security.
+Plataforma backend de juegos terapéuticos para el tratamiento del **Trauma Craneoencefálico (TCE)**. Construida con una arquitectura de microservicios usando Spring Boot, Spring Cloud y seguridad JWT.
 
 ---
 
-## Architecture Overview
+## Resumen de Arquitectura
 
 ```
-Client → MCSGateway (port 8080)
+Cliente → MCSGateway (puerto 8080)
               ↓
-         MCSEureka (port 8761)
+         MCSEureka (puerto 8761)
               ↓
-    ┌──── MCSConfig (port 8888) ────┐
+    ┌──── MCSConfig (puerto 8888) ────┐
     ↓                                ↓
 MCSAuth (9000) ←── Feign ──→ MCSUsersFM (8090) ←── Feign ──→ MCSJuegos (8091)
 ```
 
-## Microservices
+## Microservicios
 
-| Service | Port | Description | README |
+| Servicio | Puerto | Descripción | README |
 |---------|------|-------------|--------|
-| **MCSGateway** | 8080 | API Gateway - single entry point, JWT validation, routing | [README](MCSGateway/README.md) |
-| **MCSEureka** | 8761 | Service Discovery - Netflix Eureka server | [README](MCSEureka/README.md) |
-| **MCSConfig** | 8888 | Centralized Configuration Server | [README](MCSConfig/README.md) |
-| **MCSAuth** | 9000 | Authentication - JWT creation, login, refresh, logout | [README](MCSAuth/README.md) |
-| **MCSUsersFM** | 8090 | Users, guardians, children, TCE classifications, profiles | [README](MCSUsersFM/README.md) |
-| **MCSJuegos** | 8091 | Games, categories, scores, child progress, XP system | [README](MCSJuegos/README.md) |
+| **MCSGateway** | 8080 | API Gateway - punto único de entrada, validación JWT, enrutamiento | [README](MCSGateway/README.md) |
+| **MCSEureka** | 8761 | Descubrimiento de Servicios - servidor Netflix Eureka | [README](MCSEureka/README.md) |
+| **MCSConfig** | 8888 | Servidor de Configuración Centralizada | [README](MCSConfig/README.md) |
+| **MCSAuth** | 9000 | Autenticación - creación JWT, inicio de sesión, refresco, cierre de sesión | [README](MCSAuth/README.md) |
+| **MCSUsersFM** | 8090 | Usuarios, tutores, niños, clasificaciones TCE, perfiles | [README](MCSUsersFM/README.md) |
+| **MCSJuegos** | 8091 | Juegos, categorías, puntuaciones, progreso infantil, sistema XP | [README](MCSJuegos/README.md) |
 
-## Security
+## Seguridad
 
-### Authentication Flow
-1. **MCSAuth** receives login credentials, queries MCSUsersFM via Feign for user data
-2. Validates password with BCrypt, creates JWT (HS256) with `accountType` claim
-3. Client includes JWT as `Authorization: Bearer <token>` in subsequent requests
+### Flujo de Autenticación
+1. **MCSAuth** recibe credenciales de inicio de sesión, consulta MCSUsersFM vía Feign para datos de usuario
+2. Valida la contraseña con BCrypt, crea JWT (HS256) con claim `accountType`
+3. El cliente incluye el JWT como `Authorization: Bearer <token>` en solicitudes subsecuentes
 
-### Role-Based Access
-| Role | Description |
+### Control de Acceso por Roles
+| Rol | Descripción |
 |------|-------------|
-| `DemoUser` | Basic user - shared paths + children CRUD |
-| `PremiumUser` | Premium user - shared paths + children + progress |
-| `FMAdmin` | Full admin access across all services |
-| `Medic` | Medical professional - TCE management + children |
-| `Analyst` | Defined in DB but not assigned to routes |
+| `DemoUser` | Usuario básico - rutas compartidas + CRUD de niños |
+| `PremiumUser` | Usuario premium - rutas compartidas + niños + progreso |
+| `FMAdmin` | Acceso total de administrador en todos los servicios |
+| `Medic` | Profesional médico - gestión TCE + niños |
+| `Analyst` | Definido en BD pero no asignado a rutas |
 
-### JWT Token
-- Algorithm: HMAC-SHA256
-- Claims: `id` (user UUID), `sub` (username), `accountType` (role)
-- Converted to Spring Security roles via `JwtConvertRol`/`ConverterRoleJWT`
+### Token JWT
+- Algoritmo: HMAC-SHA256
+- Claims: `id` (UUID de usuario), `sub` (nombre de usuario), `accountType` (rol)
+- Convertido a roles de Spring Security mediante `JwtConvertRol`/`ConverterRoleJWT`
 
-## Patterns Used
+## Patrones Utilizados
 
-| Pattern | Implementation |
+| Patrón | Implementación |
 |---------|---------------|
-| **MVP** | Contract interfaces defining View/Presenter/Model |
-| **Repository** | Spring Data JPA repositories |
-| **DTO** | Separate DTOs for Public and Admin views |
-| **Feign Client** | Inter-service communication (MCSAuth → MCSUsersFM, MCSJuegos → MCSUsersFM) |
-| **Global Exception Handler** | `@RestControllerAdvice` for centralized error handling |
-| **API Gateway** | Spring Cloud Gateway for routing, security, load balancing |
-| **Service Discovery** | Netflix Eureka for service registration and discovery |
-| **Configuration Server** | Spring Cloud Config for centralized configuration |
+| **MVP** | Interfaces de contrato que definen Vista/Presentador/Modelo |
+| **Repository** | Repositorios Spring Data JPA |
+| **DTO** | DTOs separados para vistas Pública y de Administrador |
+| **Feign Client** | Comunicación entre servicios (MCSAuth → MCSUsersFM, MCSJuegos → MCSUsersFM) |
+| **Global Exception Handler** | `@RestControllerAdvice` para manejo centralizado de errores |
+| **API Gateway** | Spring Cloud Gateway para enrutamiento, seguridad, balanceo de carga |
+| **Service Discovery** | Netflix Eureka para registro y descubrimiento de servicios |
+| **Configuration Server** | Spring Cloud Config para configuración centralizada |
 
-## Tech Stack
+## Stack Tecnológico
 
 - **Java 17**
 - **Spring Boot 3.5**
 - **Spring Cloud 2025.0.0** (Gateway, Config, Netflix Eureka, OpenFeign)
 - **Spring Security** + **OAuth2 Resource Server**
 - **Spring Data JPA** + Hibernate
-- **Databases**: MySQL (MCSUsersFM), PostgreSQL (MCSAuth, MCSJuegos)
-- **JWT**: jjwt library
+- **Bases de Datos**: MySQL (MCSUsersFM), PostgreSQL (MCSAuth, MCSJuegos)
+- **JWT**: librería jjwt
 - **Lombok**
 - **Maven**
