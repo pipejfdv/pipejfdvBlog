@@ -1,14 +1,21 @@
 package com.pipejfdv.MCSAuth.MCSAuth.View.ResponsesHTTP.OK;
 
 import java.time.LocalDateTime;
+/*
+* Generic response wrapper for successful HTTP responses in MCSAuth.
+* Contains message, data payload, HTTP status code, and timestamp.
+*/
 public class UserFMDataOK<T> {
     private String message;
     private T data;
     private int status;
     private LocalDateTime timestamp;
     /*
-     * Structure of responses HTTP without error in MCSAuth
-     * */
+    * Builds a success response with the given message, data, and HTTP status
+    * @Param message String the success message
+    * @Param data T the response payload
+    * @Param status int the HTTP status code
+    */
     public UserFMDataOK(String message, T data, int status) {
         this.message = message;
         this.data = data;

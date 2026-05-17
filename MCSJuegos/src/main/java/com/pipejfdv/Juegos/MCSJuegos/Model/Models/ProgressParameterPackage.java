@@ -5,6 +5,10 @@ import lombok.Getter;
 
 import java.time.Duration;
 
+/*
+* DTO that packages all parameters needed to calculate progress
+* Contains game results (correct answers, mistakes, time) and child progress reference
+*/
 @Data
 @Getter
 public class ProgressParameterPackage {

@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/*
+* REST controller for managing child progress across game categories
+* Handles creating or updating progress and fetching progress data
+*/
 @RestController
 @RequestMapping("/games")
 public class ChildProgressController {
@@ -20,6 +24,13 @@ public class ChildProgressController {
         this.childProgresService = childProgresService;
     }
 
+    /*
+	* Creates or updates a child's progress in a game category
+	* Checks if progress exists, then creates or updates accordingly
+	* @Param parameterPackage ProgressParameterPackage with game results
+	* @Return ResponseEntity with success message and ChildProgressDTO
+	* @Throw IdNotFound if the child is not found
+	*/
     @PutMapping("/progress")
     public ResponseEntity<ResponseOk<ChildProgressDTO>> chargeChildProgres(
             @RequestBody ProgressParameterPackage parameterPackage) throws IdNotFound {
@@ -41,6 +52,12 @@ public class ChildProgressController {
         }
     }
 
+    /*
+	* Gets a child's progress in a specific game category
+	* @Param childId UUID of the child
+	* @Param categoryOfGameId UUID of the game category
+	* @Return ResponseEntity with ChildProgressDTO
+	*/
     @GetMapping("/progress/{childId}/{categoryOfGameId}")
     public ResponseEntity<ResponseOk<ChildProgressDTO>> getProgress(@PathVariable UUID childId, @PathVariable UUID categoryOfGameId){
         return ResponseEntity.ok(new ResponseOk<>(

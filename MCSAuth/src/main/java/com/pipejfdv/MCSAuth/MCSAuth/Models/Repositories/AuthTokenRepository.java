@@ -12,29 +12,39 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/*
+* JPA repository for managing AuthToken entities in the database.
+*/
 @Repository
 public interface AuthTokenRepository extends JpaRepository<AuthToken, UUID> {
     /*
-    search for token for its complete removal from the user
-     */
+    * Finds all tokens belonging to a specific user
+    * @Param userId UUID the user ID
+    * @Return List AuthToken list of token records for the user
+    */
     List<AuthToken> findByUserIdFM(UUID userId);
 
     /*
-    * search token specify
+    * Finds a token record by its token string value
+    * @Param token String the JWT token to search for
+    * @Return AuthToken the matching token entity
     */
     AuthToken findByToken(String token);
 
     /*
-    * Query JPA - find a once user
+    * Finds a single token record for a user using a custom JPA query
+    * @Param userIdFM UUID the user ID
+    * @Return Optional AuthToken the token record if found
     */
     @Transactional
     @Query("SELECT a FROM AuthToken a WHERE a.userIdFM = :userIdFM")
     Optional<AuthToken> findAnOnceUser(@Param("userIdFM")UUID userIdFM);
 
     /*
-    Update credentials token when user try to inside sensible information
-    and is authorized
-     */
+    * Updates the token value for all records belonging to a user
+    * @Param token String the new token value
+    * @Param userIdFM UUID the user ID
+    */
     @Transactional
     @Modifying
     @Query("UPDATE AuthToken a SET a.token = :token WHERE a.userIdFM = :userIdFM")

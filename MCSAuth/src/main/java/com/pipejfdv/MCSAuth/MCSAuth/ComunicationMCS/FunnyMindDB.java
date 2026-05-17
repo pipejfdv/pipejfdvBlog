@@ -9,14 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.UUID;
 
 /*
-*   This interface connect with MCS-USER-FM
+* Feign client interface for communicating with the MCSUsersFM microservice.
 */
 @FeignClient(name = "MCS-USER-FM",
         url = "localhost:8090",
         path = "/funnyMind")
 public interface FunnyMindDB {
     /*
-    *   Method take data of user
+    * Retrieves user credentials from MCSUsersFM by username
+    * @Param username String the username to look up
+    * @Return UserPassDTO the user credentials data
     */
     @GetMapping("/User/Auth/info/{username}")
     UserPassDTO getCredentialsUser(@PathVariable String username);

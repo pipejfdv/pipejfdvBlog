@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* REST controller for managing games
+* Provides endpoints for creating, reading, listing, updating, and deleting games
+*/
 @RestController
 @RequestMapping("/games")
 public class GamesController {
@@ -20,7 +24,11 @@ public class GamesController {
         this.gameService = gameService;
     }
 
-    // Create
+    /*
+	* Creates a new game
+	* @Param game Game object with game details
+	* @Return ResponseEntity with success message and GamesDTO
+	*/
     @PostMapping("/create/game")
     public ResponseEntity<ResponseOk<GamesDTO>> createGame(@RequestBody Game game ) {
         return ResponseEntity.ok(new ResponseOk<>(
@@ -30,7 +38,11 @@ public class GamesController {
         );
     }
 
-    // read game
+    /*
+	* Gets a single game by ID
+	* @Param id UUID of the game
+	* @Return ResponseEntity with game data and success message
+	*/
     @GetMapping("/read/game/{id}")
     public ResponseEntity<ResponseOk<GamesDTO>> getGame(
             @PathVariable UUID id
@@ -42,7 +54,10 @@ public class GamesController {
         ));
     }
 
-    // list of games
+    /*
+	* Lists all available games
+	* @Return ResponseEntity with list of GamesDTO
+	*/
     @GetMapping("/listGames")
     public ResponseEntity<ResponseOk<List<GamesDTO>>> listGames() {
         return ResponseEntity.ok(new ResponseOk<>(
@@ -51,7 +66,12 @@ public class GamesController {
                 HttpStatus.OK.value()
         ));
     }
-    //update name of game
+    /*
+	* Updates the name of an existing game
+	* @Param idGame UUID of the game to update
+	* @Param name new name for the game
+	* @Return ResponseEntity with updated GamesDTO
+	*/
     @PutMapping("/updateGame/{idGame}/{name}")
     public ResponseEntity<ResponseOk<GamesDTO>> updateGame(
             @PathVariable UUID idGame,
@@ -64,7 +84,11 @@ public class GamesController {
         ));
     }
 
-    // deleted game
+    /*
+	* Deletes a game by ID
+	* @Param id UUID of the game to delete
+	* @Return ResponseEntity with confirmation message
+	*/
     @DeleteMapping("/deleted/{id}")
     public ResponseEntity<ResponseOk<String>> deleteGame(
             @PathVariable UUID id

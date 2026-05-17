@@ -10,6 +10,10 @@ import org.hibernate.type.SqlTypes;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Entity representing a category of games (e.g. Executive Function, Memory & Attention)
+* Each category has multiple games and child progress records
+*/
 @Data
 @Entity
 @Table(name = "category_of_games")

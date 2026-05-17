@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 
+/*
+* Service that communicates with the MCSUsersFM microservice via Feign client to retrieve user credentials.
+*/
 @Service
 public class MCSUsersFMServices implements UserContractFM.Model {
     private final FunnyMindDB funnyMindDB;
@@ -22,9 +25,10 @@ public class MCSUsersFMServices implements UserContractFM.Model {
         this.funnyMindDB = funnyMindDB;
     }
     /*
-    *   This object is used to query data from MCSUsersFM
-    *   @Params UUID idUSer
-    *   @Return object UserDTO
+    * Retrieves user credentials from MCSUsersFM by username via Feign client
+    * @Param username String the username to look up
+    * @Return UserPassDTO the user data including password and account type
+    * @Throw UserNotFoundException if the user is not found in MCSUsersFM
     */
     @Override
     public UserPassDTO getCredentialsUser(String username) {
@@ -37,20 +41,37 @@ public class MCSUsersFMServices implements UserContractFM.Model {
     }
 
     /*
-    * Those methods are give here because contract with interface is solicited but no necessary in this model
+    * Placeholder implementation required by the Model interface, not used in MCSUsersFMServices
+    * @Param authHeader String the Authorization header
+    * @Return AuthResponse always returns null
     */
     @Override
     public AuthResponse refreshTokenForEspecialPetition(String authHeader) {
         return null;
     }
+    /*
+    * Placeholder implementation required by the Model interface, not used in MCSUsersFMServices
+    * @Param token String the JWT token
+    * @Return AuthToken always returns null
+    */
     @Override
     public AuthToken findByToken(String token) throws NotFoundTokenException {
         return null;
     }
+    /*
+    * Placeholder implementation required by the Model interface, not used in MCSUsersFMServices
+    * @Param authToken AuthToken the token entity
+    * @Return Boolean always returns null
+    */
     @Override
     public Boolean updateToken(AuthToken authToken) throws NotCompletedUpdateTokenException {
         return null;
     }
+    /*
+    * Placeholder implementation required by the Model interface, not used in MCSUsersFMServices
+    * @Param id UUID the user ID
+    * @Return Boolean always returns null
+    */
     @Override
     public Boolean deletedRegistryTokenUser(UUID id) throws UserNotFoundException {
         return null;

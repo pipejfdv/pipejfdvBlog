@@ -11,10 +11,17 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+/*
+* Converts a JWT token into a Spring Security authentication token.
+* Extracts the role from the "accountType" claim and maps it to granted authorities.
+*/
 @Component
 public class ConverterRoleJWT implements Converter<Jwt, Mono<AbstractAuthenticationToken>> {
     /*
-    * This method is used for change the account type so that they can be interpreted for spring security
+    * Reads the "accountType" claim from the JWT and builds an authentication token with the proper role.
+    * @Param source the decoded JWT token
+    * @Return Mono<AbstractAuthenticationToken> authentication token with granted authorities
+    * @Throw JwtException if the "accountType" claim is missing or empty
     */
     @Override
     public Mono<AbstractAuthenticationToken> convert(Jwt source) {

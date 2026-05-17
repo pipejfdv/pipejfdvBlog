@@ -4,6 +4,10 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/*
+* DTO for transferring game data between layers
+* Contains game ID and name
+*/
 @Getter
 public class GamesDTO {
     private UUID id;

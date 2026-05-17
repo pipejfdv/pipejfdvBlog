@@ -4,6 +4,10 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/*
+* DTO for transferring game category data between layers
+* Contains category ID, name, and description
+*/
 @Getter
 public class CategoryOfGameDTO {
     private UUID id;

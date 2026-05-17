@@ -5,6 +5,10 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/*
+* DTO for transferring child progress data between layers
+* Contains XP, daily attempts, level, and child ID
+*/
 @Getter
 public class ChildProgressDTO {
     private UUID id;

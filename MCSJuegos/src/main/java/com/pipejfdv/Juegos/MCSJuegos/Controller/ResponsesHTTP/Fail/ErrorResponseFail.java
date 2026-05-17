@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+/*
+* Error response wrapper for REST endpoints
+* Contains error message, HTTP status, and timestamp
+*/
 @Getter
 @Setter
 public class ErrorResponseFail {

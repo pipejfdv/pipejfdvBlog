@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+/*
+* Configures Spring Security filters and endpoint access rules for the auth microservice.
+*/
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -18,7 +21,10 @@ public class ConfigurationSpringSecurity {
     private final IdentifyUserAuthenticationJWT identifyUserAuthentication;
 
     /*
-    config route of different paths
+    * Configures HTTP security rules and session management for all routes
+    * @Param http HttpSecurity the security builder
+    * @Return SecurityFilterChain the configured filter chain
+    * @Throw Exception if configuration fails
     */
 
     @Bean

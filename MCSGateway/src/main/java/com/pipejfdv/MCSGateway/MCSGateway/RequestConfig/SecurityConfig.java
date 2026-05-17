@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+/*
+* Configures HTTP security for the API Gateway.
+* Defines public and secured route chains with JWT authentication.
+*/
 @EnableWebFluxSecurity
 @Component
 public class SecurityConfig {
@@ -22,6 +26,10 @@ public class SecurityConfig {
         this.converterRoleJWT = converterRoleJWT;
     }
 
+    /*
+    * Creates a JWT decoder that validates tokens using a base64-encoded HMAC secret key.
+    * @Return ReactiveJwtDecoder decoder that verifies JWT signatures
+    */
     @Bean
     public ReactiveJwtDecoder jwtDecoder(){
         byte[] KeyBytes = Decoders.BASE64.decode("dX3kRg9UznX3R8fCgekVYTNDpmk7w34tuepf5E/ZjT6Mtms+=8vSbwSX=e+/E1");
@@ -29,6 +37,11 @@ public class SecurityConfig {
         return NimbusReactiveJwtDecoder.withSecretKey(secretKey).build();
     }
 
+    /*
+    * Defines the public security chain for unauthenticated endpoints (login, register, refresh).
+    * @Param http ServerHttpSecurity builder to configure security rules
+    * @Return SecurityWebFilterChain the public route filter chain
+    */
     @Bean
     @Order(1)
     public SecurityWebFilterChain publicChain(ServerHttpSecurity http){
@@ -46,6 +59,11 @@ public class SecurityConfig {
                 .build();
     }
 
+    /*
+    * Defines the secured security chain. Requires valid JWT and checks role-based access.
+    * @Param http ServerHttpSecurity builder to configure security rules
+    * @Return SecurityWebFilterChain the secured route filter chain
+    */
     @Bean
     @Order(2)
     public SecurityWebFilterChain securedChain(ServerHttpSecurity http){

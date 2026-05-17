@@ -5,6 +5,10 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/*
+* DTO for transferring game statistics data between layers
+* Contains child info, game info, scores, and last play timestamp
+*/
 @Getter
 public class GameStatsDTO {
     private UUID id;

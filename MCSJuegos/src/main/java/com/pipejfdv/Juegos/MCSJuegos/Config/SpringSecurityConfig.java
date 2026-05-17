@@ -14,6 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+/*
+* Configures Spring Security with JWT-based authentication and role-based access control
+* Defines public, mixed, PremiumUser, Medic, and FMAdmin endpoints
+*/
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
@@ -23,6 +27,10 @@ public class SpringSecurityConfig {
         this.jwtConvertRol = jwtConvertRol;
     }
 
+    /*
+	* Creates a JWT decoder using HMAC-SHA256 secret key
+	* @Return JwtDecoder configured with the secret key
+	*/
     @Bean
     public JwtDecoder jwtDecoder(){
         byte[] KeyBytes = Decoders.BASE64.decode("dX3kRg9UznX3R8fCgekVYTNDpmk7w34tuepf5E/ZjT6Mtms+=8vSbwSX=e+/E1");
@@ -30,6 +38,12 @@ public class SpringSecurityConfig {
         return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
+    /*
+	* Configures HTTP security: disables CSRF, sets stateless sessions, defines role-based URL rules
+	* @Param http HttpSecurity object to configure
+	* @Return SecurityFilterChain built security filter chain
+	* @Throw Exception on configuration error
+	*/
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http

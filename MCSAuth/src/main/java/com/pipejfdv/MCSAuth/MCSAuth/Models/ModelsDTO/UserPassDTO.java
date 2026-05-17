@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 /*
-* Create reference object UserFM
+* DTO representing user credentials transferred from the MCSUsersFM microservice.
+* Contains user ID, username, encrypted password, and account type.
 */
 @Data
 @AllArgsConstructor

@@ -16,19 +16,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+/*
+* Configures how Spring Security identifies and authenticates users for JWT-based auth.
+*/
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class IdentifyUserAuthenticationJWT {
-    /*
-    This document is in charge, how Spring security identify user
-     */
     private final MCSUsersFMServices mcsUsersFMServices;
     private final AuthTokenRepository  authTokenRepository;
 
     /*
-    this is the way in which spring security validates if the user exists or how it checks it
-     */
+    * Builds a UserDetailsService that loads user credentials from MCSUsersFM
+    * @Return UserDetailsService the user details service
+    */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -40,8 +41,9 @@ public class IdentifyUserAuthenticationJWT {
         };
     }
     /*
-    this is the way to spring security compare the password and user
-     */
+    * Creates an AuthenticationProvider that compares user and password using DAO
+    * @Return AuthenticationProvider the authentication provider
+    */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -51,15 +53,19 @@ public class IdentifyUserAuthenticationJWT {
     }
 
     /*
-    this is the method it can encrypt the password and decrypt the same time
-     */
+    * Provides a BCrypt password encoder for encrypting and verifying passwords
+    * @Return PasswordEncoder the BCrypt password encoder
+    */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     /*
-    Configuration of AuthenticationManager
-     */
+    * Creates the AuthenticationManager used to process authentication requests
+    * @Param config AuthenticationConfiguration the Spring authentication config
+    * @Return AuthenticationManager the authentication manager
+    * @Throw Exception if configuration fails
+    */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws  Exception{
         return config.getAuthenticationManager();

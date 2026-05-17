@@ -7,10 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/*
+* Global exception handler that maps exceptions to structured HTTP error responses.
+*/
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /*
-    * Handler exception if when query to MCSUserFM return value null
+    * Handles UserNotFoundException and returns a 404 NOT_FOUND response
+    * @Param ex UserNotFoundException the exception to handle
+    * @Return ResponseEntity UserFMDataFail with error details and HTTP 404 status
     */
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<UserFMDataFail> handleIdNotFoundException(UserNotFoundException ex) {

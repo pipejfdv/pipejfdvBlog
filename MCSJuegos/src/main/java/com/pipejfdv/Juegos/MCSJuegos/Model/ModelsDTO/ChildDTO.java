@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+/*
+* DTO for child data received from the MCSUsersFM microservice via Feign
+* Contains basic child identification information
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

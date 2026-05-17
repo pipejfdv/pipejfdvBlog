@@ -9,6 +9,10 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+/*
+* JPA entity representing an authentication token stored in the auth_tokens table.
+* Each token is linked to a user from MCSUsersFM and can be marked as revoked or expired.
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +35,8 @@ public class AuthToken {
     private UUID userIdFM;
 
     /*
-    type of tokend
-     */
+    * Enumeration of supported token types
+    */
     public enum TokenType{
         BEARER
     }

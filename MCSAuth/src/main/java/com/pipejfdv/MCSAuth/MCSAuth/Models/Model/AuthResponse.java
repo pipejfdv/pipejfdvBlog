@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /*
-*   This is response from token to send
+* DTO representing the authentication response sent to the client after successful login or token refresh.
+* Contains the access token, refresh token, username, account type, and expiration timestamp.
 */
 @Data
 @NoArgsConstructor

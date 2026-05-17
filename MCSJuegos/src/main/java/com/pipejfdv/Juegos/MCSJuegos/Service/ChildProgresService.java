@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.UUID;
 
+/*
+* Service layer for child progress tracking across game categories
+* Handles XP calculation, level progression, daily attempt resets, and scoring logic
+*/
 @Slf4j
 @Service
 public class ChildProgresService {
@@ -37,13 +41,27 @@ public class ChildProgresService {
         this.funnyMindDB = funnyMindDB;
         this.categoryOfGameService = categoryOfGameService;
     }
-    // configuration of attempts for daily
-    @Scheduled(cron = "0 0 0 * * ?") // midnight
+    /*
+	* Resets daily attempt counters for all children at midnight
+	* Runs automatically on a scheduled cron trigger
+	*/
+    @Scheduled(cron = "0 0 0 * * ?")
     public void resetAttemptsDaily() {
         childProgresRepository.resetAttemptsDaily();
     }
 
-    // score for game
+    /*
+	* Calculates the raw score for a game based on category-specific formula
+	* Executive Function / Memory uses accuracy-based scoring
+	* Processing Speed uses time-based scoring
+	* @Param categoryOfGameId UUID of the game category
+	* @Param totalItems total number of items in the game
+	* @Param correctAnswer number of correct answers
+	* @Param mistakes number of mistakes made
+	* @Param timeTaken Duration the child took to complete
+	* @Param maxTime Duration maximum allowed time
+	* @Return double calculated raw score
+	*/
     private double scoreForGame(UUID categoryOfGameId,
                                 int totalItems, int correctAnswer, int mistakes,
                                 Duration timeTaken, Duration maxTime){
@@ -66,12 +84,24 @@ public class ChildProgresService {
         }
     }
 
-    // calculate score
+    /*
+	* Converts raw points to XP by dividing by the standard points per category
+	* @Param points raw score from scoreForGame
+	* @Return double calculated XP value
+	*/
     private double calculateScore(double points){
         return points / StandardPointsCategory;
     }
 
-    // multiplication of score
+    /*
+	* Multiplies XP by a factor based on the child's current level in the category
+	* Higher levels get higher multipliers (0.5x to 2.5x)
+	* @Param score XP score before multiplication
+	* @Param childrenId UUID of the child
+	* @Param categoryOfGameId UUID of the game category
+	* @Return double multiplied XP score
+	* @Throw IdNotFound if child progress not found
+	*/
     private double multiplicationScore(double score, UUID childrenId, UUID categoryOfGameId){
         ChildProgres childProgres = childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId)
                 .orElseThrow(() -> new IdNotFound(childrenId));
@@ -87,7 +117,13 @@ public class ChildProgresService {
             default -> score * 0.0;
         };
     }
-    // get penalty
+    /*
+	* Applies a penalty to the score based on the number of attempts
+	* More attempts result in a lower final score (80% to 20% of original)
+	* @Param score original XP score
+	* @Param attempts number of attempts made today
+	* @Return double score after penalty application
+	*/
     private double penalty(double score, int attempts){
         return switch (attempts) {
             case 2 -> score + (((score * 80) / 100) - score); // 80% of the total score
@@ -97,7 +133,12 @@ public class ChildProgresService {
             default -> score;
         };
     }
-    // get next level
+    /*
+	* Determines the next level based on total accumulated XP
+	* Thresholds: 200 Beginner, 400 Basic, 600 Intermediate, 800 Advanced, 1000 Expert
+	* @Param finalXp total XP after scoring and penalties
+	* @Return levelDomain.level the corresponding level
+	*/
     private levelDomain.level nextLevel(double finalXp){
         if(finalXp >= levelExpert){
             return levelDomain.level.Experto;
@@ -113,12 +154,22 @@ public class ChildProgresService {
             return levelDomain.level.Inicial;
         }
     }
-    // validation if ChildProgres already exists
+    /*
+	* Checks if a ChildProgres record already exists for a child in a category
+	* @Param childrenId UUID of the child
+	* @Param categoryOfGameId UUID of the game category
+	* @Return boolean true if record exists
+	*/
     public boolean existsChildProgres(UUID childrenId, UUID categoryOfGameId) {
         return childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId).isPresent();
     }
-    //-------------------CRUD-------------------
-    // Create
+    /*
+	* Creates a new child progress record with calculated XP
+	* Validates child existence via User FM before creating
+	* @Param params ProgressParameterPackage with game results
+	* @Return ChildProgressDTO with created progress data
+	* @Throw IdNotFound if child ID is not found in User FM
+	*/
     public ChildProgressDTO createChildProgres(ProgressParameterPackage params) throws IdNotFound {
         ChildDTO child = null;
         try {
@@ -145,7 +196,13 @@ public class ChildProgresService {
         );
     }
 
-    // Read only one
+    /*
+	* Gets a child's progress in a specific game category
+	* @Param childrenId UUID of the child
+	* @Param categoryOfGameId UUID of the game category
+	* @Return ChildProgressDTO with progress data
+	* @Throw IdNotFound if progress record not found
+	*/
     public ChildProgressDTO getChildProgres(UUID childrenId, UUID categoryOfGameId) throws IdNotFound {
         ChildProgres childProgres = childProgresRepository.findByChildrenIdAndCategoryOfGameId(childrenId, categoryOfGameId)
                 .orElseThrow(()-> new IdNotFound(childrenId));
@@ -158,7 +215,13 @@ public class ChildProgresService {
         );
     }
 
-    // update by game
+    /*
+	* Updates a child's progress with new game results
+	* Calculates XP, applies level multiplier, penalty for attempts, and advances level
+	* @Param params ProgressParameterPackage with game results
+	* @Return ChildProgressDTO with updated progress data
+	* @Throw IdNotFound if progress record not found
+	*/
     public ChildProgressDTO updateChildProgres(ProgressParameterPackage params) throws IdNotFound {
         double score = scoreForGame(params.getChildProgres().getCategoryOfGame().getId(), params.getTotalItems(),
                 params.getCorrectAnswer(), params.getMistakes(), params.getTimeTaken(), params.getMaxTime());

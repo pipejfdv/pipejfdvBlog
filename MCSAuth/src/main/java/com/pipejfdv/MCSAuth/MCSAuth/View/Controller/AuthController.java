@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/*
+* REST controller that exposes auth endpoints for login, token refresh, logout, and token deletion.
+*/
 @Slf4j
 @RestController
 @RequestMapping("/auth")
@@ -23,9 +26,9 @@ public class AuthController implements UserContractFM.View {
         this.presenter = presenter;
     }
     /*
-    * This Login method is responsible for confirming the login and assigning a token to the user
-    * @Params UserCredentials(Body/JSON) user
-    * @Return ResponseEntity with OK 200
+    * Authenticates the user and returns a JWT access token with refresh token
+    * @Params user UserCredentials the login credentials from request body
+    * @Return ResponseEntity UserFMDataOK containing AuthResponse with tokens
     */
     @PostMapping("/login")
     @Override
@@ -39,7 +42,9 @@ public class AuthController implements UserContractFM.View {
     }
 
     /*
-    * this method is used for front end, if main token is expired and is necessary get other token
+    * Issues a new access token when the refresh token is provided in the Authorization header
+    * @Params authHeader String the Authorization header containing Bearer refresh token
+    * @Return ResponseEntity UserFMDataOK containing the new AuthResponse
     */
     @PostMapping("/refresh")
     @Override
@@ -53,7 +58,9 @@ public class AuthController implements UserContractFM.View {
     }
 
     /*
-    * This is used to revoke the tokens and logout
+    * Revokes all active tokens for the user and performs logout
+    * @Params authHeader String the Authorization header containing Bearer token
+    * @Return ResponseEntity UserFMDataOK confirming logout success
     */
     @PostMapping("/logout")
     public ResponseEntity<UserFMDataOK<AuthResponse>> logoutRequest(@RequestHeader("Authorization") String authHeader){
@@ -66,7 +73,9 @@ public class AuthController implements UserContractFM.View {
     }
 
     /*
-    * This is the charge to delete information of user, this action is used if MCSUsersFM deleted user
+    * Deletes all token records for a user when the user is deleted from MCSUsersFM
+    * @Params id UUID the user ID to delete tokens for
+    * @Return ResponseEntity UserFMDataOK confirming deletion
     */
     @DeleteMapping("/deleted/{id}")
     public ResponseEntity<UserFMDataOK<AuthResponse>> deletedTokenInformation(@PathVariable UUID id){

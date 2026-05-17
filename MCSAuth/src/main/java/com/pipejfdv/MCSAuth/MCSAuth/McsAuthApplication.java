@@ -7,12 +7,21 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableDiscoveryClient // recognize service in Eureka
-@SpringBootApplication //indentify what a spring application is
-@EnableConfigurationProperties(JwtProperties.class) // create class with information properties in MCSConfig jwt
-@EnableFeignClients // this identify allows microservice information to be consumed
+/*
+* Main entry point for the MCSAuth microservice.
+* Handles authentication, JWT token creation, and user session management.
+*/
+@EnableDiscoveryClient
+@SpringBootApplication
+@EnableConfigurationProperties(JwtProperties.class)
+@EnableFeignClients
 public class McsAuthApplication {
 
+	/*
+	* Starts the Spring Boot application
+	* @Param args String[] command line arguments
+	* @Return void
+	*/
 	public static void main(String[] args) {
 		SpringApplication.run(McsAuthApplication.class, args);
 	}

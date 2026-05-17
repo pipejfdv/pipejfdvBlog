@@ -8,9 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/*
+* Global exception handler for REST controllers
+* Catches custom exceptions and returns structured error responses
+*/
 @RestControllerAdvice
 public class RequestExceptionHandler {
-    // Handle ExistElement
+    /*
+	* Handles ExistElement exception when a duplicate element is found
+	* @Param ex ExistElement exception instance
+	* @Return ResponseEntity with CONFLICT status and error details
+	*/
     @ExceptionHandler(ExistElement.class)
     public ResponseEntity<ErrorResponseFail> handleExistElement(ExistElement ex) {
         return new ResponseEntity<>(new ErrorResponseFail(
@@ -19,7 +27,11 @@ public class RequestExceptionHandler {
                 HttpStatus.CONFLICT);
     }
 
-    // Handle IdNotFound
+    /*
+	* Handles IdNotFound exception when a requested ID does not exist
+	* @Param ex IdNotFound exception instance
+	* @Return ResponseEntity with NOT_FOUND status and error details
+	*/
     @ExceptionHandler(IdNotFound.class)
     public ResponseEntity<ErrorResponseFail> handleIdNotFound(IdNotFound ex) {
         return new ResponseEntity<>(new ErrorResponseFail(

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/*
+* REST controller for managing game statistics per child
+* Provides endpoints for creating, reading, and updating game stats
+*/
 @RestController
 @RequestMapping("/games")
 public class GameStatsController {
@@ -19,7 +23,11 @@ public class GameStatsController {
         this.gameStatService = gameStatService;
     }
 
-    //create
+    /*
+	* Creates a new game statistics record for a child
+	* @Param gameStat GameStat object with score details
+	* @Return ResponseEntity with success message and GameStatsDTO
+	*/
     @PostMapping("/createGameStat")
     public ResponseEntity<ResponseOk<GameStatsDTO>> createGameStats(
             @RequestBody GameStat gameStat
@@ -31,7 +39,12 @@ public class GameStatsController {
         );
     }
 
-    //read
+    /*
+	* Gets game statistics for a specific child and game
+	* @Param childrenId UUID of the child
+	* @Param gameId UUID of the game
+	* @Return ResponseEntity with game stats data
+	*/
     @GetMapping("/read/{childrenId}/{gameId}")
     public ResponseEntity<ResponseOk<GameStatsDTO>> getGameStat(
             @PathVariable UUID childrenId,
@@ -44,7 +57,13 @@ public class GameStatsController {
         ));
     }
 
-    //update
+    /*
+	* Updates game statistics for a specific child and game
+	* @Param childrenId UUID of the child
+	* @Param gameId UUID of the game
+	* @Param gameStat GameStat object with updated score data
+	* @Return ResponseEntity with updated GameStatsDTO
+	*/
     @PutMapping("/update/{childrenId}/{gameId}")
     public ResponseEntity<ResponseOk<GameStatsDTO>> updateGameStat(
             @PathVariable UUID childrenId,

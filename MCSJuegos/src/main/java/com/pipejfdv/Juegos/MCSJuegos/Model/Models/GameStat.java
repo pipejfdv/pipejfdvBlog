@@ -11,6 +11,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/*
+* Entity representing game statistics for a child
+* Tracks total score, best score, total play time, and last play date per game
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,11 +51,17 @@ public class GameStat {
         this.childrenId = childrenId;
     }
 
+    /*
+	* Sets the lastPlay timestamp before persisting a new record
+	*/
     @PrePersist
     public void prePersist() {
         lastPlay = LocalDateTime.now();
     }
 
+    /*
+	* Updates the lastPlay timestamp before updating an existing record
+	*/
     @PreUpdate
     public void preUpdate() {
         lastPlay = LocalDateTime.now();

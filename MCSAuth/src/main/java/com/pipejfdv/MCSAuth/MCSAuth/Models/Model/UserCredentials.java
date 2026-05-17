@@ -5,14 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+* DTO representing the login credentials received from the client in the login request body.
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserCredentials {
-    /*
-    structure of data in request Login in Controller
-     */
     private String username;
     private String password;
 }

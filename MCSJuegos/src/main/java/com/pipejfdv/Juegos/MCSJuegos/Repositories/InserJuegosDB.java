@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/*
+* Initializes the database with default categories and games on application startup
+* Seeds three categories (Executive Function, Memory & Attention, Processing Speed) and their games
+*/
 @Component
 public class InserJuegosDB implements CommandLineRunner {
     private final CategoryOfGameRepository categoryOfGameRepository;
@@ -17,6 +21,11 @@ public class InserJuegosDB implements CommandLineRunner {
         this.gameRepository = gameRepository;
     }
 
+    /*
+	* Inserts default data if the database tables are empty
+	* @Param args command-line arguments (unused)
+	* @Throw Exception on database error
+	*/
     @Override
     public void run(String... args) throws Exception {
         if (categoryOfGameRepository.count() == 0){

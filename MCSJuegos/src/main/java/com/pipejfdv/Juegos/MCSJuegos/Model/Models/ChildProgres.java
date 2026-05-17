@@ -9,6 +9,10 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+/*
+* Entity representing a child's progress in a game category
+* Tracks XP, level, and daily attempts with a unique constraint per child per category
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

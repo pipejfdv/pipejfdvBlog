@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Service layer implementing the Model interface for managing authentication tokens.
+* Handles token creation, revocation, refresh, and persistence in the database.
+*/
 @Service
 public class AuthService implements UserContractFM.Model {
     private final AuthTokenRepository authTokenRepository;
@@ -28,11 +32,12 @@ public class AuthService implements UserContractFM.Model {
     }
 
     /*
-     * This object is use for save AuthToken in database MCSAuth
-     * @Params UserPassDTO user
-     * @Params String token
-     * @Return boolean Confirmation to save object
-     */
+    * Saves a new AuthToken entity in the database for the authenticated user
+    * @Param user UserPassDTO the user data
+    * @Param token String the JWT token to save
+    * @Return boolean true if token was saved successfully
+    * @Throw TokenNotSavedInDBException if the token could not be saved
+    */
     public boolean addAuthToken(UserPassDTO user, String token) throws TokenNotSavedInDBException{
         AuthToken authToken = new AuthToken(
                 UUID.randomUUID(),
@@ -49,8 +54,12 @@ public class AuthService implements UserContractFM.Model {
         return true;
     }
     /*
-    This method is in charge remove all tokens the user when exit the program
-     */
+    * Revokes all active tokens for a user by marking them as revoked and expired
+    * @Param user UserPassDTO the user whose tokens to revoke
+    * @Return boolean true if all tokens were revoked successfully
+    * @Throw UserNotFoundException if the user has no tokens
+    * @Throw NotCompletedUpdateTokenException if some tokens could not be updated
+    */
     public boolean revokeAllUserTokens(UserPassDTO user) throws UserNotFoundException, NotCompletedUpdateTokenException {
         List<AuthToken> validTokensUser = authTokenRepository.findByUserIdFM(user.getIdUser());
         if(validTokensUser == null){
@@ -75,11 +84,12 @@ public class AuthService implements UserContractFM.Model {
         return true;
     }
     /*
-     *  This method is used to verification is user have access to specific information
-     *  @Param String authHeader - header token with info
-     *  @Return AuthResponse
-     *  @Throw InvalidBearerTokenException
-     */
+    * Validates the refresh token and issues a new access token for sensitive endpoints
+    * @Param authHeader String the Authorization header containing the Bearer refresh token
+    * @Return AuthResponse containing new access token and user info
+    * @Throw InvalidBearerTokenException if the Authorization header is invalid
+    * @Throw TokenInvalidInfoException if the token or user info is invalid
+    */
     public AuthResponse refreshTokenForEspecialPetition(String authHeader) {
         if (authHeader == null && !authHeader.startsWith("Bearer ")) {
             throw new InvalidBearerTokenException(authHeader);
@@ -105,10 +115,10 @@ public class AuthService implements UserContractFM.Model {
         return new AuthResponse(accessToken, refreshToken, username, user.getTypeOfAccount(), LocalDateTime.now());
     }
     /*
-    * This method is created for find token in DB MCSAuth.
-    * @Param jwt token
-    * @Return AuthToken
-    * @Throw NotFoundTokenException
+    * Finds a token record in the database by its token string
+    * @Param token String the JWT token to search for
+    * @Return AuthToken the token entity found in database
+    * @Throw NotFoundTokenException if the token is not found
     */
     @Override
     public AuthToken findByToken(String token) throws NotFoundTokenException {
@@ -119,7 +129,10 @@ public class AuthService implements UserContractFM.Model {
         return authToken;
     }
     /*
-    * Update information for Token en DB MCSAuth
+    * Updates an existing token entity in the database
+    * @Param authToken AuthToken the token entity with updated fields
+    * @Return Boolean true if the update was successful
+    * @Throw NotCompletedUpdateTokenException if the update fails
     */
     @Override
     public Boolean updateToken(AuthToken authToken) throws NotCompletedUpdateTokenException {
@@ -130,6 +143,12 @@ public class AuthService implements UserContractFM.Model {
         return true;
     }
 
+    /*
+    * Deletes the token record for a user from the database
+    * @Param id UUID the user ID
+    * @Return Boolean true if the token was deleted successfully
+    * @Throw UserNotFoundException if no token record exists for the user
+    */
     @Override
     public Boolean deletedRegistryTokenUser(UUID id) throws UserNotFoundException {
         AuthToken token = authTokenRepository.findAnOnceUser(id)
@@ -139,8 +158,11 @@ public class AuthService implements UserContractFM.Model {
     }
 
     /*
-    * This method is give here because contract with interface is solicited but no necessary in this model
-    * */
+    * Placeholder implementation required by the Model interface, not used in AuthService
+    * @Param username String the username
+    * @Return UserPassDTO always returns null
+    * @Throw UserNotFoundException never thrown
+    */
     @Override
     public UserPassDTO getCredentialsUser(String username) throws UserNotFoundException {
         return null;

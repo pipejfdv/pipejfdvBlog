@@ -7,6 +7,10 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+/*
+* Entity representing a game in the system
+* Each game belongs to a category and can have game statistics
+*/
 @Data
 @Entity
 @Table(name = "games")

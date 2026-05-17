@@ -17,6 +17,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/*
+* Presenter layer that mediates between the View (AuthController) and Model (AuthService/MCSUsersFMServices).
+* Handles authentication logic, token generation, and user session management.
+*/
 @Component
 public class UserPresenterFM implements UserContractFM.Presenter {
     private final MCSUsersFMServices mcsUsersFMServices;
@@ -36,11 +40,10 @@ public class UserPresenterFM implements UserContractFM.Presenter {
     }
 
     /*
-    * This object is the medium between Model and view
-    * and assign token after to validate credentials of user
-    * @Params UserCredentials username
-    * @Return object AuthResponse
-    * @Throw TokenNotSavedInDBException
+    * Authenticates user credentials and generates access and refresh tokens
+    * @Params username UserCredentials the login credentials
+    * @Return AuthResponse containing tokens, username, account type and expiration
+    * @Throw TokenNotSavedInDBException if token could not be saved in database
     */
     @Override
     public AuthResponse authenticate(UserCredentials username) {
@@ -68,13 +71,18 @@ public class UserPresenterFM implements UserContractFM.Presenter {
     }
 
     /*
-    Authorization for access sensible information
-     */
+    * Validates the refresh token and issues a new access token for sensitive endpoints
+    * @Param token String the Authorization header with Bearer refresh token
+    * @Return AuthResponse containing the new access token
+    */
     public AuthResponse confirmAuthToAccessToken(String token) {
         return authService.refreshTokenForEspecialPetition(token);
     }
     /*
-    * Close section and remove authorization token
+    * Logs out the user by revoking all their active tokens
+    * @Param authHeader String the Authorization header with Bearer token
+    * @Return AuthResponse empty response confirming logout
+    * @Throw InvalidBearerTokenException if the Authorization header is missing or invalid
     */
     @Override
     public AuthResponse logout(String authHeader) throws InvalidBearerTokenException {
@@ -89,9 +97,10 @@ public class UserPresenterFM implements UserContractFM.Presenter {
         return null;
     }
     /*
-    *  Is responsible for sending the token to the model, so that it searches the database and deletes the user's token
-    *  @Param UUID id - ID of user
-    *  @Return AuthResponse - response HTTP
+    * Deletes all token records for a user by their ID
+    * @Param id UUID the user ID
+    * @Return AuthResponse empty response confirming deletion
+    * @Throw UserNotFoundException if the user has no token records
     */
     @Override
     public AuthResponse deletedToken(UUID id) throws UserNotFoundException {
