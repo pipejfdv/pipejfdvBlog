@@ -11,6 +11,9 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/*
+* Represents a child's profile with access tracking information
+*/
 @Entity
 @Data
 @AllArgsConstructor
@@ -31,16 +34,27 @@ public class Profile {
     @OneToOne(targetEntity = Children.class, fetch = FetchType.EAGER)
     private Children children;
 
+    /*
+    * Sets the last access date and time before persisting a new profile
+    */
     @PrePersist
     public void prePersist() {
         lastAccess = LocalDateTime.now();
     }
 
+    /*
+    * Updates the last access date and time before updating an existing profile
+    */
     @PreUpdate
     public void preUpdate() {
         lastAccess = LocalDateTime.now();
     }
 
+    /*
+    * Creates a new profile with a name and associated child
+    * @Param nameProfile the profile name
+    * @Param children the child associated with this profile
+    */
     public Profile(String nameProfile, Children children) {
         this.nameProfile = nameProfile;
         this.children = children;

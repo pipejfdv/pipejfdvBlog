@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for TCE Classification operations
+*/
 public interface TCEClassificationContract {
     interface View {
         ResponseEntity<ApiResponseOK<TceClassification>> getTCEClassification(UUID id);

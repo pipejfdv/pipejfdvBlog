@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+/*
+* Contract defining the MVP interfaces for Profile operations
+*/
 public interface ProfilesContract {
     interface View {
         ResponseEntity<ApiResponseOK<ProfilesAdminDTO>> createProfiles(String profiles, UUID childrenId) throws DuplicateElementException;

@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Service for managing User entities
+* Handles CRUD operations and authentication info
+*/
 @Service
 public class UserService implements UserContract.Model {
     private final UserRepository userRepository;
@@ -29,17 +33,32 @@ public class UserService implements UserContract.Model {
         this.passwordEncoder = passwordEncoder;
     }
     /*CRUD*/
+    /*
+    * Retrieves a user by their ID
+    * @Params id The UUID of the user
+    * @Return User The found user entity
+    * @Throw IdNotFoundException if user not found
+    */
     @Override
     public User getUser(UUID id) throws IdNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(()-> new IdNotFoundException(id));
     }
 
+    /*
+    * Retrieves all users from the database
+    * @Return List of all users
+    */
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
+    /*
+    * Deletes a user by their ID
+    * @Params id The UUID of the user to delete
+    * @Throw IdNotFoundException if user not found
+    */
     @Override
     public void deleteUser(UUID id) throws IdNotFoundException {
         User user = userRepository.findById(id)
@@ -47,6 +66,14 @@ public class UserService implements UserContract.Model {
         userRepository.delete(user);
     }
 
+    /*
+    * Creates a new user with a specific account type
+    * @Params user The user entity to create
+    * @Params typeOfAccount The name of the account type
+    * @Return User The saved user entity
+    * @Throw DuplicateElementException if email or username already exists
+    * @Throw NameNotFoundException if account type not found
+    */
     @Override
     public User createUser(User user, String typeOfAccount) throws DuplicateElementException, NameNotFoundException {
         if(userRepository.existsByEmail(user.getEmail())){
@@ -63,6 +90,13 @@ public class UserService implements UserContract.Model {
         return userRepository.save(user);
     }
 
+    /*
+    * Updates an existing user's email, password and username
+    * @Params id The UUID of the user to update
+    * @Params user The user entity with updated data
+    * @Return User The updated user entity
+    * @Throw IdNotFoundException if user not found
+    */
     @Override
     public User updateUser(UUID id, User user) throws IdNotFoundException {
         User oldUser = userRepository.findById(id)
@@ -75,8 +109,11 @@ public class UserService implements UserContract.Model {
         return oldUser;
     }
     /*
-    data intended for MCSAuth user
-     */
+    * Retrieves user info for MCSAuth by username
+    * @Params username The username to look up
+    * @Return User The user entity
+    * @Throw UsernameAuthException if username not found
+    */
     @Override
     public User infoUserAuth(String username) throws UsernameAuthException {
         User user = userRepository.findByUsername(username)

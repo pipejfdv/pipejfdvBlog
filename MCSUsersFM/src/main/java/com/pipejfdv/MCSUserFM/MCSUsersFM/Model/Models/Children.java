@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Represents a child registered in the system with personal and document data
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,6 +53,16 @@ public class Children {
     @OneToMany(targetEntity = GuardianChildren.class, fetch = FetchType.LAZY, mappedBy = "children")
     private List<GuardianChildren> guardianChildren;
 
+    /*
+    * Creates a new child with a generated UUID
+    * @Param names the first name of the child
+    * @Param lastName the last name of the child
+    * @Param birthDate the birth date of the child
+    * @Param documentType the type of identification document
+    * @Param document the document number
+    * @Param tceClassification the TCE classification
+    * @Param guardianChildren list of guardian-child relationships
+    */
     public Children( String names, String lastName, LocalDate birthDate, DocumentType documentType, Long document, TceClassification tceClassification, List<GuardianChildren> guardianChildren) {
         this.id = UUID.randomUUID();
         this.names = names;

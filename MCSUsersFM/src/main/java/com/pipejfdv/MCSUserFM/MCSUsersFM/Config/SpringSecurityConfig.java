@@ -14,6 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+/*
+* Configures Spring Security for the microservice
+* Sets up JWT decoding, role-based authorization and stateless session management
+*/
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
@@ -23,6 +27,10 @@ public class SpringSecurityConfig {
         this.jwtConvertRol = jwtConvertRol;
     }
 
+    /*
+    * Creates a JWT decoder using HMAC-SHA256 secret key
+    * @Return JwtDecoder instance for validating JWT tokens
+    */
     @Bean
     public JwtDecoder jwtDecoder(){
         byte[] KeyBytes = Decoders.BASE64.decode("dX3kRg9UznX3R8fCgekVYTNDpmk7w34tuepf5E/ZjT6Mtms+=8vSbwSX=e+/E1");
@@ -30,6 +38,12 @@ public class SpringSecurityConfig {
         return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
+    /*
+    * Configures HTTP security with role-based access for each endpoint
+    * @Params http HttpSecurity object to configure
+    * @Return SecurityFilterChain with all security rules applied
+    * @Throw Exception if configuration fails
+    */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http

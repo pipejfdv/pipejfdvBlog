@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for Guardian operations
+*/
 public interface GuardianContract {
     interface View{
         ResponseEntity<ApiResponseOK<List<GuardianPublicDTO>>> showGuardians();

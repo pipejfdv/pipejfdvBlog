@@ -9,6 +9,9 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+/*
+* Represents the relation between a guardian and a child with a specific relationship type
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,6 +38,12 @@ public class GuardianChildren {
     @JoinColumn(name = "relationships")
     private Relationships relationships;
 
+    /*
+    * Creates a guardian-children relation with a generated UUID
+    * @Param guardian the guardian entity
+    * @Param children the children entity
+    * @Param relationships the relationship type between guardian and child
+    */
     public GuardianChildren(Guardian guardian, Children children, Relationships relationships) {
         this.id = UUID.randomUUID();
         this.guardian = guardian;

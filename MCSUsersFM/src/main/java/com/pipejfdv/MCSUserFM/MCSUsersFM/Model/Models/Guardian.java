@@ -11,6 +11,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Represents a guardian who is responsible for one or more children
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

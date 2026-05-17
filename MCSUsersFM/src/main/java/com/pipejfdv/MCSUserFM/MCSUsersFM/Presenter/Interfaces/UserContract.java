@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for User operations
+*/
 public interface UserContract {
     interface View{
         ResponseEntity<ApiResponseOK<UserDTO>> showUser(String idSearch, Authentication authentication);

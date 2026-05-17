@@ -6,17 +6,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+/*
+* Utility class for extracting information from JWT tokens
+* Provides methods to get user ID and account type from authentication
+*/
 @Component
 public class JwtUtils {
     /*
-    * Is responsible for extracting the token ID when it is not sent as a parameter
+    * Extracts the user ID from the JWT token in the authentication object
+    * @Params authentication Spring Security authentication object
+    * @Return UUID of the authenticated user
     */
     public UUID extractUserId(Authentication authentication){
         JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;
         return UUID.fromString(jwtAuth.getToken().getId());
     }
     /*
-    *  Is responsible for extracting the token Rol
+    * Extracts the account type from the JWT token
+    * @Params authentication Spring Security authentication object
+    * @Return String with the account type name
     */
     public String extractAccountType(Authentication authentication){
         JwtAuthenticationToken jwtAuth = (JwtAuthenticationToken) authentication;

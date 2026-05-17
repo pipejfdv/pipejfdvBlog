@@ -21,6 +21,11 @@ public class GuardianChildrenController implements GuardianChildrenContract.View
         this.guardianChildrenPresenter = guardianChildrenPresenter;
     }
 
+    /*
+    * Creates a relationship between a guardian and a children
+    * @Params packsIds DTO with guardian and children IDs
+    * @Return ResponseEntity with created relation ID
+    */
     @Override
     @PostMapping("/guardianChildren/create")
     public ResponseEntity<ApiResponseOK<String>> createGuardianChildren(@RequestBody CreationGuardianChildrenDTO packsIds) {
@@ -32,7 +37,12 @@ public class GuardianChildrenController implements GuardianChildrenContract.View
                 )
         );
     }
-    // this method update the relationship between guardian and child
+    /*
+    * Updates the relationship type between a guardian and a children
+    * @Params guardianChildId UUID of the guardian-children relation
+    * @Params relationshipId UUID of the new relationship type
+    * @Return ResponseEntity with updated relation ID
+    */
     @Override
     @PutMapping("/guardianChildren/update/{guardianChildId}/{relationshipId}")
     public ResponseEntity<ApiResponseOK<String>> updateGuardianChildren(

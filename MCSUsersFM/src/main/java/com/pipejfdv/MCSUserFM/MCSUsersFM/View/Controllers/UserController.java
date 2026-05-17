@@ -36,10 +36,13 @@ public class UserController implements UserContract.View {
 
     @GetMapping("/User/userData")
     @Override
-    /*
-    *   This component take information about USER and show these data
-    */
-    public ResponseEntity<ApiResponseOK<UserDTO>> showUser(
+/*
+* Gets user data and returns it as public DTO
+* @Params idUser UUID of the user to search (optional)
+* @Params authentication Spring Security authentication object
+* @Return ResponseEntity with user data
+*/
+public ResponseEntity<ApiResponseOK<UserDTO>> showUser(
             @RequestParam(value = "id", required = false) String idUser,
             Authentication authentication)
     {
@@ -56,6 +59,12 @@ public class UserController implements UserContract.View {
         ));
     }
 
+    /*
+    * Creates a new user with the specified account type
+    * @Params user User object with registration data
+    * @Params typeOfAccount Account type name (e.g. DemoUser, PremiumUser)
+    * @Return ResponseEntity with created user data
+    */
     @PostMapping("/User/create/{typeOfAccount}")
     @Override
     public ResponseEntity<ApiResponseOK<UserDTO>> showCreateUser(@RequestBody User user, @PathVariable(required = true) String typeOfAccount) {
@@ -69,6 +78,12 @@ public class UserController implements UserContract.View {
         ));
     }
 
+    /*
+    * Deletes a user by ID or from authentication token
+    * @Params idUser UUID of the user to delete (optional)
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with deleted user data
+    */
     @DeleteMapping("/User/delete")
     @Override
     public ResponseEntity<ApiResponseOK<UserDTO>> showDeleteUser(
@@ -91,6 +106,10 @@ public class UserController implements UserContract.View {
         return ResponseEntity.ok(response);
     }
 
+    /*
+    * Returns a list of all registered users
+    * @Return ResponseEntity with list of user DTOs
+    */
     @GetMapping("/User/list")
     @Override
     public ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers() {
@@ -104,6 +123,13 @@ public class UserController implements UserContract.View {
         ));
     }
 
+    /*
+    * Updates an existing user's information
+    * @Params idUser UUID of the user to update (optional)
+    * @Params InfoUserUpdate User object with updated fields
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with updated user data
+    */
     @PutMapping("/User/update")
     @Override
     public ResponseEntity<ApiResponseOK<UserDTO>> showEditUser(
@@ -124,10 +150,10 @@ public class UserController implements UserContract.View {
         ));
     }
     /*
-    This method is in charge of send information user from database at MCSAuth
-    @Params String username
-    @Return UserPassDTO
-     */
+    * Sends user authentication data (including password) to MCSAuth microservice
+    * @Params username Username to search
+    * @Return UserPassDTO with id, username, password and account type
+    */
     @GetMapping("/User/Auth/info/{username}")
     public UserPassDTO showViewUserInfoAuth(@PathVariable String username){
         User userAuth = userPresenter.readyUserInfoAuth(username);

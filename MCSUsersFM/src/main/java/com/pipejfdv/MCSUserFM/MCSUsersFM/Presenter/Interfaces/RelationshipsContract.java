@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for Relationships operations
+*/
 public interface RelationshipsContract {
     interface View{
         ResponseEntity<ApiResponseOK<Relationships>> createRelationships(String relationships) throws DuplicateElementException;

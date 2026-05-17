@@ -23,6 +23,13 @@ public class ProfilesController implements ProfilesContract.View {
         this.profilesPresenter = profilesPresenter;
     }
 
+    /*
+    * Creates a new profile for a children with the given name
+    * @Params profiles Profile name string
+    * @Params childrenId UUID of the children
+    * @Return ResponseEntity with created profile admin DTO
+    * @Throw DuplicateElementException if profile name already exists
+    */
     @Override
     @PostMapping("/profiles/create/{childrenId}/{profiles}")
     public ResponseEntity<ApiResponseOK<ProfilesAdminDTO>> createProfiles(
@@ -35,6 +42,12 @@ public class ProfilesController implements ProfilesContract.View {
         ));
     }
 
+    /*
+    * Gets a profile as public DTO by ID
+    * @Params id UUID of the profile
+    * @Return ResponseEntity with profile public data
+    * @Throw IdNotFoundException if profile ID is not found
+    */
     @Override
     @GetMapping("/profiles/get/{id}")
     public ResponseEntity<ApiResponseOK<ProfilesPublicDTO>> getProfilesPublic(
@@ -46,6 +59,12 @@ public class ProfilesController implements ProfilesContract.View {
         ));
     }
 
+    /*
+    * Gets a profile as admin DTO by ID
+    * @Params id UUID of the profile
+    * @Return ResponseEntity with profile admin data
+    * @Throw IdNotFoundException if profile ID is not found
+    */
     @Override
     @GetMapping("/profiles/getAdmin/{id}")
     public ResponseEntity<ApiResponseOK<ProfilesAdminDTO>> getProfilesAdmin(
@@ -57,6 +76,10 @@ public class ProfilesController implements ProfilesContract.View {
         ));
     }
 
+    /*
+    * Returns a list of all profiles for admin view
+    * @Return ResponseEntity with list of profile admin DTOs
+    */
     @Override
     @GetMapping("/profiles/list")
     public ResponseEntity<ApiResponseOK<List<ProfilesAdminDTO>>> listProfilesAdmin() {
@@ -67,6 +90,11 @@ public class ProfilesController implements ProfilesContract.View {
         ));
     }
 
+    /*
+    * Returns a list of profiles associated with a guardian
+    * @Params guardianId UUID of the guardian
+    * @Return ResponseEntity with list of profile public DTOs
+    */
     @Override
     @GetMapping("/profiles/public/list/{guardianId}")
     public ResponseEntity<ApiResponseOK<List<ProfilesPublicDTO>>> listProfilesPublic(
@@ -78,6 +106,13 @@ public class ProfilesController implements ProfilesContract.View {
         ));
     }
 
+    /*
+    * Updates a profile name by ID
+    * @Params id UUID of the profile
+    * @Params name New profile name
+    * @Return ResponseEntity with updated profile public data
+    * @Throw IdNotFoundException if profile ID is not found
+    */
     @Override
     @PutMapping("/profiles/update/{id}/{name}")
     public ResponseEntity<ApiResponseOK<ProfilesPublicDTO>> updateProfiles(

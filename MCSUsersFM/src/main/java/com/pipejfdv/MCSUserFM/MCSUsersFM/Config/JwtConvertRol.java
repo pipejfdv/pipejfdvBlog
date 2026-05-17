@@ -9,11 +9,18 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 import java.util.List;
 
+/*
+* Converts JWT tokens into Spring Security authentication tokens
+* Extracts the accountType claim and maps it to a role authority
+*/
 @Component
 public class JwtConvertRol implements Converter<Jwt, AbstractAuthenticationToken> {
     /*
-     * This method is used for change the account type so that they can be interpreted for spring security
-     */
+    * Converts a JWT into an authentication token with role authority
+    * @Params source The JWT token to convert
+    * @Return JwtAuthenticationToken with granted authorities
+    * @Throw JwtException if accountType claim is missing
+    */
     @Override public AbstractAuthenticationToken convert(Jwt source) {
         String accountType = source.getClaimAsString("accountType");
         if (accountType == null || accountType.isBlank()) {

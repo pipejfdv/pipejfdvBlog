@@ -23,6 +23,12 @@ public class RelationshipsController implements RelationshipsContract.View {
         this.relationshipsPresenter = relationshipsPresenter;
     }
 
+    /*
+    * Creates a new relationship type
+    * @Params relationships Name of the relationship type
+    * @Return ResponseEntity with created relationship
+    * @Throw DuplicateElementException if relationship name already exists
+    */
     @Override
     @PostMapping("/relationship/create/{relationships}")
     public ResponseEntity<ApiResponseOK<Relationships>> createRelationships(@PathVariable String relationships) throws DuplicateElementException {
@@ -34,6 +40,14 @@ public class RelationshipsController implements RelationshipsContract.View {
         ));
     }
 
+    /*
+    * Gets a relationship by ID or name
+    * @Params id UUID of the relationship (optional)
+    * @Params relation Name of the relationship (optional)
+    * @Return ResponseEntity with found relationship
+    * @Throw IdNotFoundException if ID is not found
+    * @Throw NameNotFoundException if name is not found
+    */
     @Override
     @GetMapping("/relationship/get")
     public ResponseEntity<ApiResponseOK<Relationships>> getRelationships(
@@ -47,6 +61,10 @@ public class RelationshipsController implements RelationshipsContract.View {
         ));
     }
 
+    /*
+    * Returns a list of all relationships for admin view
+    * @Return ResponseEntity with list of relationships
+    */
     @Override
     @GetMapping("/relationship/Admin/list")
     public ResponseEntity<ApiResponseOK<List<Relationships>>> listRelationshipsAdmin() {
@@ -57,6 +75,10 @@ public class RelationshipsController implements RelationshipsContract.View {
         ));
     }
 
+    /*
+    * Returns a public list of all relationship types
+    * @Return ResponseEntity with list of relationship DTOs
+    */
     @Override
     @GetMapping("/relationship/Public/list")
     public ResponseEntity<ApiResponseOK<List<RelationshipsDTO>>> listRelationshipsPublic() {
@@ -67,6 +89,13 @@ public class RelationshipsController implements RelationshipsContract.View {
         ));
     }
 
+    /*
+    * Updates an existing relationship name
+    * @Params id UUID of the relationship
+    * @Params relation New relationship name
+    * @Return ResponseEntity with updated relationship
+    * @Throw IdNotFoundException if relationship ID is not found
+    */
     @Override
     @PutMapping("/relationship/update/{id}/{relation}")
     public ResponseEntity<ApiResponseOK<Relationships>> updateRelationships(@PathVariable UUID id, @PathVariable String relation) throws IdNotFoundException {

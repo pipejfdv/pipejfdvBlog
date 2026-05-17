@@ -21,6 +21,11 @@ public class DocumentTypeController implements DocumentTypeContract.View {
         this.documentTypePresenter = documentTypePresenter;
     }
 
+    /*
+    * Creates a new document type
+    * @Params documentType DocumentType object with type name
+    * @Return ResponseEntity with created document type DTO
+    */
     @Override
     @PostMapping("/DT/create")
     public ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showCreateDocumentType(@RequestBody DocumentType documentType) {
@@ -33,6 +38,12 @@ public class DocumentTypeController implements DocumentTypeContract.View {
         ));
     }
 
+    /*
+    * Gets a document type by name or ID
+    * @Params nameDocumentType Name of the document type (optional)
+    * @Params idDocumentType UUID of the document type (optional)
+    * @Return ResponseEntity with document type DTO
+    */
     @Override
     @GetMapping("/DT/Document")
     public ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showDocumentType(
@@ -47,6 +58,10 @@ public class DocumentTypeController implements DocumentTypeContract.View {
         ));
     }
 
+    /*
+    * Returns a list of all document types
+    * @Return ResponseEntity with list of document type DTOs
+    */
     @Override
     @GetMapping("/DT/List")
     public ResponseEntity<ApiResponseOK<List<DocumentTypeDTO>>> showAllDocumentType() {
@@ -60,6 +75,12 @@ public class DocumentTypeController implements DocumentTypeContract.View {
         ));
     }
 
+    /*
+    * Updates an existing document type name
+    * @Params updateDocument DocumentType object with updated data
+    * @Params nameDocumentType Current name of the document type
+    * @Return ResponseEntity with updated document type DTO
+    */
     @Override
     @PutMapping("/DT/update/{documentType}")
     public ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showEditDocumentType(
@@ -74,6 +95,12 @@ public class DocumentTypeController implements DocumentTypeContract.View {
         );
     }
 
+    /*
+    * Deletes a document type by name or ID
+    * @Params nameDocumentType Name of the document type (optional)
+    * @Params idDocumentType UUID of the document type (optional)
+    * @Return ResponseEntity with deleted document type DTO
+    */
     @Override
     @DeleteMapping("/DT/delete")
     public ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showDeleteDocumentType(

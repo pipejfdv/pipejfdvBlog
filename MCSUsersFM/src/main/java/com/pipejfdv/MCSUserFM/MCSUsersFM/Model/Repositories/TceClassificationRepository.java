@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/*
+* Repository for managing TceClassification entity database operations
+*/
 @Repository
 public interface TceClassificationRepository extends JpaRepository<TceClassification, UUID> {
 }

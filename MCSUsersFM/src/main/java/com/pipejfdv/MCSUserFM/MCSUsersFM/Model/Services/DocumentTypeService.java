@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Service for managing Document Type entities
+* Handles CRUD operations and name/ID-based lookup
+*/
 @Service
 public class DocumentTypeService implements DocumentTypeContract.Model {
     private final DocumentTypeRepository documentTypeRepository;
@@ -22,6 +26,13 @@ public class DocumentTypeService implements DocumentTypeContract.Model {
 
     /*CRUD*/
     /*CREATE*/
+    /*
+    * Creates a new document type
+    * @Params documentType The document type entity to create
+    * @Return DocumentType The saved document type
+    * @Throw DuplicateElementException if type already exists
+    * @Throw IdNotFoundException if save fails
+    */
     public DocumentType createDocumentType(DocumentType documentType)
             throws DuplicateElementException,
             IdNotFoundException {
@@ -37,16 +48,35 @@ public class DocumentTypeService implements DocumentTypeContract.Model {
         );
     }
     /*READ*/
+    /*
+    * Retrieves a document type by name or ID
+    * @Params nameDocumentType The name of the document type (optional)
+    * @Params idDocumentType The UUID of the document type (optional)
+    * @Return DocumentType The found document type
+    * @Throw IdNotFoundException if searched by ID and not found
+    * @Throw NameNotFoundException if searched by name and not found
+    */
     @Override
     public DocumentType getDocumentType(String nameDocumentType, UUID idDocumentType) throws IdNotFoundException, NameNotFoundException {
         return validationForNameOrId(nameDocumentType, idDocumentType);
     }
     /*READ LIST DOCUMENTS*/
+    /*
+    * Retrieves all document types
+    * @Return List of all document types
+    */
     @Override
     public List<DocumentType> DocumentTypeList() {
         return documentTypeRepository.findAll();
     }
     /*UPDATE*/
+    /*
+    * Updates a document type name by its current name
+    * @Params updateDocument The document type with new data
+    * @Params nameDocumentType The current name of the document type
+    * @Return DocumentType The updated document type
+    * @Throw NameNotFoundException if document type not found by name
+    */
     @Override
     public DocumentType updateDocumentType(DocumentType updateDocument, String nameDocumentType) throws NameNotFoundException, ParametersNotReceived {
         DocumentType oldDocumentType = validationForNameOrId(nameDocumentType, null);
@@ -55,13 +85,25 @@ public class DocumentTypeService implements DocumentTypeContract.Model {
         return oldDocumentType;
     }
     /*DELETE*/
+    /*
+    * Deletes a document type by name or ID
+    * @Params nameDocumentType The name of the document type (optional)
+    * @Params idDocumentType The UUID of the document type (optional)
+    * @Throw IdNotFoundException if searched by ID and not found
+    * @Throw NameNotFoundException if searched by name and not found
+    */
     @Override
     public void deleteDocumentType(String nameDocumentType, UUID idDocumentType) throws IdNotFoundException, NameNotFoundException {
         documentTypeRepository.delete(
                 validationForNameOrId(nameDocumentType, idDocumentType)
         );
     }
-    /*Was created for simplify the search for name or id*/
+    /*
+    * Validates and retrieves a document type by name or ID
+    * @Params nameDocumentType The name to search by (optional)
+    * @Params idDocumentType The UUID to search by (optional)
+    * @Return DocumentType The found document type
+    */
     public DocumentType validationForNameOrId (String nameDocumentType, UUID idDocumentType){
         if(nameDocumentType != null){
             return documentTypeRepository.findDocumentTypeByType(nameDocumentType)

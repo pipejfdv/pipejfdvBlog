@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for Document Type operations
+*/
 public interface DocumentTypeContract {
     interface View{
         ResponseEntity<ApiResponseOK<DocumentTypeDTO>> showCreateDocumentType (DocumentType documentType);

@@ -22,6 +22,12 @@ public class AccountTypeController implements AccountTypeContract.view{
         this.presenter = presenter;
     }
 
+    /*
+    * Gets an account type by ID or name
+    * @Params id UUID of the account type (optional)
+    * @Params nameAccountType Account type name (optional)
+    * @Return ResponseEntity with account type DTO
+    */
     @GetMapping("/AcTypes/account")
     public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showAccountType(
             @RequestParam (value = "id", required = false) UUID id,
@@ -47,6 +53,10 @@ public class AccountTypeController implements AccountTypeContract.view{
         return ResponseEntity.ok(response);
     }
 
+    /*
+    * Returns a list of all account types
+    * @Return ResponseEntity with list of account type DTOs
+    */
     @GetMapping("/AcTypes/List")
     @Override
     public ResponseEntity<ApiResponseOK<List<AccountTypeDTO>>> showAccountTypes() {
@@ -61,6 +71,12 @@ public class AccountTypeController implements AccountTypeContract.view{
         return ResponseEntity.ok(response);
     }
 
+    /*
+    * Deletes an account type by ID or name
+    * @Params id UUID of the account type (optional)
+    * @Params nameAccountType Account type name (optional)
+    * @Return ResponseEntity with deleted account type DTO
+    */
     @DeleteMapping("/AcTypes")
     @Override
     public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showDeleteAccountType(
@@ -90,6 +106,11 @@ public class AccountTypeController implements AccountTypeContract.view{
         return ResponseEntity.ok(response);
     }
 
+    /*
+    * Creates a new account type
+    * @Params accountType AccountType object with name
+    * @Return ResponseEntity with created account type DTO
+    */
     @PostMapping("/AcTypes/create")
     @Override
     public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showCreateAccountType(@RequestBody AccountType accountType) {
@@ -104,6 +125,12 @@ public class AccountTypeController implements AccountTypeContract.view{
         return ResponseEntity.ok(response);
     }
 
+    /*
+    * Updates an existing account type
+    * @Params id UUID of the account type
+    * @Params accountType AccountType object with updated name
+    * @Return ResponseEntity with updated account type DTO
+    */
     @PutMapping("/AcTypes/update/{id}")
     @Override
     public ResponseEntity<ApiResponseOK<AccountTypeDTO>> showUpdateAccountType(@PathVariable UUID id, @RequestBody AccountType accountType) {

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/*
+* Inserts predefined data into reference tables at application startup
+*/
 @Component
 public class InsertDB implements CommandLineRunner {
     /*
@@ -33,6 +36,11 @@ public class InsertDB implements CommandLineRunner {
         this.tceClassificationRepository = tceClassificationRepository;
     }
 
+    /*
+    * Executes the data insertion logic on application startup
+    * @Param args command line arguments
+    * @Throw Exception if data insertion fails
+    */
     @Override
     public void run(String... args) throws Exception {
         if (accountTypeRepository.count() == 0) {

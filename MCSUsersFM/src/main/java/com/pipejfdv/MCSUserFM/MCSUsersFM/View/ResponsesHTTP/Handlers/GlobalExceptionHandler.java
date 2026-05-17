@@ -9,11 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/*
+* Global exception handler that catches custom exceptions
+* and returns standardized error responses with appropriate HTTP status codes
+*/
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /*
-    *   this class it used for handle error in the controller,
-    *   it is depended on type error created, this wraps the error in a "ResponseEntity"
+    * Handles IdNotFoundException and returns 404 Not Found
+    * @Params ex The IdNotFoundException instance
+    * @Return ResponseEntity with error details and HTTP 404 status
     */
     @ExceptionHandler(IdNotFoundException.class)
     public ResponseEntity<ErrorResponseFail> handleIdNotFoundException(IdNotFoundException ex){
@@ -24,6 +29,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    /*
+    * Handles DuplicateElementException and returns 409 Conflict
+    * @Params ex The DuplicateElementException instance
+    * @Return ResponseEntity with error details and HTTP 409 status
+    */
     @ExceptionHandler(DuplicateElementException.class)
     public ResponseEntity<ErrorResponseFail> handleDuplicateElementException(DuplicateElementException ex){
         ErrorResponseFail error = new ErrorResponseFail(
@@ -34,7 +44,9 @@ public class GlobalExceptionHandler {
     }
 
     /*
-    * When the parameters are incorrect
+    * Handles NameNotFoundException and returns 400 Bad Request
+    * @Params ex The NameNotFoundException instance
+    * @Return ResponseEntity with error details and HTTP 400 status
     */
     @ExceptionHandler(NameNotFoundException.class)
     public ResponseEntity<ErrorResponseFail> handleAccountTypeDifferentException(NameNotFoundException ex){

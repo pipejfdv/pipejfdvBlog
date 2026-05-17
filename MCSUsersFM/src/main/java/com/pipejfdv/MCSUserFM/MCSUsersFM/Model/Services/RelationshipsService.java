@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Service for managing Relationship entities
+* Handles CRUD operations and lookup by ID or name
+*/
 @Service
 public class RelationshipsService implements RelationshipsContract.Model {
     private final RelationshipsRepository relationshipsRepository;
@@ -20,6 +24,12 @@ public class RelationshipsService implements RelationshipsContract.Model {
     }
     /*CRUD*/
     /*Cread*/
+    /*
+    * Creates a new relationship type
+    * @Params relationships The name of the relationship
+    * @Return Relationships The saved relationship entity
+    * @Throw DuplicateElementException if relationship already exists
+    */
     @Override
     public Relationships createRelationships(String relationships) throws DuplicateElementException {
         if(relationshipsRepository.existsByRelationship(relationships) ){
@@ -29,6 +39,14 @@ public class RelationshipsService implements RelationshipsContract.Model {
         return relationshipsRepository.save(relation);
     }
 
+    /*
+    * Retrieves a relationship by ID or name
+    * @Params id The UUID of the relationship (optional)
+    * @Params relation The name of the relationship (optional)
+    * @Return Relationships The found relationship entity
+    * @Throw IdNotFoundException if searched by ID and not found
+    * @Throw NameNotFoundException if searched by name and not found
+    */
     @Override
     public Relationships getRelationships(UUID id, String relation) throws IdNotFoundException, NameNotFoundException {
         if (id != null) {
@@ -41,11 +59,22 @@ public class RelationshipsService implements RelationshipsContract.Model {
         return r;
     }
 
+    /*
+    * Retrieves all relationship types
+    * @Return List of all relationships
+    */
     @Override
     public List<Relationships> listRelationships() {
         return relationshipsRepository.findAll();
     }
 
+    /*
+    * Updates the name of a relationship
+    * @Params id The UUID of the relationship to update
+    * @Params relation The new relationship name
+    * @Return Relationships The updated relationship entity
+    * @Throw IdNotFoundException if relationship not found
+    */
     @Override
     public Relationships updateRelationships(UUID id, String relation) throws IdNotFoundException {
         Relationships oldRelation = relationshipsRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));

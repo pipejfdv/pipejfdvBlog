@@ -2,14 +2,21 @@ package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK;
 
 import java.time.LocalDateTime;
 
+/*
+* Standard success response wrapper for all API endpoints
+* Contains message, data payload, HTTP status code and timestamp
+*/
 public class ApiResponseOK<T> {
     private String message;
     private T data;
     private int status;
     private LocalDateTime timestamp;
     /*
-    * Structure of responses HTTP without error in MCSUsersFM
-    * */
+    * Constructs a success response with the given data
+    * @Params message Description of the response
+    * @Params data Generic payload with the response data
+    * @Params status HTTP status code
+    */
     public ApiResponseOK(String message, T data, int status) {
         this.message = message;
         this.data = data;

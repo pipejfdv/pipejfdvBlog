@@ -12,6 +12,9 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for Children operations
+*/
 public interface ChildrenContract {
     interface View {
         ResponseEntity<ApiResponseOK<ChildrenPublicDTO>> CreateChildren(Children children, UUID document, UUID tceClassification);

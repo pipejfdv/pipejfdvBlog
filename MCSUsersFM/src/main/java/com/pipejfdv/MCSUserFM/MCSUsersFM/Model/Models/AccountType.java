@@ -12,6 +12,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Represents the type of user account in the system
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +33,10 @@ public class AccountType {
     @OneToMany(targetEntity = User.class,fetch = FetchType.LAZY, mappedBy = "accountType")
     private List<User> users;
 
-    /*CONSTRUCTOR*/
+    /*
+    * Creates a new account type with a generated UUID
+    * @Param name the name of the account type
+    */
     public AccountType(String name) {
         this.id = UUID.randomUUID();
         this.name = name;

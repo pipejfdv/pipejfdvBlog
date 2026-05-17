@@ -10,6 +10,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Represents the Traumatic Brain Injury classification (TCE) levels
+*/
 @Entity
 @Data
 @AllArgsConstructor
@@ -26,6 +29,10 @@ public class TceClassification {
     @OneToMany(targetEntity = Children.class, fetch = FetchType.LAZY, mappedBy = "tceClassification")
     private List<Children> children;
 
+    /*
+    * Creates a new TCE classification with a generated UUID
+    * @Param classification the classification name (e.g. Mild, Moderate, Severe)
+    */
     public TceClassification(String classification) {
         this.id = UUID.randomUUID();
         this.classification = classification;

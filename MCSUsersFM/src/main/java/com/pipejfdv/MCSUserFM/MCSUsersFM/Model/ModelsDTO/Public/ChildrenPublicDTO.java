@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.UUID;
 
+/*
+* Public DTO for transferring children data without sensitive document fields
+*/
 @Getter
 public class ChildrenPublicDTO {
     private UUID id;
@@ -14,6 +17,14 @@ public class ChildrenPublicDTO {
     private Integer age;
     private String tceClassification;
 
+    /*
+    * Creates a ChildrenPublicDTO with calculated age from birth date
+    * @Param id the child UUID
+    * @Param names the child first name
+    * @Param lastName the child last name
+    * @Param birthDate the child birth date
+    * @Param tceClassification the TCE classification name
+    */
     public ChildrenPublicDTO(UUID id, String names, String lastName, LocalDate birthDate, String tceClassification) {
         this.id = id;
         this.names = names;

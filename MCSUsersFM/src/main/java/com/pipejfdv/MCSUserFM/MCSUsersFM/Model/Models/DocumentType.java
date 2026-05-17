@@ -10,6 +10,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Represents the type of identification document (e.g. ID card, passport)
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +34,10 @@ public class DocumentType {
     @OneToMany(targetEntity = Children.class, fetch = FetchType.LAZY, mappedBy = "documentType")
     private List<Children> children;
 
+    /*
+    * Creates a new document type with a generated UUID
+    * @Param type the document type name
+    */
     public DocumentType(String type) {
         this.id = UUID.randomUUID();
         this.type = type;

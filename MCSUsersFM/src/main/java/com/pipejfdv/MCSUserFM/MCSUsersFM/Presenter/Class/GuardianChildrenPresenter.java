@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+/*
+* Presenter for Guardian-Children association operations
+* Acts as intermediary between controller and GuardinChildrenService
+*/
 @Component
 public class GuardianChildrenPresenter implements GuardianChildrenContract.Presenter {
     private final GuardinChildrenService guardinChildrenService;
@@ -19,6 +23,14 @@ public class GuardianChildrenPresenter implements GuardianChildrenContract.Prese
         this.guardinChildrenService = guardinChildrenService;
     }
 
+    /*
+    * Creates a new guardian-children association from a DTO
+    * @Params packsIds The DTO containing guardian, child and relationship IDs
+    * @Return GuardianChildren The created association
+    * @Throw IdNotFoundException if any entity not found
+    * @Throw ParametersNotReceived if parameters are missing
+    * @Throw WrongParametersException if parameters are invalid
+    */
     @Override
     public GuardianChildren createGuardianChildren(CreationGuardianChildrenDTO packsIds) throws IdNotFoundException, ParametersNotReceived, WrongParametersException {
         UUID guardianId = packsIds.getGuardian();
@@ -27,6 +39,13 @@ public class GuardianChildrenPresenter implements GuardianChildrenContract.Prese
         return guardinChildrenService.createGuardianChildren(guardianId, childId, relationshipId);
     }
 
+    /*
+    * Updates the relationship in a guardian-children association
+    * @Params guardianChildId The UUID of the association to update
+    * @Params relationshipId The UUID of the new relationship type
+    * @Return GuardianChildren The updated association
+    * @Throw IdNotFoundException if the association is not found
+    */
     @Override
     public GuardianChildren updateGuardianChildren(UUID guardianChildId, UUID relationshipId) throws IdNotFoundException {
         return guardinChildrenService.updateGuardianChildren(guardianChildId, relationshipId);

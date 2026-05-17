@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Service for managing TCE Classification entities
+* Handles retrieval, update, and assignment to children
+*/
 @Service
 public class TceClassificationService implements TCEClassificationContract.Model{
     private final TceClassificationRepository tceClassificationRepository;
@@ -21,16 +25,33 @@ public class TceClassificationService implements TCEClassificationContract.Model
         this.childrenRepository = childrenRepository;
     }
 
+    /*
+    * Retrieves a TCE classification by its ID
+    * @Params id The UUID of the classification
+    * @Return TceClassification The found classification
+    * @Throw IdNotFoundException if classification not found
+    */
     @Override
     public TceClassification getTCEClassification(UUID id) throws IdNotFoundException {
         return tceClassificationRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
 
+    /*
+    * Retrieves all TCE classifications
+    * @Return List of all classifications
+    */
     @Override
     public List<TceClassification> getTCEClassifications() {
         return tceClassificationRepository.findAll();
     }
 
+    /*
+    * Updates the name of a TCE classification
+    * @Params id The UUID of the classification to update
+    * @Params tceClassification The new classification string
+    * @Return TceClassification The updated classification
+    * @Throw IdNotFoundException if classification not found
+    */
     @Override
     public TceClassification updateTCEClassification(UUID id, String tceClassification) throws IdNotFoundException {
         TceClassification tceClassificationToUpdate = tceClassificationRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
@@ -38,6 +59,13 @@ public class TceClassificationService implements TCEClassificationContract.Model
         return tceClassificationRepository.save(tceClassificationToUpdate);
     }
 
+    /*
+    * Assigns a TCE classification to a children record
+    * @Params idChildren The UUID of the children
+    * @Params idTceClassification The UUID of the classification to assign
+    * @Return boolean True if assignment was successful
+    * @Throw IdNotFoundException if children or classification not found
+    */
     @Override
     public boolean updateTCEClassificationByChildren(UUID idChildren, UUID idTceClassification) throws IdNotFoundException {
         Children children = childrenRepository.findById(idChildren)

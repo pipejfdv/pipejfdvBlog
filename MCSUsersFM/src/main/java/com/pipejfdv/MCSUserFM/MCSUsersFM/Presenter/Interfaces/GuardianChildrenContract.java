@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for Guardian-Children relation operations
+*/
 public interface GuardianChildrenContract {
     interface View {
         ResponseEntity<ApiResponseOK<String>> createGuardianChildren(CreationGuardianChildrenDTO packsIds);

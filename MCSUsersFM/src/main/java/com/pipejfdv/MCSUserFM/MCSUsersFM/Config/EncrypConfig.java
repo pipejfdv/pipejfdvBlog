@@ -6,12 +6,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/*
+* Configuration class for password encryption using BCrypt
+*/
 @Configuration
 @RequiredArgsConstructor
 public class EncrypConfig {
     /*
-    This method takes care of encrypting password
-     */
+    * Creates a BCrypt password encoder bean
+    * @Return PasswordEncoder instance for hashing passwords
+    */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

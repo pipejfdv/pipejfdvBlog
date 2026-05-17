@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/*
+* Repository for managing GuardianChildren entity database operations
+*/
 @Repository
 public interface GuardianChildrenRepository extends JpaRepository<GuardianChildren, UUID> {
 }

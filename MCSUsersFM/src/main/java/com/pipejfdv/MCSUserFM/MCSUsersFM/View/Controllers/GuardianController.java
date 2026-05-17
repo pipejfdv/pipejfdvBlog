@@ -32,7 +32,12 @@ public class GuardianController implements GuardianContract.View {
         this.jwtUtils = jwtUtils;
     }
 
-    // Endpoint para User y Therapist - retorna GuardianPublicDTO
+    /*
+    * Gets guardian public data for User and Therapist roles
+    * @Params idSearch UUID of the guardian (optional)
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with guardian public data
+    */
     @GetMapping("/Guardian/public")
     public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> showGuardianPublic(
             @RequestParam(value = "id", required = false) String idSearch,
@@ -54,7 +59,12 @@ public class GuardianController implements GuardianContract.View {
         ));
     }
 
-    // Endpoint para Admin - retorna GuardianAdminDTO
+    /*
+    * Gets guardian admin data for Admin role
+    * @Params idSearch UUID of the guardian (optional)
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with guardian admin data
+    */
     @GetMapping("/Guardian/admin")
     public ResponseEntity<ApiResponseOK<GuardianAdminDTO>> showGuardianAdmin(
             @RequestParam(value = "id", required = false) String idSearch,
@@ -77,6 +87,10 @@ public class GuardianController implements GuardianContract.View {
     }
 
     
+    /*
+    * Returns a list of all guardians as public DTOs
+    * @Return ResponseEntity with list of guardian public data
+    */
     @GetMapping("/Guardian/list")
     @Override
     public ResponseEntity<ApiResponseOK<List<GuardianPublicDTO>>> showGuardians() {
@@ -87,6 +101,12 @@ public class GuardianController implements GuardianContract.View {
         ));
     }
 
+    /*
+    * Deletes a guardian and its associated user
+    * @Params id UUID of the guardian (optional)
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with boolean deletion result
+    */
     @Override
     @DeleteMapping("/Guardian/delete")
     public ResponseEntity<ApiResponseOK<Boolean>> deleteGuardian(
@@ -105,7 +125,13 @@ public class GuardianController implements GuardianContract.View {
                 HttpStatus.OK.value()
         ));
     }
-    // Create Guardian
+    /*
+    * Creates a new guardian with user assignment and document type
+    * @Params guardian Guardian object with personal data
+    * @Params idUserAssignment UUID of the user to assign
+    * @Params typeDocument UUID of the document type
+    * @Return ResponseEntity with created guardian public data
+    */
     @PostMapping("/Guardian/create/{idUserAssignment}/{typeDocument}")
     @Override
     public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> createGuardian(
@@ -128,7 +154,13 @@ public class GuardianController implements GuardianContract.View {
         ));
     }
 
-    // Edit Guardian
+    /*
+    * Updates an existing guardian's information
+    * @Params id UUID of the guardian (optional)
+    * @Params guardian Guardian object with updated data
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with updated guardian public data
+    */
     @Override
     @PutMapping("/Guardian/edit")
     public ResponseEntity<ApiResponseOK<GuardianPublicDTO>> editGuardian(

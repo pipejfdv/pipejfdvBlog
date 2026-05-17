@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/*
+* Service for managing Guardian entities
+* Handles CRUD operations and user-linked guardian lookup
+*/
 @Service
 public class GuardianServices implements GuardianContract.Model {
     private final GuardianRepository repository;
@@ -30,17 +34,35 @@ public class GuardianServices implements GuardianContract.Model {
 
     /*CRUD*/
 
+    /*
+    * Retrieves a guardian by their ID
+    * @Params id The UUID of the guardian
+    * @Return Guardian The found guardian entity
+    * @Throw IdNotFoundException if guardian not found
+    */
     @Override
     public Guardian getGuardian(UUID id) throws IdNotFoundException {
         return repository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException(id));
     }
 
+    /*
+    * Retrieves all guardians from the database
+    * @Return List of all guardians
+    */
     @Override
     public List<Guardian> getGuardians() {
         return repository.findAll();
     }
 
+    /*
+    * Creates a new guardian and links them to a user and document type
+    * @Params guardian The guardian entity to create
+    * @Params idUserAssignment The UUID of the user to assign
+    * @Params typeDocument The UUID of the document type
+    * @Return Guardian The saved guardian entity
+    * @Throw DuplicateElementException if name and lastname already exist
+    */
     @Override
     public Guardian createGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument) throws DuplicateElementException {
         if(repository.existsByName(guardian.getName()) && repository.existsByLastname(guardian.getLastname())) {
@@ -60,6 +82,11 @@ public class GuardianServices implements GuardianContract.Model {
         return repository.save(guardian);
     }
 
+    /*
+    * Deletes a guardian and their associated user
+    * @Params id The UUID of the guardian to delete
+    * @Throw IdNotFoundException if guardian not found
+    */
     @Override
     public void deleteGuardian(UUID id) throws IdNotFoundException {
         Guardian guardian = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
@@ -70,6 +97,13 @@ public class GuardianServices implements GuardianContract.Model {
         }
     }
 
+    /*
+    * Updates a guardian's name, lastname, phone and biography
+    * @Params id The UUID of the guardian to update
+    * @Params guardian The guardian entity with updated data
+    * @Return Guardian The updated guardian entity
+    * @Throw IdNotFoundException if guardian not found
+    */
     @Override
     public Guardian updateGuardian(UUID id, Guardian guardian) throws IdNotFoundException {
         Guardian oldGuardian = repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
@@ -80,7 +114,10 @@ public class GuardianServices implements GuardianContract.Model {
         return repository.save(oldGuardian);
     }
     /*
-    *  search for guardian using user ID
+    * Searches for a guardian using the associated user
+    * @Params user The user entity to search by
+    * @Return Guardian The found guardian entity
+    * @Throw IdNotFoundException if no guardian found for the user
     */
     @Override
     public Guardian searchGuardianForUserId (User user) throws IdNotFoundException{

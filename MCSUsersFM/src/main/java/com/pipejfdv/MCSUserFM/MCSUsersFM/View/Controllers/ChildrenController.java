@@ -44,6 +44,13 @@ public class ChildrenController implements ChildrenContract.View{
         this.relationshipsService = relationshipsService;
     }
 
+    /*
+    * Creates a new children record with document type and TCE classification
+    * @Params children Children object with personal data
+    * @Params document UUID of the document type
+    * @Params tceClassification UUID of the TCE classification
+    * @Return ResponseEntity with created children data
+    */
     @Override
     @PostMapping("/children/create/{document}/{tceClassification}")
     public ResponseEntity<ApiResponseOK<ChildrenPublicDTO>> CreateChildren(
@@ -59,6 +66,11 @@ public class ChildrenController implements ChildrenContract.View{
         ));
     }
 
+    /*
+    * Gets a children record as public DTO by ID
+    * @Params childrenId UUID string of the children
+    * @Return ResponseEntity with children public data
+    */
     @Override
     @GetMapping("/children/getPublic/{childrenId}")
     public ResponseEntity<ApiResponseOK<ChildrenPublicDTO>> GetChildrenPublic(
@@ -70,6 +82,11 @@ public class ChildrenController implements ChildrenContract.View{
         ));
     }
 
+    /*
+    * Gets a children record as admin DTO by ID
+    * @Params childrenId UUID string of the children
+    * @Return ResponseEntity with children admin data
+    */
     @Override
     @GetMapping("/children/getAdmin/{childrenId}")
     public ResponseEntity<ApiResponseOK<ChildrenAdminDTO>> GetChildrenAdmin(
@@ -82,6 +99,13 @@ public class ChildrenController implements ChildrenContract.View{
         ));
     }
 
+    /*
+    * Updates an existing children record
+    * @Params childrenId UUID string of the children (optional)
+    * @Params children Children object with updated data
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with updated children data
+    */
     @Override
     @PutMapping("/children/update")
     public ResponseEntity<ApiResponseOK<ChildrenPublicDTO>> UpdateChildren(
@@ -98,6 +122,10 @@ public class ChildrenController implements ChildrenContract.View{
         ));
     }
 
+    /*
+    * Returns a list of all children records for admin view
+    * @Return ResponseEntity with list of children admin DTOs
+    */
     @Override
     @GetMapping("/children/Ad_Me/list")
     public ResponseEntity<ApiResponseOK<List<ChildrenAdminDTO>>> GetAllChildren() {
@@ -108,6 +136,11 @@ public class ChildrenController implements ChildrenContract.View{
         ));
     }
 
+    /*
+    * Gets all children associated with the authenticated user's guardian
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with list of children public DTOs
+    */
     @Override
     @GetMapping("/children/public/list")
     public ResponseEntity<ApiResponseOK<List<ChildrenPublicDTO>>> GetChildrenByGuardian(
@@ -120,6 +153,12 @@ public class ChildrenController implements ChildrenContract.View{
         ));
     }
 
+    /*
+    * Deletes a children record by ID or from authentication token
+    * @Params childrenId UUID string of the children (optional)
+    * @Params authentication Spring Security authentication object
+    * @Return ResponseEntity with deletion confirmation message
+    */
     @Override
     @DeleteMapping("/children/deleted")
     public ResponseEntity<ApiResponseOK<String>> DeleteChildren(
@@ -136,10 +175,10 @@ public class ChildrenController implements ChildrenContract.View{
     }
 
     /*
-    * This method is used to get children by id in MCSJuegos
-    * @param childrenId
-    * @return ResponseEntity<ApiResponseOK<ChildrenPublicDTO>>
-    * */
+    * Gets children public data by ID for the MCSJuegos microservice
+    * @Params childrenId UUID of the children
+    * @Return ChildrenPublicDTO with children public data
+    */
     @GetMapping("/children/getPublic/games/{childrenId}")
     public ChildrenPublicDTO getChildrenPublicGames(@PathVariable UUID childrenId) {
         return childrenPresenter.getChildrenPublic(childrenId);

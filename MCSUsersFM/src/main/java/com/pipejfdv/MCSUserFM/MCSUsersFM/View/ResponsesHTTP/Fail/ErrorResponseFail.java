@@ -1,13 +1,19 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.Fail;
 
 import java.time.LocalDateTime;
+/*
+* Standard error response wrapper for failed API operations
+* Contains error message, HTTP status code and timestamp
+*/
 public class ErrorResponseFail {
     private String errorMessage;
     private int status;
     private LocalDateTime timestamp;
     /*
-     * Structure of responses HTTP with error MCSUsersFM
-     * */
+    * Constructs an error response with the given details
+    * @Params errorMessage Description of the error
+    * @Params status HTTP status code
+    */
     public ErrorResponseFail(String errorMessage, int status) {
         this.errorMessage = errorMessage;
         this.status = status;

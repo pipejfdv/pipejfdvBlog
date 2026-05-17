@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Contract defining the MVP interfaces for Account Type operations
+*/
 public interface AccountTypeContract {
     interface view{
         ResponseEntity<ApiResponseOK<AccountTypeDTO>> showAccountType(UUID id, String nameAccountType);

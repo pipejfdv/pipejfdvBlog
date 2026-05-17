@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/*
+* Public DTO for transferring guardian data without sensitive account fields
+*/
 @Getter
 public class GuardianPublicDTO {
     private UUID id;
@@ -13,6 +16,15 @@ public class GuardianPublicDTO {
     private String biography;
     private String email;
 
+    /*
+    * Creates a GuardianPublicDTO with basic contact information
+    * @Param id the guardian UUID
+    * @Param name the guardian first name
+    * @Param lastname the guardian last name
+    * @Param phone the phone number
+    * @Param biography a short biography
+    * @Param email the email address
+    */
     public GuardianPublicDTO(UUID id, String name, String lastname, String phone, String biography, String email) {
         this.id = id;
         this.name = name;

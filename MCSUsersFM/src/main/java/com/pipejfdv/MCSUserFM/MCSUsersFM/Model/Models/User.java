@@ -10,6 +10,9 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
+/*
+* Represents a system user with login credentials and account type
+*/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

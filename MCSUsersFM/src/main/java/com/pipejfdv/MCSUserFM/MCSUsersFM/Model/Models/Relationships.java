@@ -10,6 +10,9 @@ import org.hibernate.type.SqlTypes;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Represents the type of relationship between a guardian and a child
+*/
 @Entity
 @Data
 @NoArgsConstructor
@@ -26,6 +29,10 @@ public class Relationships {
     private List<GuardianChildren> guardianChildren;
 
     // Constructor for creating new relationships without guardian children
+    /*
+    * Creates a new relationship type with a generated UUID
+    * @Param relationship the relationship name (e.g. father, mother, tutor)
+    */
     public Relationships(String relationship) {
         this.id = UUID.randomUUID();
         this.relationship = relationship;

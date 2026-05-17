@@ -10,11 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
+/*
+* Repository for managing Guardian entity database operations
+*/
 @Repository
 public interface GuardianRepository extends JpaRepository<Guardian, UUID> {
     boolean existsByName(String name);
     boolean existsByLastname(String lastName);
 
     @Query("SELECT g FROM Guardian g WHERE g.user = :userId")
+    /*
+    * Finds a guardian associated with a specific user
+    * @Param userId the User entity to search for
+    * @Return an Optional containing the Guardian if found, or empty if not
+    */
     Optional<Guardian> findGuardianForUser(@Param("userId") User userId);
 }
