@@ -53,10 +53,8 @@ public class SpringSecurityConfig {
                         .requestMatchers("/games/listGames", "/games/listCategories").permitAll()
                         // mix paths
                         .requestMatchers("/games/read/**", "/games/read/category/**").hasAnyRole("DemoUser", "PremiumUser", "FMAdmin", "Medic")
-                        // path PremiumUser
-                        .requestMatchers("/games/progress", "/games/createGameStat").hasAnyRole("PremiumUser", "FMAdmin")
-                        // path Medic
-                        .requestMatchers("/games/progress/**", "/games/read/**").hasAnyRole("Medic")
+                        // path PremiumUser & Medic
+                        .requestMatchers("/games/progress/**", "/games/createGameStat").hasAnyRole("PremiumUser", "Medic", "FMAdmin")
                         // path Admin
                         .requestMatchers("/games/**").hasAnyRole("FMAdmin")
                         .anyRequest().denyAll()

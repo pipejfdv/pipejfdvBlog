@@ -90,6 +90,8 @@ public class SpringSecurityConfig {
                         ).hasAnyRole("DemoUser", "PremiumUser")
                         // protected paths Medic
                         .requestMatchers("/funnyMind/tceClassification/updateByChildren/**").hasAnyRole("Medic")
+                        // protected paths Medic & Admin (shared)
+                        .requestMatchers("/funnyMind/children/Ad_Me/list").hasAnyRole("Medic", "FMAdmin")
                         // protected paths Admin
                         .requestMatchers(
                                 "/funnyMind/User/list",

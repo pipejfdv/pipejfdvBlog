@@ -1,6 +1,7 @@
 package com.pipejfdv.MCSUserFM.MCSUsersFM.View.Controllers;
 
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.TceClassification;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.ModelsDTO.Public.TceClassificationDTO;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Class.TceClassificationPresenter;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Presenter.Interfaces.TCEClassificationContract;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.View.ResponsesHTTP.OK.ApiResponseOK;
@@ -37,7 +38,7 @@ public class TceClassificationController implements TCEClassificationContract.Vi
     */
     @Override
     @GetMapping("/tceClassification/list")
-    public ResponseEntity<ApiResponseOK<List<TceClassification>>> TCEClassifications() {
+    public ResponseEntity<ApiResponseOK<List<TceClassificationDTO>>> TCEClassifications() {
         return ResponseEntity.ok(new ApiResponseOK<>("List of classification TCE", tceClassificationPresenter.getTCEClassifications(), HttpStatus.OK.value()));
     }
 
