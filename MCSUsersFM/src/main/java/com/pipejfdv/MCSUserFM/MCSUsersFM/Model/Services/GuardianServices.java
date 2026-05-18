@@ -65,7 +65,7 @@ public class GuardianServices implements GuardianContract.Model {
     */
     @Override
     public Guardian createGuardian(Guardian guardian, UUID idUserAssignment, UUID typeDocument) throws DuplicateElementException {
-        if(repository.existsByName(guardian.getName()) && repository.existsByLastname(guardian.getLastname())) {
+        if(repository.existsByDocument(guardian.getDocument())) {
             throw new DuplicateElementException(guardian.getName());
         }
         User u = userRepository.findById(idUserAssignment).orElseThrow(
