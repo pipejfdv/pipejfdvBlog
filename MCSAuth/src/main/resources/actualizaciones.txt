@@ -1,6 +1,8 @@
 Cambios realizados
 
-- Se crea una ruta especial para el front para que valide si el usario ya está relacionado con un Guardian
+- Se actualizo las rutas  para ver la lista de niños a los usuarios
+- Cambia la presentación de los datos del usuario en adminlist y showUser
+- Se crea usuario FMAdmin por defecto
 ----- Observaciones & Tareas pendientes -----
 - Realizar pruebas de rendimiento y carga para las peticiones
 - Centralizar la clave del token

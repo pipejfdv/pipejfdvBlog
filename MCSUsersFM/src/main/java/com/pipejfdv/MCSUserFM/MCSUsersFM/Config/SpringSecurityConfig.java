@@ -69,7 +69,8 @@ public class SpringSecurityConfig {
                                 "/funnyMind/Guardian/create/**",
                                 "/funnyMind/Guardian/edit",
                                 "/funnyMind/tceClassification/type/**",
-                                "/funnyMind/children/getPublic/**"
+                                "/funnyMind/children/getPublic/**",
+                                "/funnyMind/children/public/list"
                         ).hasAnyRole("DemoUser", "PremiumUser", "FMAdmin", "Medic")
                         // protected paths DemoUser & PremiumUser
                         .requestMatchers(
@@ -88,8 +89,7 @@ public class SpringSecurityConfig {
                                 "/funnyMind/profiles/update/**"
                         ).hasAnyRole("DemoUser", "PremiumUser")
                         // protected paths Medic
-                        .requestMatchers("/funnyMind/tceClassification/updateByChildren/**",
-                                "/funnyMind/children/public/list").hasAnyRole("Medic")
+                        .requestMatchers("/funnyMind/tceClassification/updateByChildren/**").hasAnyRole("Medic")
                         // protected paths Admin
                         .requestMatchers(
                                 "/funnyMind/User/list",

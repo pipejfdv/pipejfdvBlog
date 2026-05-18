@@ -11,7 +11,7 @@ public class UserDTO {
     private UUID idUser;
     private String email;
     private String username;
-    private AccountType accountType;
+    private String accountType;
 
     /*
     * Creates a UserDTO with all fields including ID
@@ -31,7 +31,8 @@ public class UserDTO {
     * @Param email the user email
     * @Param accountType the account type
     */
-    public UserDTO(String username, String email, AccountType accountType) {
+    public UserDTO(UUID idUser,String username, String email, String accountType) {
+        this.idUser = idUser;
         this.username = username;
         this.email = email;
         this.accountType = accountType;
@@ -49,7 +50,7 @@ public class UserDTO {
         return email;
     }
 
-    public AccountType getAccountType() {
+    public String getAccountType() {
         return accountType;
     }
 }

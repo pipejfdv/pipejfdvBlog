@@ -51,7 +51,7 @@ public ResponseEntity<ApiResponseOK<UserDTO>> showUser(
                 : UUID.fromString(idUser);
 
         User user = userPresenter.readyUser(targetId);
-        UserDTO userDTO = new UserDTO(user.getId(),user.getUsername(), user.getEmail());
+        UserDTO userDTO = new UserDTO(user.getId(),user.getUsername(), user.getEmail(), user.getAccountType().getName());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user data",
                 userDTO,
@@ -114,7 +114,7 @@ public ResponseEntity<ApiResponseOK<UserDTO>> showUser(
     @Override
     public ResponseEntity<ApiResponseOK<List<UserDTO>>> showAllUsers() {
         List<UserDTO> listDTO = userPresenter.UsersList().stream()
-                .map(user -> new UserDTO(user.getId(),user.getUsername(), user.getEmail()))
+                .map(user -> new UserDTO(user.getId(),user.getUsername(), user.getEmail(), user.getAccountType().getName()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new ApiResponseOK<>(
                 "user list",

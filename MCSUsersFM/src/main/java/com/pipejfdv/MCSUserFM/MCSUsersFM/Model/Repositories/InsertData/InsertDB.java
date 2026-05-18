@@ -4,14 +4,18 @@ import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.AccountType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.DocumentType;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.Relationships;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.TceClassification;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Models.User;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.AccountTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.DocumentTypeRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.RelationshipsRepository;
 import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.TceClassificationRepository;
+import com.pipejfdv.MCSUserFM.MCSUsersFM.Model.Repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 /*
 * Inserts predefined data into reference tables at application startup
@@ -25,15 +29,21 @@ public class InsertDB implements CommandLineRunner {
     private final DocumentTypeRepository documentTypeRepository;
     private final RelationshipsRepository relationshipsRepository;
     private final TceClassificationRepository tceClassificationRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public InsertDB(AccountTypeRepository accountTypeRepository,
                     DocumentTypeRepository documentTypeRepository,
                     RelationshipsRepository relationshipsRepository,
-                    TceClassificationRepository tceClassificationRepository) {
+                    TceClassificationRepository tceClassificationRepository,
+                    UserRepository userRepository,
+                    PasswordEncoder passwordEncoder) {
         this.accountTypeRepository = accountTypeRepository;
         this.documentTypeRepository = documentTypeRepository;
         this.relationshipsRepository = relationshipsRepository;
         this.tceClassificationRepository = tceClassificationRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /*
@@ -80,6 +90,19 @@ public class InsertDB implements CommandLineRunner {
                     new TceClassification("Grave - GCS 3-8"),
                     new TceClassification("No especificado")
             ));
+        }
+        if (!userRepository.existsByUsername("admin")) {
+            AccountType fmAdminAccountType = accountTypeRepository.findAccountTypeByName("FMAdmin")
+                    .orElseThrow(() -> new RuntimeException("FMAdmin account type not found"));
+            
+            User adminUser = new User();
+            adminUser.setId(UUID.randomUUID());
+            adminUser.setUsername("admin");
+            adminUser.setEmail("admin@funnymind.com");
+            adminUser.setPassword(passwordEncoder.encode("FMAdmin2026"));
+            adminUser.setAccountType(fmAdminAccountType);
+            
+            userRepository.save(adminUser);
         }
     }
 }
