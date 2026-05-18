@@ -19,7 +19,13 @@ spring:
             wiretap: true
             connect-timeout: 5000
             response-timeout: 10s
-          routes:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
             - id: games
               uri: lb://MCS-JUEGOS
               predicates:
